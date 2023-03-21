@@ -161,6 +161,8 @@ export default <HardhatUserConfig>{
   paths: {
     cache: './generated/cache',
     artifacts: './generated/artifacts',
+
+    tests: "./test-ts"
   },
 
   typechain: {
@@ -206,6 +208,8 @@ export default <HardhatUserConfig>{
       },
     ],
   },
+
+ 
 
   ovm: {
     solcVersion: '0.8.4',

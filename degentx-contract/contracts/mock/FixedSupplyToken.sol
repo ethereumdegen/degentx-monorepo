@@ -10,7 +10,7 @@ pragma solidity ^0.8.0;
 // ERC Token Standard #20 Interface
 // https://github.com/ethereum/EIPs/issues/20
 
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol";
  
 contract FixedSupplyToken is IERC20 {
     string public constant symbol = "FIXED";
@@ -38,7 +38,7 @@ contract FixedSupplyToken is IERC20 {
     }
 
     // Constructor
-    constructor() public {
+    constructor() {
         owner = msg.sender;
         balances[owner] = _totalSupply;
     }

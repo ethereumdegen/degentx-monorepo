@@ -9,7 +9,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@types/node": "^18.15.0",
+    "@types/node": "^18.15.0"
    
   }
 }

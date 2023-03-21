@@ -1,0 +1,900 @@
+{
+  "abi": [],
+  "bytecode": {
+    "object": "0x6080604052348015600f57600080fd5b50603f80601d6000396000f3fe6080604052600080fdfea264697066735822122030120c2c54e7e0728fef29b3455d3621018efd8f70a0981bd73e5cc50bc4c80564736f6c63430008110033",
+    "sourceMap": "668:20:11:-:0;;;;;;;;;;;;;;;;;;;",
+    "linkReferences": {}
+  },
+  "deployedBytecode": {
+    "object": "0x6080604052600080fdfea264697066735822122030120c2c54e7e0728fef29b3455d3621018efd8f70a0981bd73e5cc50bc4c80564736f6c63430008110033",
+    "sourceMap": "668:20:11:-:0;;;;;",
+    "linkReferences": {}
+  },
+  "methodIdentifiers": {},
+  "rawMetadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"test/DegenTx.t.sol\":\"MockUser\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[\":ds-test/=lib/solmate/lib/ds-test/src/\",\":forge-std/=lib/forge-std/src/\",\":solmate/=lib/solmate/src/\"]},\"sources\":{\"contracts/DegenTx.sol\":{\"keccak256\":\"0xb070d886489ef4296fe12806f20bb777c148d2526642f094d76135beaea54aa9\",\"urls\":[\"bzz-raw://b37ad604ebc7486504a1c2c1ace7b045a62389b819e717b99cc0f17709b5d116\",\"dweb:/ipfs/QmTFk6raU5jKtZZBdxoYVfYjREUjrfv2p1PA3mLZYNPqPa\"]},\"contracts/mock/FixedSupplyToken.sol\":{\"keccak256\":\"0xb6016ba59eb0794cdb0a53dc3c37bc3d637bfe928c4bb752e1b7ccf8fd69d8f8\",\"urls\":[\"bzz-raw://b1e769f60d2494601b023c35291e7eb5582339c3a134ad7c8cafe28797498b8a\",\"dweb:/ipfs/QmSRwVghfFSSZ82ekPGWzSnpGcGfrLnm5gtamzzVs1XDSj\"]},\"lib/forge-std/src/Test.sol\":{\"keccak256\":\"0x6087b46f61eb42b49d4f77a3bd990f205cf16203678c1f4c556747d62932c195\",\"license\":\"Unlicense\",\"urls\":[\"bzz-raw://0c9e84b3dfa2d15afbf16a1139e6d866454b31e58f11bce8a516367276786948\",\"dweb:/ipfs/QmPBq7ea3Uz7ieWtjNm1jWeXnwaPaLTdqeBEBAPJhENehj\"]},\"lib/forge-std/src/Vm.sol\":{\"keccak256\":\"0xfed975a9e78dae9bdb3bb1347765c1d405c0f0066d2f5861f5d79b8c693700e4\",\"license\":\"Unlicense\",\"urls\":[\"bzz-raw://b1b2e4f300932b4828c08430ce5bda1aefba94d5f31b2f54f66adae6590b9bbb\",\"dweb:/ipfs/QmQD9LJHboHdWx9xrkpESQRiUvHibEw1oggPYtSzh44KGQ\"]},\"lib/forge-std/src/console.sol\":{\"keccak256\":\"0x91d5413c2434ca58fd278b6e1e79fd98d10c83931cc2596a6038eee4daeb34ba\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://91ccea707361e48b9b7a161fe81f496b9932bc471e9c4e4e1e9c283f2453cc70\",\"dweb:/ipfs/QmcB66sZhQ6Kz7MUHcLE78YXRUZxoZnnxZjN6yATsbB2ec\"]},\"lib/forge-std/src/console2.sol\":{\"keccak256\":\"0xbeb823fcdb356244a83aaccdf828ad019ecc1ffaa3dff18e624fc6d5714ea671\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://4cbe9400340e5f9ec55e2aff3bad1c15fa3afbbe37e80800e6f3fed2ad26854f\",\"dweb:/ipfs/QmdJBABsuXkvWxVzEyGXsTE3vyfBPXDdw5xvvtUz3JeoYW\"]},\"lib/openzeppelin-contracts/contracts/access/Ownable.sol\":{\"keccak256\":\"0xa94b34880e3c1b0b931662cb1c09e5dfa6662f31cba80e07c5ee71cd135c9673\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://40fb1b5102468f783961d0af743f91b9980cf66b50d1d12009f6bb1869cea4d2\",\"dweb:/ipfs/QmYqEbJML4jB1GHbzD4cUZDtJg5wVwNm3vDJq1GbyDus8y\"]},\"lib/openzeppelin-contracts/contracts/security/ReentrancyGuard.sol\":{\"keccak256\":\"0x190dd6f8d592b7e4e930feb7f4313aeb8e1c4ad3154c27ce1cf6a512fc30d8cc\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://4ce8dfb62d0c4fa260d6eec8f1cd47f5f2a044e11bde5b31d18072fa6e7d9010\",\"dweb:/ipfs/QmTyFztU3tLEcEDnqqiaW4UJetqsU77LXc6pjc9oTXCK5u\"]},\"lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol\":{\"keccak256\":\"0x9750c6b834f7b43000631af5cc30001c5f547b3ceb3635488f140f60e897ea6b\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://5a7d5b1ef5d8d5889ad2ed89d8619c09383b80b72ab226e0fe7bde1636481e34\",\"dweb:/ipfs/QmebXWgtEfumQGBdVeM6c71McLixYXQP5Bk6kKXuoY4Bmr\"]},\"lib/openzeppelin-contracts/contracts/utils/Context.sol\":{\"keccak256\":\"0xe2e337e6dde9ef6b680e07338c493ebea1b5fd09b43424112868e9cc1706bca7\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://6df0ddf21ce9f58271bdfaa85cde98b200ef242a05a3f85c2bc10a8294800a92\",\"dweb:/ipfs/QmRK2Y5Yc6BK7tGKkgsgn3aJEQGi5aakeSPZvS65PV8Xp3\"]},\"lib/solmate/lib/ds-test/src/test.sol\":{\"keccak256\":\"0xb39cd1d5220cb474947b131e15a4538334b7e886af244b440ae5c9c6bba96a54\",\"license\":\"GPL-3.0-or-later\",\"urls\":[\"bzz-raw://3101520221449ac0070bda3881311a71d9aa87e5210765e875246922cb5cb5f5\",\"dweb:/ipfs/Qmbg6kAHNoG7ox9N9Xqd9Ere2H2XixMFWFqvyPwFCzB3Gr\"]},\"test/DegenTx.t.sol\":{\"keccak256\":\"0x0f61d53d06a4b04febed8e42035ef23c8658a11eb4ebcd9d9c818c4a63d0ebaa\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://9f85ccd3d95c1e60ca5a479674bfd19aa9269dd6b48b17141966e31f63275ce0\",\"dweb:/ipfs/QmVuqmtQ3bsibcLgDbnr1JjqkXKbgmcZsf6waRaCZYyAEr\"]}},\"version\":1}",
+  "metadata": {
+    "compiler": {
+      "version": "0.8.17+commit.8df45f5f"
+    },
+    "language": "Solidity",
+    "output": {
+      "abi": [],
+      "devdoc": {
+        "kind": "dev",
+        "methods": {},
+        "version": 1
+      },
+      "userdoc": {
+        "kind": "user",
+        "methods": {},
+        "version": 1
+      }
+    },
+    "settings": {
+      "remappings": [
+        ":ds-test/=lib/solmate/lib/ds-test/src/",
+        ":forge-std/=lib/forge-std/src/",
+        ":solmate/=lib/solmate/src/"
+      ],
+      "optimizer": {
+        "enabled": true,
+        "runs": 200
+      },
+      "metadata": {
+        "bytecodeHash": "ipfs"
+      },
+      "compilationTarget": {
+        "test/DegenTx.t.sol": "MockUser"
+      },
+      "libraries": {}
+    },
+    "sources": {
+      "contracts/DegenTx.sol": {
+        "keccak256": "0xb070d886489ef4296fe12806f20bb777c148d2526642f094d76135beaea54aa9",
+        "urls": [
+          "bzz-raw://b37ad604ebc7486504a1c2c1ace7b045a62389b819e717b99cc0f17709b5d116",
+          "dweb:/ipfs/QmTFk6raU5jKtZZBdxoYVfYjREUjrfv2p1PA3mLZYNPqPa"
+        ],
+        "license": null
+      },
+      "contracts/mock/FixedSupplyToken.sol": {
+        "keccak256": "0xb6016ba59eb0794cdb0a53dc3c37bc3d637bfe928c4bb752e1b7ccf8fd69d8f8",
+        "urls": [
+          "bzz-raw://b1e769f60d2494601b023c35291e7eb5582339c3a134ad7c8cafe28797498b8a",
+          "dweb:/ipfs/QmSRwVghfFSSZ82ekPGWzSnpGcGfrLnm5gtamzzVs1XDSj"
+        ],
+        "license": null
+      },
+      "lib/forge-std/src/Test.sol": {
+        "keccak256": "0x6087b46f61eb42b49d4f77a3bd990f205cf16203678c1f4c556747d62932c195",
+        "urls": [
+          "bzz-raw://0c9e84b3dfa2d15afbf16a1139e6d866454b31e58f11bce8a516367276786948",
+          "dweb:/ipfs/QmPBq7ea3Uz7ieWtjNm1jWeXnwaPaLTdqeBEBAPJhENehj"
+        ],
+        "license": "Unlicense"
+      },
+      "lib/forge-std/src/Vm.sol": {
+        "keccak256": "0xfed975a9e78dae9bdb3bb1347765c1d405c0f0066d2f5861f5d79b8c693700e4",
+        "urls": [
+          "bzz-raw://b1b2e4f300932b4828c08430ce5bda1aefba94d5f31b2f54f66adae6590b9bbb",
+          "dweb:/ipfs/QmQD9LJHboHdWx9xrkpESQRiUvHibEw1oggPYtSzh44KGQ"
+        ],
+        "license": "Unlicense"
+      },
+      "lib/forge-std/src/console.sol": {
+        "keccak256": "0x91d5413c2434ca58fd278b6e1e79fd98d10c83931cc2596a6038eee4daeb34ba",
+        "urls": [
+          "bzz-raw://91ccea707361e48b9b7a161fe81f496b9932bc471e9c4e4e1e9c283f2453cc70",
+          "dweb:/ipfs/QmcB66sZhQ6Kz7MUHcLE78YXRUZxoZnnxZjN6yATsbB2ec"
+        ],
+        "license": "MIT"
+      },
+      "lib/forge-std/src/console2.sol": {
+        "keccak256": "0xbeb823fcdb356244a83aaccdf828ad019ecc1ffaa3dff18e624fc6d5714ea671",
+        "urls": [
+          "bzz-raw://4cbe9400340e5f9ec55e2aff3bad1c15fa3afbbe37e80800e6f3fed2ad26854f",
+          "dweb:/ipfs/QmdJBABsuXkvWxVzEyGXsTE3vyfBPXDdw5xvvtUz3JeoYW"
+        ],
+        "license": "MIT"
+      },
+      "lib/openzeppelin-contracts/contracts/access/Ownable.sol": {
+        "keccak256": "0xa94b34880e3c1b0b931662cb1c09e5dfa6662f31cba80e07c5ee71cd135c9673",
+        "urls": [
+          "bzz-raw://40fb1b5102468f783961d0af743f91b9980cf66b50d1d12009f6bb1869cea4d2",
+          "dweb:/ipfs/QmYqEbJML4jB1GHbzD4cUZDtJg5wVwNm3vDJq1GbyDus8y"
+        ],
+        "license": "MIT"
+      },
+      "lib/openzeppelin-contracts/contracts/security/ReentrancyGuard.sol": {
+        "keccak256": "0x190dd6f8d592b7e4e930feb7f4313aeb8e1c4ad3154c27ce1cf6a512fc30d8cc",
+        "urls": [
+          "bzz-raw://4ce8dfb62d0c4fa260d6eec8f1cd47f5f2a044e11bde5b31d18072fa6e7d9010",
+          "dweb:/ipfs/QmTyFztU3tLEcEDnqqiaW4UJetqsU77LXc6pjc9oTXCK5u"
+        ],
+        "license": "MIT"
+      },
+      "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol": {
+        "keccak256": "0x9750c6b834f7b43000631af5cc30001c5f547b3ceb3635488f140f60e897ea6b",
+        "urls": [
+          "bzz-raw://5a7d5b1ef5d8d5889ad2ed89d8619c09383b80b72ab226e0fe7bde1636481e34",
+          "dweb:/ipfs/QmebXWgtEfumQGBdVeM6c71McLixYXQP5Bk6kKXuoY4Bmr"
+        ],
+        "license": "MIT"
+      },
+      "lib/openzeppelin-contracts/contracts/utils/Context.sol": {
+        "keccak256": "0xe2e337e6dde9ef6b680e07338c493ebea1b5fd09b43424112868e9cc1706bca7",
+        "urls": [
+          "bzz-raw://6df0ddf21ce9f58271bdfaa85cde98b200ef242a05a3f85c2bc10a8294800a92",
+          "dweb:/ipfs/QmRK2Y5Yc6BK7tGKkgsgn3aJEQGi5aakeSPZvS65PV8Xp3"
+        ],
+        "license": "MIT"
+      },
+      "lib/solmate/lib/ds-test/src/test.sol": {
+        "keccak256": "0xb39cd1d5220cb474947b131e15a4538334b7e886af244b440ae5c9c6bba96a54",
+        "urls": [
+          "bzz-raw://3101520221449ac0070bda3881311a71d9aa87e5210765e875246922cb5cb5f5",
+          "dweb:/ipfs/Qmbg6kAHNoG7ox9N9Xqd9Ere2H2XixMFWFqvyPwFCzB3Gr"
+        ],
+        "license": "GPL-3.0-or-later"
+      },
+      "test/DegenTx.t.sol": {
+        "keccak256": "0x0f61d53d06a4b04febed8e42035ef23c8658a11eb4ebcd9d9c818c4a63d0ebaa",
+        "urls": [
+          "bzz-raw://9f85ccd3d95c1e60ca5a479674bfd19aa9269dd6b48b17141966e31f63275ce0",
+          "dweb:/ipfs/QmVuqmtQ3bsibcLgDbnr1JjqkXKbgmcZsf6waRaCZYyAEr"
+        ],
+        "license": "UNLICENSED"
+      }
+    },
+    "version": 1
+  },
+  "ast": {
+    "absolutePath": "test/DegenTx.t.sol",
+    "id": 21714,
+    "exportedSymbols": {
+      "Context": [
+        19868
+      ],
+      "DSTest": [
+        21655
+      ],
+      "DegenTx": [
+        528
+      ],
+      "DegenTxTest": [
+        21712
+      ],
+      "FixedSupplyToken": [
+        810
+      ],
+      "IERC20": [
+        19846
+      ],
+      "MockUser": [
+        21713
+      ],
+      "Ownable": [
+        19714
+      ],
+      "ReentrancyGuard": [
+        19768
+      ],
+      "StdStorage": [
+        1997
+      ],
+      "Test": [
+        1899
+      ],
+      "Vm": [
+        3473
+      ],
+      "console": [
+        11537
+      ],
+      "console2": [
+        19601
+      ],
+      "stdError": [
+        1969
+      ],
+      "stdMath": [
+        3234
+      ],
+      "stdStorage": [
+        3087
+      ]
+    },
+    "nodeType": "SourceUnit",
+    "src": "39:649:11",
+    "nodes": [
+      {
+        "id": 21657,
+        "nodeType": "PragmaDirective",
+        "src": "39:24:11",
+        "nodes": [],
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".13"
+        ]
+      },
+      {
+        "id": 21658,
+        "nodeType": "ImportDirective",
+        "src": "66:28:11",
+        "nodes": [],
+        "absolutePath": "lib/forge-std/src/Test.sol",
+        "file": "forge-std/Test.sol",
+        "nameLocation": "-1:-1:-1",
+        "scope": 21714,
+        "sourceUnit": 3235,
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "id": 21659,
+        "nodeType": "ImportDirective",
+        "src": "96:34:11",
+        "nodes": [],
+        "absolutePath": "contracts/DegenTx.sol",
+        "file": "../contracts/DegenTx.sol",
+        "nameLocation": "-1:-1:-1",
+        "scope": 21714,
+        "sourceUnit": 529,
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "id": 21661,
+        "nodeType": "ImportDirective",
+        "src": "134:72:11",
+        "nodes": [],
+        "absolutePath": "contracts/mock/FixedSupplyToken.sol",
+        "file": "../contracts/mock/FixedSupplyToken.sol",
+        "nameLocation": "-1:-1:-1",
+        "scope": 21714,
+        "sourceUnit": 811,
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 21660,
+              "name": "FixedSupplyToken",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 810,
+              "src": "142:16:11",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "id": 21662,
+        "nodeType": "ImportDirective",
+        "src": "208:39:11",
+        "nodes": [],
+        "absolutePath": "lib/forge-std/src/console.sol",
+        "file": "lib/forge-std/src/console.sol",
+        "nameLocation": "-1:-1:-1",
+        "scope": 21714,
+        "sourceUnit": 11538,
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "id": 21712,
+        "nodeType": "ContractDefinition",
+        "src": "250:413:11",
+        "nodes": [
+          {
+            "id": 21667,
+            "nodeType": "VariableDeclaration",
+            "src": "291:15:11",
+            "nodes": [],
+            "constant": false,
+            "mutability": "mutable",
+            "name": "degenTx",
+            "nameLocation": "299:7:11",
+            "scope": 21712,
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_contract$_DegenTx_$528",
+              "typeString": "contract DegenTx"
+            },
+            "typeName": {
+              "id": 21666,
+              "nodeType": "UserDefinedTypeName",
+              "pathNode": {
+                "id": 21665,
+                "name": "DegenTx",
+                "nameLocations": [
+                  "291:7:11"
+                ],
+                "nodeType": "IdentifierPath",
+                "referencedDeclaration": 528,
+                "src": "291:7:11"
+              },
+              "referencedDeclaration": 528,
+              "src": "291:7:11",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_DegenTx_$528",
+                "typeString": "contract DegenTx"
+              }
+            },
+            "visibility": "internal"
+          },
+          {
+            "id": 21670,
+            "nodeType": "VariableDeclaration",
+            "src": "312:23:11",
+            "nodes": [],
+            "constant": false,
+            "mutability": "mutable",
+            "name": "xToken",
+            "nameLocation": "329:6:11",
+            "scope": 21712,
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_contract$_FixedSupplyToken_$810",
+              "typeString": "contract FixedSupplyToken"
+            },
+            "typeName": {
+              "id": 21669,
+              "nodeType": "UserDefinedTypeName",
+              "pathNode": {
+                "id": 21668,
+                "name": "FixedSupplyToken",
+                "nameLocations": [
+                  "312:16:11"
+                ],
+                "nodeType": "IdentifierPath",
+                "referencedDeclaration": 810,
+                "src": "312:16:11"
+              },
+              "referencedDeclaration": 810,
+              "src": "312:16:11",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_FixedSupplyToken_$810",
+                "typeString": "contract FixedSupplyToken"
+              }
+            },
+            "visibility": "internal"
+          },
+          {
+            "id": 21673,
+            "nodeType": "VariableDeclaration",
+            "src": "342:19:11",
+            "nodes": [],
+            "constant": false,
+            "mutability": "mutable",
+            "name": "fRecipient",
+            "nameLocation": "351:10:11",
+            "scope": 21712,
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_contract$_MockUser_$21713",
+              "typeString": "contract MockUser"
+            },
+            "typeName": {
+              "id": 21672,
+              "nodeType": "UserDefinedTypeName",
+              "pathNode": {
+                "id": 21671,
+                "name": "MockUser",
+                "nameLocations": [
+                  "342:8:11"
+                ],
+                "nodeType": "IdentifierPath",
+                "referencedDeclaration": 21713,
+                "src": "342:8:11"
+              },
+              "referencedDeclaration": 21713,
+              "src": "342:8:11",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_MockUser_$21713",
+                "typeString": "contract MockUser"
+              }
+            },
+            "visibility": "internal"
+          },
+          {
+            "id": 21676,
+            "nodeType": "VariableDeclaration",
+            "src": "368:31:11",
+            "nodes": [],
+            "constant": false,
+            "mutability": "mutable",
+            "name": "startBlockNumber",
+            "nameLocation": "376:16:11",
+            "scope": 21712,
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 21674,
+              "name": "uint256",
+              "nodeType": "ElementaryTypeName",
+              "src": "368:7:11",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": {
+              "hexValue": "31303030",
+              "id": 21675,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "number",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "395:4:11",
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_1000_by_1",
+                "typeString": "int_const 1000"
+              },
+              "value": "1000"
+            },
+            "visibility": "internal"
+          },
+          {
+            "id": 21707,
+            "nodeType": "FunctionDefinition",
+            "src": "406:184:11",
+            "nodes": [],
+            "body": {
+              "id": 21706,
+              "nodeType": "Block",
+              "src": "430:160:11",
+              "nodes": [],
+              "statements": [
+                {
+                  "expression": {
+                    "arguments": [
+                      {
+                        "id": 21682,
+                        "name": "startBlockNumber",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 21676,
+                        "src": "449:16:11",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      ],
+                      "expression": {
+                        "id": 21679,
+                        "name": "vm",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 835,
+                        "src": "441:2:11",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_contract$_Vm_$3473",
+                          "typeString": "contract Vm"
+                        }
+                      },
+                      "id": 21681,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberLocation": "444:4:11",
+                      "memberName": "roll",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 3247,
+                      "src": "441:7:11",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_external_nonpayable$_t_uint256_$returns$__$",
+                        "typeString": "function (uint256) external"
+                      }
+                    },
+                    "id": 21683,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "nameLocations": [],
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "441:25:11",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 21684,
+                  "nodeType": "ExpressionStatement",
+                  "src": "441:25:11"
+                },
+                {
+                  "expression": {
+                    "id": 21690,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "id": 21685,
+                      "name": "fRecipient",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 21673,
+                      "src": "477:10:11",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_contract$_MockUser_$21713",
+                        "typeString": "contract MockUser"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "arguments": [],
+                      "expression": {
+                        "argumentTypes": [],
+                        "id": 21688,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "nodeType": "NewExpression",
+                        "src": "490:12:11",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_function_creation_nonpayable$__$returns$_t_contract$_MockUser_$21713_$",
+                          "typeString": "function () returns (contract MockUser)"
+                        },
+                        "typeName": {
+                          "id": 21687,
+                          "nodeType": "UserDefinedTypeName",
+                          "pathNode": {
+                            "id": 21686,
+                            "name": "MockUser",
+                            "nameLocations": [
+                              "494:8:11"
+                            ],
+                            "nodeType": "IdentifierPath",
+                            "referencedDeclaration": 21713,
+                            "src": "494:8:11"
+                          },
+                          "referencedDeclaration": 21713,
+                          "src": "494:8:11",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_contract$_MockUser_$21713",
+                            "typeString": "contract MockUser"
+                          }
+                        }
+                      },
+                      "id": 21689,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "kind": "functionCall",
+                      "lValueRequested": false,
+                      "nameLocations": [],
+                      "names": [],
+                      "nodeType": "FunctionCall",
+                      "src": "490:14:11",
+                      "tryCall": false,
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_contract$_MockUser_$21713",
+                        "typeString": "contract MockUser"
+                      }
+                    },
+                    "src": "477:27:11",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_MockUser_$21713",
+                      "typeString": "contract MockUser"
+                    }
+                  },
+                  "id": 21691,
+                  "nodeType": "ExpressionStatement",
+                  "src": "477:27:11"
+                },
+                {
+                  "expression": {
+                    "id": 21697,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "id": 21692,
+                      "name": "xToken",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 21670,
+                      "src": "514:6:11",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_contract$_FixedSupplyToken_$810",
+                        "typeString": "contract FixedSupplyToken"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "arguments": [],
+                      "expression": {
+                        "argumentTypes": [],
+                        "id": 21695,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "nodeType": "NewExpression",
+                        "src": "523:20:11",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_function_creation_nonpayable$__$returns$_t_contract$_FixedSupplyToken_$810_$",
+                          "typeString": "function () returns (contract FixedSupplyToken)"
+                        },
+                        "typeName": {
+                          "id": 21694,
+                          "nodeType": "UserDefinedTypeName",
+                          "pathNode": {
+                            "id": 21693,
+                            "name": "FixedSupplyToken",
+                            "nameLocations": [
+                              "527:16:11"
+                            ],
+                            "nodeType": "IdentifierPath",
+                            "referencedDeclaration": 810,
+                            "src": "527:16:11"
+                          },
+                          "referencedDeclaration": 810,
+                          "src": "527:16:11",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_contract$_FixedSupplyToken_$810",
+                            "typeString": "contract FixedSupplyToken"
+                          }
+                        }
+                      },
+                      "id": 21696,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "kind": "functionCall",
+                      "lValueRequested": false,
+                      "nameLocations": [],
+                      "names": [],
+                      "nodeType": "FunctionCall",
+                      "src": "523:22:11",
+                      "tryCall": false,
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_contract$_FixedSupplyToken_$810",
+                        "typeString": "contract FixedSupplyToken"
+                      }
+                    },
+                    "src": "514:31:11",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_FixedSupplyToken_$810",
+                      "typeString": "contract FixedSupplyToken"
+                    }
+                  },
+                  "id": 21698,
+                  "nodeType": "ExpressionStatement",
+                  "src": "514:31:11"
+                },
+                {
+                  "expression": {
+                    "id": 21704,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "id": 21699,
+                      "name": "degenTx",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 21667,
+                      "src": "556:7:11",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_contract$_DegenTx_$528",
+                        "typeString": "contract DegenTx"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "arguments": [],
+                      "expression": {
+                        "argumentTypes": [],
+                        "id": 21702,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "nodeType": "NewExpression",
+                        "src": "566:11:11",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_function_creation_nonpayable$__$returns$_t_contract$_DegenTx_$528_$",
+                          "typeString": "function () returns (contract DegenTx)"
+                        },
+                        "typeName": {
+                          "id": 21701,
+                          "nodeType": "UserDefinedTypeName",
+                          "pathNode": {
+                            "id": 21700,
+                            "name": "DegenTx",
+                            "nameLocations": [
+                              "570:7:11"
+                            ],
+                            "nodeType": "IdentifierPath",
+                            "referencedDeclaration": 528,
+                            "src": "570:7:11"
+                          },
+                          "referencedDeclaration": 528,
+                          "src": "570:7:11",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_contract$_DegenTx_$528",
+                            "typeString": "contract DegenTx"
+                          }
+                        }
+                      },
+                      "id": 21703,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "kind": "functionCall",
+                      "lValueRequested": false,
+                      "nameLocations": [],
+                      "names": [],
+                      "nodeType": "FunctionCall",
+                      "src": "566:13:11",
+                      "tryCall": false,
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_contract$_DegenTx_$528",
+                        "typeString": "contract DegenTx"
+                      }
+                    },
+                    "src": "556:23:11",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_DegenTx_$528",
+                      "typeString": "contract DegenTx"
+                    }
+                  },
+                  "id": 21705,
+                  "nodeType": "ExpressionStatement",
+                  "src": "556:23:11"
+                }
+              ]
+            },
+            "functionSelector": "0a9254e4",
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "setUp",
+            "nameLocation": "415:5:11",
+            "parameters": {
+              "id": 21677,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "420:2:11"
+            },
+            "returnParameters": {
+              "id": 21678,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "430:0:11"
+            },
+            "scope": 21712,
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "public"
+          },
+          {
+            "id": 21711,
+            "nodeType": "FunctionDefinition",
+            "src": "596:62:11",
+            "nodes": [],
+            "body": {
+              "id": 21710,
+              "nodeType": "Block",
+              "src": "639:19:11",
+              "nodes": [],
+              "statements": []
+            },
+            "functionSelector": "d44b2ed0",
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "test_createAndPayInvoice",
+            "nameLocation": "605:24:11",
+            "parameters": {
+              "id": 21708,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "629:2:11"
+            },
+            "returnParameters": {
+              "id": 21709,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "639:0:11"
+            },
+            "scope": 21712,
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "public"
+          }
+        ],
+        "abstract": false,
+        "baseContracts": [
+          {
+            "baseName": {
+              "id": 21663,
+              "name": "Test",
+              "nameLocations": [
+                "274:4:11"
+              ],
+              "nodeType": "IdentifierPath",
+              "referencedDeclaration": 1899,
+              "src": "274:4:11"
+            },
+            "id": 21664,
+            "nodeType": "InheritanceSpecifier",
+            "src": "274:4:11"
+          }
+        ],
+        "canonicalName": "DegenTxTest",
+        "contractDependencies": [
+          528,
+          810,
+          21713
+        ],
+        "contractKind": "contract",
+        "fullyImplemented": true,
+        "linearizedBaseContracts": [
+          21712,
+          1899,
+          21655
+        ],
+        "name": "DegenTxTest",
+        "nameLocation": "259:11:11",
+        "scope": 21714,
+        "usedErrors": []
+      },
+      {
+        "id": 21713,
+        "nodeType": "ContractDefinition",
+        "src": "668:20:11",
+        "nodes": [],
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "MockUser",
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "fullyImplemented": true,
+        "linearizedBaseContracts": [
+          21713
+        ],
+        "name": "MockUser",
+        "nameLocation": "677:8:11",
+        "scope": 21714,
+        "usedErrors": []
+      }
+    ],
+    "license": "UNLICENSED"
+  },
+  "id": 11
+}
