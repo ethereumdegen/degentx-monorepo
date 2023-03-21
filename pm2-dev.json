@@ -1,0 +1,29 @@
+{
+  "apps": [
+    {
+      "name": "degentx-frontend",
+      "script": "yarn frontend server",
+      "watch": false,
+      "env": {
+        "NODE_ENV": "development"
+      }
+    } ,
+    
+    {
+      "name": "degentx-backend",
+      "script": "yarn backend server",
+      "watch": false,
+      "env": {
+        "NODE_ENV": "development"
+      }
+    } ,
+    {
+      "name": "degentx-services",
+      "script": "yarn backend services",
+      "watch": false,
+      "env": {
+        "NODE_ENV": "development"
+      }
+    } 
+  ]
+}

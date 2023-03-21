@@ -1,0 +1,164 @@
+{
+  "abi": [
+    {
+      "stateMutability": "payable",
+      "type": "receive"
+    }
+  ],
+  "bytecode": {
+    "object": "0x",
+    "sourceMap": "",
+    "linkReferences": {}
+  },
+  "deployedBytecode": {
+    "object": "0x",
+    "sourceMap": "",
+    "linkReferences": {}
+  },
+  "methodIdentifiers": {},
+  "rawMetadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"stateMutability\":\"payable\",\"type\":\"receive\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/tests/Testable.sol\":\"Testable\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[\":@ensdomains/=node_modules/@ensdomains/\",\":@mangrovedao/=node_modules/@mangrovedao/\",\":@openzeppelin/=node_modules/@openzeppelin/\",\":ds-test/=lib/solmate/lib/ds-test/src/\",\":eth-gas-reporter/=node_modules/eth-gas-reporter/\",\":forge-std/=lib/forge-std/src/\",\":hardhat-deploy/=node_modules/hardhat-deploy/\",\":hardhat/=node_modules/hardhat/\",\":solmate/=lib/solmate/src/\"]},\"sources\":{\"contracts/tests/Testable.sol\":{\"keccak256\":\"0x810d46338b6e07db7cbcae58a1fa63dcc13e9c49a3e6cb0c4948c9571a9c8093\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://0556f6882c37eef6d770e78d5f60f3067fb73ef0528d708aa4c2dc26217b1817\",\"dweb:/ipfs/Qmcpfn2cBoBoJRgMLEwcbJTdaMF9iQzdXPn7GiiWed3wZD\"]}},\"version\":1}",
+  "metadata": {
+    "compiler": {
+      "version": "0.8.17+commit.8df45f5f"
+    },
+    "language": "Solidity",
+    "output": {
+      "abi": [
+        {
+          "inputs": [],
+          "stateMutability": "payable",
+          "type": "receive"
+        }
+      ],
+      "devdoc": {
+        "kind": "dev",
+        "methods": {},
+        "version": 1
+      },
+      "userdoc": {
+        "kind": "user",
+        "methods": {},
+        "version": 1
+      }
+    },
+    "settings": {
+      "remappings": [
+        ":@ensdomains/=node_modules/@ensdomains/",
+        ":@mangrovedao/=node_modules/@mangrovedao/",
+        ":@openzeppelin/=node_modules/@openzeppelin/",
+        ":ds-test/=lib/solmate/lib/ds-test/src/",
+        ":eth-gas-reporter/=node_modules/eth-gas-reporter/",
+        ":forge-std/=lib/forge-std/src/",
+        ":hardhat-deploy/=node_modules/hardhat-deploy/",
+        ":hardhat/=node_modules/hardhat/",
+        ":solmate/=lib/solmate/src/"
+      ],
+      "optimizer": {
+        "enabled": true,
+        "runs": 200
+      },
+      "metadata": {
+        "bytecodeHash": "ipfs"
+      },
+      "compilationTarget": {
+        "contracts/tests/Testable.sol": "Testable"
+      },
+      "libraries": {}
+    },
+    "sources": {
+      "contracts/tests/Testable.sol": {
+        "keccak256": "0x810d46338b6e07db7cbcae58a1fa63dcc13e9c49a3e6cb0c4948c9571a9c8093",
+        "urls": [
+          "bzz-raw://0556f6882c37eef6d770e78d5f60f3067fb73ef0528d708aa4c2dc26217b1817",
+          "dweb:/ipfs/Qmcpfn2cBoBoJRgMLEwcbJTdaMF9iQzdXPn7GiiWed3wZD"
+        ],
+        "license": "MIT"
+      }
+    },
+    "version": 1
+  },
+  "ast": {
+    "absolutePath": "contracts/tests/Testable.sol",
+    "id": 456,
+    "exportedSymbols": {
+      "Testable": [
+        455
+      ]
+    },
+    "nodeType": "SourceUnit",
+    "src": "0:139:3",
+    "nodes": [
+      {
+        "id": 450,
+        "nodeType": "PragmaDirective",
+        "src": "0:31:3",
+        "nodes": [],
+        "literals": [
+          "solidity",
+          ">=",
+          "0.8",
+          ".0",
+          "<",
+          "0.9",
+          ".0"
+        ]
+      },
+      {
+        "id": 455,
+        "nodeType": "ContractDefinition",
+        "src": "66:72:3",
+        "nodes": [
+          {
+            "id": 454,
+            "nodeType": "FunctionDefinition",
+            "src": "99:37:3",
+            "nodes": [],
+            "body": {
+              "id": 453,
+              "nodeType": "Block",
+              "src": "134:2:3",
+              "nodes": [],
+              "statements": []
+            },
+            "implemented": true,
+            "kind": "receive",
+            "modifiers": [],
+            "name": "",
+            "nameLocation": "-1:-1:-1",
+            "parameters": {
+              "id": 451,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "106:2:3"
+            },
+            "returnParameters": {
+              "id": 452,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "134:0:3"
+            },
+            "scope": 455,
+            "stateMutability": "payable",
+            "virtual": true,
+            "visibility": "external"
+          }
+        ],
+        "abstract": true,
+        "baseContracts": [],
+        "canonicalName": "Testable",
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "fullyImplemented": true,
+        "linearizedBaseContracts": [
+          455
+        ],
+        "name": "Testable",
+        "nameLocation": "84:8:3",
+        "scope": 456,
+        "usedErrors": []
+      }
+    ],
+    "license": "MIT"
+  },
+  "id": 3
+}

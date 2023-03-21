@@ -1,0 +1,16 @@
+{
+   "name": "degentx-monorepo",
+   "private": true,
+   "scripts": {
+      "contracts": "yarn workspace degentx-contract",
+      "frontend": "yarn workspace degentx-web",
+      "services" : "yarn workspace services"
+   },
+   "workspaces": {
+      "packages": [
+         "degentx-contract",
+         "degentx-web",
+         "services"
+      ]
+   }
+}
