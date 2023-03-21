@@ -4,9 +4,11 @@
 
 /cache
 /cache_forge
+/out
 
 
-/artifacts
+
+/artifacts_forge
 .env
 
 generated/*

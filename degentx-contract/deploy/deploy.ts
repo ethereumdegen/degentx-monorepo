@@ -9,7 +9,7 @@ const deployFn: DeployFunction = async (hre:any) => {
    
    
 
-  const payspecDeploy = await deploy({
+  const degentxDeploy = await deploy({
     contract: 'DegenTx',
     args: [ ],
     skipIfAlreadyDeployed: false,
@@ -20,7 +20,7 @@ const deployFn: DeployFunction = async (hre:any) => {
 }
 
 // tags and deployment
-deployFn.tags = ['degentx']
+deployFn.tags = ['primary']
 deployFn.dependencies = [
   
 ]

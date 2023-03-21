@@ -70,7 +70,7 @@
     "accounts": "yarn hardhat accounts",
     "balance": "yarn hardhat balance",
     "send": "yarn hardhat send",
-    "generate": "yarn hardhat generate",
+    "generate": "yarn ts-node helpers/generate-account.ts",
     "account": "yarn hardhat account",
     "verify": "yarn hardhat etherscan-verify"
   }
