@@ -2,6 +2,10 @@
 /build
 /build/contracts
 
+/cache
+/cache_forge
+
+
 /artifacts
 .env
 
