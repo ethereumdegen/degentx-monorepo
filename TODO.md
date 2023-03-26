@@ -5,21 +5,22 @@
 - build frontend and docs 
 
 
-
-
--deploy payspec to goerli
+ 
 
 -copy a TON of code over from the toadz shop ...
  1. set up vibegraph as a service a moleculer  -DONE-
- 2. create DB models similar to stripe so users can define a Project which has Products and then Invoices 
+ 2. create DB models similar to stripe so users can define a Project which has Products and then Invoices - DONE - 
+
+
+ 3. write unit tests to prove that project+product can be created/get  on the backend api 
+
 
 PROJECT: Degen Network
 PRODUCT: Advanced Guide - one time payment of $5 of 0xbtc 
 
 
-
- 3. Allow 'products' to be able to sell 'access codes' and things of that nature.  
-
+4.  build an API endpoint that will let us know if ACCOUNT_X has access to PRODUCT_Y  (bc of a paid invoice that exists) 
+ 
 
 
 ### BUGS 
