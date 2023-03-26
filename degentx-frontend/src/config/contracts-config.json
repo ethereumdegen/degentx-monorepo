@@ -1,19 +1,16 @@
  {
     "mainnet":{
-        "currency":{"address":"0xb6ed7644c69416d67b522e20bc294a9a9b405b31"},
-        "auction":{"address":"0x33941C7514bCC3f4dBa2305d55B4359efA915514"},
-        "jpegsNFT":{"address":"0xabdFb5eb2ac4d43dC18d8253494A6002A363effd"} 
+        "xbitcoin":{"address":"0xb6ed7644c69416d67b522e20bc294a9a9b405b31"},
+      
+        "degentx":{"address":""} 
 
 
     },
     "goerli":{
-        "currency":{"address":"0xab89a7742cb10e7bce98540fd05c7d731839cf9f"},
-        "auction":{"address":"0x8fce14A1891Df9D840F283bafB97BFf2c7Ceba07"},
-        "jpegsNFT":{"address":"0xB87DFb31f2029F361f851784898f7F772841C5D0"} 
+        "xbitcoin":{"address":"0xab89a7742cb10e7bce98540fd05c7d731839cf9f"},
+        
+        "degentx":{"address":"0x568cD537Ed5C70aE1A2b1B0Fd6DE6D94c7FAdD77"} 
 
-
-    }
-
-
+    } 
 
  }

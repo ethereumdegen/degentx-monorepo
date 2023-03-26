@@ -9,13 +9,9 @@ const config = {
         
         items: [
          
-          { to:'/blog', label:'0xJPEGs' },
+          { to:'/docs', label:'Documentation' },
     
-          { to:'/memes', label:'Memes' },
-      
-          { to:'/metadata', label:'Metadata' },
-    
-      
+          
 
            
      

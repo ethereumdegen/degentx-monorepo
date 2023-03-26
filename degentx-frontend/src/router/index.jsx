@@ -6,7 +6,7 @@ import DashboardView from "../views/dashboard/Index";
  
 import Welcome from '../views/welcome/Main'
     
-import Blog from '../views/pages/blog.md'   
+import Docs from '../views/pages/docs.md'   
 import Memes from '../views/pages/memes.md'   
 import Metadata from '../views/pages/metadata.md'   
  
@@ -26,8 +26,8 @@ function Router() {
           },
 
           { 
-            path:"/blog",
-            element: <Blog/>
+            path:"/docs",
+            element: <Docs/>
            },
 
            { 

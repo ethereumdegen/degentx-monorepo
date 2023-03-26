@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Auction from '../partials/Auction'; 
-
+import HeroHome from '../partials/HeroHome';
+ 
 import { observer } from "mobx-react";
 
 import { useOutletContext } from 'react-router-dom';
@@ -22,10 +22,7 @@ function Home() {
       <main className="flex-grow">
 
         {/*  Page sections */}
-        <Auction
-        
-        web3Store = {web3Store}
-        />
+        <HeroHome />
 
         {/*<FeatureCode />*/}
 

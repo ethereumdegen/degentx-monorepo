@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
- 
+import Modal from '../utils/Modal';
+
  
 import FrontendConfig from '@/config/frontend-config'
  
 
 function HeroHome() {
 
-   
+  const [videoModalOpen, setVideoModalOpen] = useState(false);
+
   return (
     <section className="relative">
 
