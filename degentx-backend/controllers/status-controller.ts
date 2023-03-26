@@ -2,8 +2,6 @@
 import { ControllerMethod } from "degen-route-loader"   
 import { isAssertionSuccess } from "../lib/assertion-helper"
 import { sanitizeAndValidateInputs, ValidationType } from "../lib/sanitize-lib"
-import { validateAuthToken } from '../lib/auth-helper'
-
  
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export default class ServerStatusController {

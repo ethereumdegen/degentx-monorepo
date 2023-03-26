@@ -1,5 +1,5 @@
 import { BigNumber, ethers } from "ethers"
-import { AssertionResult } from "interfaces/types"
+import { AssertionResult } from "../interfaces/types"
  
 
 

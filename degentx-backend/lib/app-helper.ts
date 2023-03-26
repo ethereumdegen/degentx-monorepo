@@ -5,7 +5,7 @@ require('dotenv').config()
 import web3Utils from 'web3-utils'
 
 const NODE_ENV = process.env.NODE_ENV ? process.env.NODE_ENV : 'development'
-const MONGO_CONNECT_URI = process.env.MONGO_URI
+const MONGO_CONNECT_URI = process.env.MONGO_URI ? process.env.MONGO_URI : 'mongodb://localhost:27017'
 
 const pjson = require('../package.json')
 
