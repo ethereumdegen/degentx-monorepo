@@ -20,9 +20,9 @@ describe('Project Controller', () => {
     before(async () => { 
 
         await initTestDatabase();
- 
 
         let deleted = await Project.deleteMany({})
+
     })
 
     after(async () => {
@@ -32,17 +32,14 @@ describe('Project Controller', () => {
     })
 
 
-
     it('should create project', async () => {
 
-        let wallet = Wallet.createRandom()
+       let wallet = Wallet.createRandom()
 
-       
        let created = await projectController.createProject(
             {fields: {
 
                 name:'my_proj', 
-               
 
                 publicAddress: wallet.address,
 

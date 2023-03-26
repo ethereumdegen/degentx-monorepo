@@ -21,6 +21,7 @@ import { Web3Store } from '@/stores/web3-store-mobx.js';
 import { SideMenuStore } from '@/stores/side-menu-mobx.js';
    
 import FrontendConfig from '@/config/frontend-config'
+import DashboardConfig from '@/config/dashboard-config'
  
  import SideMenu from '@/views/components/side-menu/Main.jsx'
  
@@ -39,78 +40,7 @@ function Dashboard() {
   const location = useLocation();
 
  
-   
-
-  /*
-  // Set active/inactive simple menu
-  const toggleSimpleMenu = (event) => {
-    event.preventDefault();
-
-    if (simpleMenu.active) {
-      setSimpleMenu(
-        {
-          ...simpleMenu,
-          hover: true,
-        },
-        (simpleMenu) => {
-          dom(".wrapper")[0].animate(
-            {
-              marginLeft: "270px",
-            },
-            {
-              duration: 200,
-            }
-          ).onfinish = function () {
-            dom(".wrapper").css("margin-left", "270px");
-            setSimpleMenu(
-              {
-                ...simpleMenu,
-                hover: false,
-                active: false,
-                wrapper: false,
-              },
-              () => {
-                dom(".wrapper").removeAttr("style");
-              }
-            );
-          };
-        }
-      );
-    } else {
-      setSimpleMenu(
-        {
-          ...simpleMenu,
-          active: true,
-          wrapper: true,
-        },
-        () => {
-          dom(".wrapper").css("margin-left", "270px");
-          dom(".wrapper")[0].animate(
-            {
-              marginLeft: "112px",
-            },
-            {
-              duration: 200,
-            }
-          ).onfinish = function () {
-            dom(".wrapper").removeAttr("style");
-          };
-        }
-      );
-    }
-  };
-
-*/
-  /*
-
-  useEffect(() => {
-    dom("body").removeClass("error-page").removeClass("login").addClass("main");
-    new SimpleBar(dom(".side-nav .scrollable")[0]);
-   // setFormattedMenu(sideMenu());
-  }, [sideMenuStore, location.pathname]);
-  
-  
-  */
+ 
 
   return (
 
@@ -144,7 +74,7 @@ function Dashboard() {
 
       {/* BEGIN: Content */}
       <div
-          class="flex-grow"
+          className="flex-grow"
       >
         <div className="flex-flex-col">
          

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import FrontendConfig from '@/config/frontend-config'
+
 import { useCallbackState, helper as $h } from "@/utils";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Lucide } from "@/base-components";
@@ -12,17 +12,16 @@ import { observer } from "mobx-react";
 import { linkTo, nestedMenu, enter, leave } from "@/utils/sidemenu";
 import SimpleBar from "simplebar";
 
+import FrontendConfig from '@/config/frontend-config' 
+import DashboardConfig from '@/config/dashboard-config'
 
 
-
- 
- 
-
+import Transition from "../../utils/Transition";
 
 function SideMenu( {   sideMenuStore }) {
   
   const [formattedMenu, setFormattedMenu] = useState([]); 
-  const sideMenu = () => nestedMenu($h.toRaw(sideMenuStore.menu), location);
+  const sideMenu = () => nestedMenu($h.toRaw(DashboardConfig.dashboardMenu), location);
   const [simpleMenu, setSimpleMenu] = useCallbackState({
     active: false,
     hover: false,

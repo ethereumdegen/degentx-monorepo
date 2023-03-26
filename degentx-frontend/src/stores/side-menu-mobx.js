@@ -4,7 +4,7 @@ export class SideMenuStore {
     active=true
 
   
-      
+      /* 
     menu =  [
       "NAVIGATION",
       {
@@ -22,7 +22,7 @@ export class SideMenuStore {
        
         
       },
-     /* 
+     
       {
         icon: "MessageSquare",
         pathname: "/dashboard/transactions",
@@ -138,14 +138,14 @@ export class SideMenuStore {
         ]
       }
 
-      */
-    ];
+      
+    ];*/
     constructor() { 
 
       this.active = true 
 
       makeObservable(this, {
-        menu: observable,
+    //    menu: observable,
         active: observable,
 
         toggle: action ,
