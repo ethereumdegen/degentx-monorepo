@@ -23,6 +23,13 @@ PRODUCT: Advanced Guide - one time payment of $5 of 0xbtc
  
 
 
+
+
+ ### IMMEDIATE TODO 
+ -fix connect/sign in 
+ -show new products button  (auto make a new project? ) 
+
+
 ### BUGS 
 
 

@@ -14,6 +14,9 @@ import Metadata from '../views/pages/metadata.md'
 import ErrorPage from "../views/error-page/Main";
 
   
+import ProductIndex from "../views/dashboard/product/Index"
+
+import ProductShow from "../views/dashboard/product/Show"
     
 function Router() {
   const routes = [
@@ -57,6 +60,14 @@ function Router() {
         {
           path: "/dashboard",
           element: <DashboardView />,
+        },      
+        {
+          path: "/dashboard/products",
+          element: <ProductIndex />,
+        },
+        {
+          path: "/dashboard/product/:productId",
+          element: <ProductShow />,
         },
       ]
     },

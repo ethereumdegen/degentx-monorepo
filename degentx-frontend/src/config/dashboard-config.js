@@ -22,12 +22,22 @@ const config = {
               title: "Dashboard",
               pathname: "/dashboard",
              
-              subMenu: [
+           /*   subMenu: [
               {  icon: "",
                 pathname: "/chart",
                 title: "Chart"
               }
-              ]
+              ]*/
+
+
+            },
+
+
+            {
+              icon: "MessageSquare",
+              title: "Products",
+              pathname: "/dashboard/products",             
+              
             },
       
             {

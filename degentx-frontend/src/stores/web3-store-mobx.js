@@ -6,8 +6,8 @@ import { isArray, parseInt } from 'lodash';
 import { useState } from "react";
 import { atom, useRecoilState } from "recoil";
 
-import {getEnvironmentName} from '../../lib/app-helper'
-import {readJSONFile} from '../../lib/file-helper'
+import {getEnvironmentName} from '@/lib/app-helper'
+import {readJSONFile} from '@/lib/file-helper'
 
 const POLLING_INTERVAL = 12000;
 //const RPC_URL = process.env.VUE_APP_RPC_URL;

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-import {getBackendServerUrl} from '../../../../lib/app-helper'
+import {getBackendServerUrl} from '@/lib/app-helper'
 
 function ApiRequestComponent({endpoint, type, input}) {
 
