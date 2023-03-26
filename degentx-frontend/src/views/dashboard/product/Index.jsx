@@ -2,7 +2,7 @@
 import axios from "axios";
 
 
-import ApiKeyRow from "@/views/components/api-key-row/Main.jsx";
+import ProductRow from "@/views/components/product-row/Main.jsx";
 
 import { useState, useEffect } from 'react';
  
@@ -28,13 +28,13 @@ function Main(  ) {
 
     let statusFilter 
  
-    const [apiKeys, apiKeysSet] = useState(null) 
+    const [products, productsSet] = useState(null) 
 
 
  
-    const createApiKey = async () => {
-      console.log('start create key')
-      const backendApiUri = `${getBackendServerUrl()}/v1/apikey`
+    const createProduct = async () => {
+      
+      const backendApiUri = `${getBackendServerUrl()}/v1/product`
       let response = await axios.post(backendApiUri,{
        
           publicAddress: web3Store.account,
@@ -46,16 +46,14 @@ function Main(  ) {
   
       console.log({response})
 
-      loadApiKeys()
-    //  let {apiKeys} = response.data.data
-  
-      //return apiKeys 
+      loadProducts()
+   
     }
 
 
-  const fetchApiKeys = async () => {
-    console.log('start fetch keys')
-    const backendApiUri = `${getBackendServerUrl()}/v1/apikeys`
+  const fetchProducts = async () => {
+    console.log('start fetch products')
+    const backendApiUri = `${getBackendServerUrl()}/v1/products`
     let response = await axios.get(backendApiUri,{
       params:{
         publicAddress: web3Store.account,
@@ -66,9 +64,9 @@ function Main(  ) {
     if(!response || !response.data ) return undefined 
 
     console.log({response})
-    let apiKeys = response.data.data
+    let products = response.data.data
 
-    return apiKeys 
+    return products 
   }
  
 /*
@@ -90,14 +88,14 @@ function Main(  ) {
    })*/
 
 
-   const loadApiKeys = async (newFilter) => {
-    console.log('loading api keys')
+   const loadProducts = async (newFilter) => {
+    console.log('loading products')
        
         try{ 
-          const keys = await fetchApiKeys()
-          console.log({keys})
+          const products = await fetchProducts()
+          console.log({products})
 
-          apiKeysSet(keys)
+          productsSet(products)
         }catch(e){
           console.error(e)
         }
@@ -106,34 +104,20 @@ function Main(  ) {
    observe(web3Store, 'account', function() {
     console.log('acct:', web3Store.account); 
   });
-  
+
+  //load products on authorized 
   observe(web3Store, 'authorized', function() {
     console.log('acct:', web3Store.account);
-    loadApiKeys()
+    loadProducts()
   });
    
 
  //load api keys on mount 
  useEffect(()=>{
-  loadApiKeys()
+  loadProducts()
 }, []) // <-- empty dependency array
 
-
-/*
-    useEffect(() => {
-      const pollForPending = setInterval(async () => {
-        console.log('fetch pending')
-        const pendingTransaction = await fetchPendingTransaction()
-  
-        pendingTransactionSet(pendingTransaction)
-      }, 5000);
-
-      return () => clearInterval(pollForPending); // This represents the unmount function, in which you need to clear your interval to prevent memory leaks.
-    }, [])
-    
-    
-    */
-
+ 
   
 
 
@@ -150,13 +134,10 @@ function Main(  ) {
           {web3Store.authorized && <div className="flex ">
             <SimpleButton
             customClass="hover:bg-slate-300"
-            clicked={() => createApiKey()}
+            clicked={() => createProduct()}
             >  Create New Product </SimpleButton> 
           </div> }
-        </div>
-
- 
-
+        </div> 
 
 
 
@@ -227,16 +208,16 @@ function Main(  ) {
           
           
 
-          {web3Store.account && apiKeys && apiKeys.map((item,index)=>{ 
+          {web3Store.account && products && products.map((item,index)=>{ 
             return (
 
-              <ApiKeyRow
+              <ProductRow
                 key={item._id}
                 web3Store ={web3Store}
-                apiKeyData = {item}
+                productData = {item}
 
                         
-              ></ApiKeyRow>
+              ></ProductRow>
 
           
             )
