@@ -9,14 +9,12 @@ import AppHelper, {
 
 
 
-import Vibegraph, { VibegraphConfig } from 'vibegraph'
+import Vibegraph, { CustomIndexer, VibegraphConfig } from 'vibegraph'
  
 
 const contractsConfig = require('./vibegraph/contracts-config.json')
 
- 
-
-let IndexerDegenTx = require( './vibegraph/indexers/IndexerDegenTx' )
+ import IndexerDegenTx from './vibegraph/indexers/IndexerDegenTx'
  
 let DegenTxABI = require( './vibegraph/abi/degentx.abi.json' )
  
@@ -28,14 +26,12 @@ const NODE_ENVIRONMENT =  getEnvironmentName()
 
 const MONGO_URI = getDatabaseConnectURI()
 
-
-
-let indexerDegenTx = new IndexerDegenTx()
  
-const customIndexers = [{
+ 
+const customIndexers:CustomIndexer[]= [{
  type:'DegenTx', 
  abi: DegenTxABI ,  
- handler: indexerDegenTx
+ handler: IndexerDegenTx
 }];
 
 

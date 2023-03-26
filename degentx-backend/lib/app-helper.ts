@@ -77,12 +77,10 @@ export function toChecksumAddress(input: string): string {
 export function getRpcUrl(networkName: string): string | undefined {
   switch (networkName) {
     case 'goerli':
-      return process.env.GOERLI_PROVIDER_URL
-    case 'rinkeby':
-      return process.env.RINKEBY_PROVIDER_URL
-
+      return process.env.GOERLI_RPC_URL
+   
     default:
-      return process.env.MAINNET_PROVIDER_URL
+      return process.env.MAINNET_RPC_URL
   }
 }
 

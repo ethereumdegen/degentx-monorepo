@@ -1,23 +1,23 @@
  
-
-//import ExtensibleMongoDB , {DatabaseExtension} from 'extensible-mongoose'
-import PayspecDBExtension, { PaidInvoiceDefinition } from '../../server/dbextensions/PayspecDBExtension'
-
-
+ 
 
 import {ethers} from 'ethers' 
+import { InvoicePayment } from '../../../degentx-backend/dbextensions/payspec-extension'
+ 
+import { ContractEvent } from 'vibegraph'
+import VibegraphIndexer from 'vibegraph/dist/indexers/VibegraphIndexer'
  
 
-export default class IndexerDegenTx {
-     
- 
+export default class IndexerDegenTx extends VibegraphIndexer{
+      
 
-    async modifyLedgerByEvent(evt ){
+    async onEventEmitted(evt:ContractEvent ){
 
         console.log('modifyLedgerByEvent', evt)
 
-        let eventName = evt.event 
+        let eventName = evt.name 
         let blockNumber = evt.blockNumber
+        let transactionHash = evt.transactionHash
 
         if(!eventName){
             console.log('WARN: unknown event in ', evt.transactionHash )
@@ -26,7 +26,7 @@ export default class IndexerDegenTx {
         eventName = eventName.toLowerCase()
         
 
-        let outputs = evt.returnValues
+        let outputs:any = evt.args
  
         let contractAddress = ethers.utils.getAddress(evt.address)
        
@@ -36,7 +36,7 @@ export default class IndexerDegenTx {
             let uuid = (outputs['0']).toLowerCase()
             let paidBy = ethers.utils.getAddress(outputs['1'])
                          
-            await IndexerDegenTx.insertPaidInvoice(  contractAddress , uuid, paidBy, blockNumber, this.mongoDB) 
+            await IndexerDegenTx.insertPaidInvoice(  contractAddress , uuid, paidBy, blockNumber, transactionHash) 
         }
         
         
@@ -45,11 +45,12 @@ export default class IndexerDegenTx {
 
      
 
-    static async insertPaidInvoice( contractAddress , invoiceUUID , paidBy, paidAtBlock , mongoDB){
+    static async insertPaidInvoice( contractAddress :string, invoiceUUID:string , paidBy:string, paidAtBlock:number, transactionHash:string ){
 
        
        try{
-          await createRecord( { payspecContractAddress: contractAddress, invoiceUUID , paidBy , paidAtBlock },  PaidInvoiceDefinition , mongoDB  )  
+        await InvoicePayment.create( { payspecContractAddress: contractAddress, invoiceUUID , paidBy , paidAtBlock, transactionHash } )
+        //  await createRecord( { payspecContractAddress: contractAddress, invoiceUUID , paidBy , paidAtBlock },  PaidInvoiceDefinition , mongoDB  )  
        }catch(error){
            console.error(error)
        }
