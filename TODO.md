@@ -5,7 +5,7 @@
 - build frontend and docs 
 
 
- 
+
 
 -copy a TON of code over from the toadz shop ...
  1. set up vibegraph as a service a moleculer  -DONE-
