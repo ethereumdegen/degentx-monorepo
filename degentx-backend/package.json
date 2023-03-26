@@ -2,7 +2,7 @@
     "name": "degentx-backend",
     "version": "0.10.0",
     "description": "Template API server in typescript ",
-    "databasePrefix":"ensapi",
+    "databasePrefix":"degentx",
     "main": "server/index",
     "scripts": {
       "server": "npx ts-node server/index.ts",

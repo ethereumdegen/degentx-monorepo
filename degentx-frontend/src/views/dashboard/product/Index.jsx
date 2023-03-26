@@ -151,7 +151,7 @@ function Main(  ) {
             <SimpleButton
             customClass="hover:bg-slate-300"
             clicked={() => createApiKey()}
-            >  New Api Key </SimpleButton> 
+            >  Create New Product </SimpleButton> 
           </div> }
         </div>
 

@@ -1,12 +1,12 @@
 {
     "development":{
-        
+        "backendServerUrl":"http://localhost:8000"
     },
     "staging":{
-      
+        "backendServerUrl":"http://localhost:8000"
     },
     "production":{
-       
+        "backendServerUrl":"http://localhost:8000"
     } 
 
 }
