@@ -1,5 +1,5 @@
 
-import {Mongoose, Schema, Model, model, Require_id, InferSchemaType} from 'mongoose'
+import mongoose, {Mongoose, Schema, Model, model, Require_id, InferSchemaType} from 'mongoose'
  
  
  
@@ -39,18 +39,23 @@ import {Mongoose, Schema, Model, model, Require_id, InferSchemaType} from 'mongo
  
 
 
+ 
+mongoose.pluralize(null);
+
+
+
 export type IPayspecInvoice = Require_id<
 InferSchemaType<typeof PayspecInvoiceSchema>
 >
  
-export const PayspecInvoice = model<IPayspecInvoice, Model<IPayspecInvoice>>('payspecinvoice', PayspecInvoiceSchema)
+export const PayspecInvoice = model<IPayspecInvoice, Model<IPayspecInvoice>>('payspecinvoices', PayspecInvoiceSchema)
 
 
 export type IInvoicePayment = Require_id<
 InferSchemaType<typeof InvoicePaymentSchema>
 >
  
-export const InvoicePayment = model<IInvoicePayment, Model<IInvoicePayment>>('invoicepayment', InvoicePaymentSchema)
+export const InvoicePayment = model<IInvoicePayment, Model<IInvoicePayment>>('invoicepayments', InvoicePaymentSchema)
 
 
  

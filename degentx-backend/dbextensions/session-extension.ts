@@ -1,6 +1,6 @@
 
 
-import { Schema, Model, InferSchemaType, model, Require_id } from 'mongoose'
+import mongoose, { Schema, Model, InferSchemaType, model, Require_id } from 'mongoose'
 
 import { ModelWithTimestamps } from './types'
 
@@ -33,6 +33,11 @@ export const AuthenticationTokenSchema = new Schema(
   ) 
 
   
+
+ 
+mongoose.pluralize(null);
+
+
 
 export type IChallengeTokenWithoutTimestamp = Require_id<
   InferSchemaType<typeof ChallengeTokenSchema>

@@ -1,8 +1,9 @@
 import { useRoutes } from "react-router-dom";
 import MainLayout from "../layouts/Main";
+
 import DashboardLayout from "../layouts/Dashboard";
 import DashboardView from "../views/dashboard/Index";
-  
+
  
 import Welcome from '../views/welcome/Main'
     
@@ -49,7 +50,16 @@ function Router() {
         ]
       
     },
-
+    {
+      
+      element: <DashboardLayout />,
+      children: [
+        {
+          path: "/dashboard",
+          element: <DashboardView />,
+        },
+      ]
+    },
    
  
   

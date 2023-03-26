@@ -13,6 +13,8 @@ import APIController from '../controllers/api-controller'
 import SessionController from '../controllers/session-controller'
  
 import StatusController from '../controllers/status-controller';
+import ProjectController from '../controllers/project-controller';
+import ProductController from '../controllers/product-controller';
 
 const APP_NAME = getAppName()
 
@@ -42,10 +44,8 @@ async function start(){
      new StatusController(),
      new SessionController(),
      
-    // new ProjectController()
-    //new ProductController(),
-    
-    
+     new ProjectController(),
+     new ProductController()    
     
   ]
 

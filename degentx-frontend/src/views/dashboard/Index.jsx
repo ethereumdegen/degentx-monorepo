@@ -20,16 +20,14 @@ import { getBackendServerUrl } from '../../../lib/app-helper'
 
 
 function Main(  ) {
-
-  //figure out how to make this work 
+ 
      
     const [web3Store] = useOutletContext(); // <-- access context value
 
     console.log('web3Store' , web3Store)
 
     let statusFilter 
-
-   // const [pendingTransaction, pendingTransactionSet] = useState(null)
+ 
     const [apiKeys, apiKeysSet] = useState(null) 
 
 
