@@ -5,14 +5,11 @@ import AppHelper, {
     getEnvironmentName,
   getNetworkNameFromChainId,
   getRpcUrl,
-} from '../lib/app-helper'
+} from '../degentx-backend/lib/app-helper'
 
 
 
 import Vibegraph, { VibegraphConfig } from 'vibegraph'
-
-
-//import Vibegraph, { VibegraphConfig , VibeConfigBlock} from 'vibegraph'
  
 
 const contractsConfig = require('./vibegraph/contracts-config.json')

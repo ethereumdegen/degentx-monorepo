@@ -6,43 +6,10 @@ import PayspecDBExtension, { PaidInvoiceDefinition } from '../../server/dbextens
 
 
 import {ethers} from 'ethers' 
-
-let envmode = process.env.NODE_ENV ? process.env.NODE_ENV : 'development'
+ 
 
 export default class IndexerDegenTx {
-    
-  
-    mongoDB
-
-    async initialize( mongoDB?:any    ){
-
-      
-
-        let dbName = 'toadzshop_'.concat(envmode)
-
-
-        if( mongoDB){
-            this.mongoDB = mongoDB
-        }else{
-            this.mongoDB = new ExtensibleMongoDB(  )    
-            await this.mongoDB.init( dbName ) 
-        }
-
-
-        let dbExtensions:Array<DatabaseExtension> = []
-    
-        dbExtensions.push(...[
-            //PaidInvoiceDefinition
-          new PayspecDBExtension(this.mongoDB),
-        
-        ])
-        
-        dbExtensions.map(ext => ext.bindModelsToDatabase())
-    
-
-
-
-    }
+     
  
 
     async modifyLedgerByEvent(evt ){
@@ -61,15 +28,15 @@ export default class IndexerDegenTx {
 
         let outputs = evt.returnValues
  
-        let contractAddress = web3utils.toChecksumAddress(evt.address)
+        let contractAddress = ethers.utils.getAddress(evt.address)
        
         
         if(eventName == 'paidinvoice' ){
               
             let uuid = (outputs['0']).toLowerCase()
-            let paidBy = web3utils.toChecksumAddress(outputs['1'])
+            let paidBy = ethers.utils.getAddress(outputs['1'])
                          
-            await IndexerPayspec.insertPaidInvoice(  contractAddress , uuid, paidBy, blockNumber, this.mongoDB) 
+            await IndexerDegenTx.insertPaidInvoice(  contractAddress , uuid, paidBy, blockNumber, this.mongoDB) 
         }
         
         

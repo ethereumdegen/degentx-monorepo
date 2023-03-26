@@ -1,0 +1,20 @@
+{   
+    "development":{
+        
+        "networkName":"goerli"
+    },
+    "test":{
+       
+        "networkName":"mainnet"
+    },
+    "staging":{
+       
+        "networkName":"mainnet"
+    },
+    "production":{
+        
+        "networkName":"mainnet"
+    }
+  
+  
+}
