@@ -1,8 +1,8 @@
 require('dotenv').config()
 
 //export const fullNetworkConfig = require('../config/networkConfig.json')
-
-import web3Utils from 'web3-utils'
+ 
+import {ethers} from 'ethers'
 
 const NODE_ENV = process.env.NODE_ENV ? process.env.NODE_ENV : 'development'
 const MONGO_CONNECT_URI = process.env.MONGO_URI ? process.env.MONGO_URI : 'mongodb://localhost:27017'
@@ -71,7 +71,7 @@ export function getNetworkNameFromChainId(chainId: number): string {
 }
 
 export function toChecksumAddress(input: string): string {
-  return web3Utils.toChecksumAddress(input)
+  return ethers.utils.getAddress(input)
 }
 
 export function getRpcUrl(networkName: string): string | undefined {

@@ -16,16 +16,9 @@ const contractsConfig = require('./vibegraph/contracts-config.json')
 
  
 
-let IndexerENSRegistry = require( './vibegraph/indexers/IndexerENSRegistry' )
-let IndexerENSRegistrarController = require( './vibegraph/indexers/IndexerENSRegistrarController' )
-let IndexerENSResolver = require( './vibegraph/indexers/IndexerENSResolver' )
-let IndexerENSReverseRegistrar = require( './vibegraph/indexers/IndexerENSReverseRegistrar' )
+let IndexerDegenTx = require( './vibegraph/indexers/IndexerDegenTx' )
  
-
-let EnsRegistrarControllerABI = require( './vibegraph/abi/ENSRegistrarController.json' )
-let EnsRegistryABI = require( './vibegraph/abi/ENSRegistry.json' )
-let EnsPublicResolverABI = require( './vibegraph/abi/ENSPublicResolver.json' )
-let EnsReverseResolverABI = require( './vibegraph/abi/ENSReverseRegistrar.json' )
+let DegenTxABI = require( './vibegraph/abi/degentx.abi.json' )
  
 
 
@@ -37,37 +30,13 @@ const MONGO_URI = getDatabaseConnectURI()
 
 
 
-
-let indexerENSRegistry = new IndexerENSRegistry()
-let indexerENSRegistrarController = new IndexerENSRegistrarController(  )
-let indexerENSResolver = new IndexerENSResolver() //not used
-let indexerENSReverseRegistrar = new IndexerENSReverseRegistrar()
-
+let indexerDegenTx = new IndexerDegenTx()
+ 
 const customIndexers = [{
- type:'EnsRegistry', 
- abi: EnsRegistryABI ,  
- handler: indexerENSRegistry
-},
-{
- type:'EnsRegistrarController', 
- abi: EnsRegistrarControllerABI ,  
- handler: indexerENSRegistrarController
-},
-{
- type:'EnsPublicResolver', 
- abi: EnsPublicResolverABI ,  
- handler: indexerENSResolver
-},
-{
- type:'EnsReverseRegistrar', 
- abi: EnsReverseResolverABI ,  
- handler: indexerENSReverseRegistrar
-
-
-}
-
-
-];
+ type:'DegenTx', 
+ abi: DegenTxABI ,  
+ handler: indexerDegenTx
+}];
 
 
 

@@ -1,7 +1,7 @@
 'use strict'
 
 import { BrokerOptions } from 'moleculer'
-import '@moleculer/lab'
+ 
 
 require('dotenv').config()
 
@@ -58,9 +58,7 @@ const brokerConfig: BrokerOptions = {
         autoPadding: false,
       },
     },
-    {
-      type: 'Laboratory',
-    },
+   
   ],
   // Default log level for built-in console logger. It can be overwritten in logger options above.
   // Available values: trace, debug, info, warn, error, fatal
@@ -199,22 +197,10 @@ const brokerConfig: BrokerOptions = {
   // errorHandler: null,
 
   // Enable/disable built-in metrics function. More info: https://moleculer.services/docs/0.14/metrics.html
-  metrics: {
-    enabled: true,
-    // Available built-in reporters: 'Console', 'CSV', 'Event', 'Prometheus', 'Datadog', 'StatsD'
-    reporter: {
-      type: 'Laboratory',
-    },
-  },
+  
 
   // Enable built-in tracing function. More info: https://moleculer.services/docs/0.14/tracing.html
-  tracing: {
-    enabled: true,
-    // Available built-in exporters: 'Console', 'Datadog', 'Event', 'EventLegacy', 'Jaeger', 'Zipkin'
-    exporter: {
-      type: 'Laboratory', // Console exporter is only for development!
-    },
-  },
+   
 
   // Register custom middlewares
   middlewares: [],

@@ -1,6 +1,6 @@
  
 
-import ExtensibleMongoDB , {DatabaseExtension} from 'extensible-mongoose'
+//import ExtensibleMongoDB , {DatabaseExtension} from 'extensible-mongoose'
 import PayspecDBExtension, { PaidInvoiceDefinition } from '../../server/dbextensions/PayspecDBExtension'
 
 

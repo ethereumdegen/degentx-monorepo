@@ -3,12 +3,19 @@
   "version": "0.10.0",
   "description": "",
   "scripts": {
-    "start": "ts-node ./node_modules/.bin/moleculer-runner services/**/*.service.ts --hot --repl --env --config moleculer.config.ts"
+    "start": "ts-node ./node_modules/.bin/moleculer-runner *.service.ts --hot --repl --env --config moleculer.config.ts"
   },
   "author": "",
   "license": "MIT",
   "dependencies": {
+  
     "@types/node": "^18.15.0",
-    "vibegraph": "^0.42.1"
+    "vibegraph": "^0.42.1",
+    "moleculer": "^0.14.24",
+    "moleculer-cron": "^0.0.2",
+    "moleculer-db": "^0.8.19",
+    "moleculer-db-adapter-mongoose": "^0.9.1",
+    "moleculer-repl": "^0.7.3",
+    "moleculer-web": "^0.9.0"
   }
 }
