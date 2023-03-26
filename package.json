@@ -3,13 +3,15 @@
    "private": true,
    "scripts": {
       "contracts": "yarn workspace degentx-contract",
-      "frontend": "yarn workspace degentx-web",
+      "frontend": "yarn workspace degentx-frontend",
+      "backend": "yarn workspace degentx-backend",
       "services" : "yarn workspace services"
    },
    "workspaces": {
       "packages": [
          "degentx-contract",
-         "degentx-web",
+         "degentx-frontend",
+         "degentx-backend",
          "services"
       ]
    }

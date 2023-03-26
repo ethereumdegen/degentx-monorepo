@@ -1,0 +1,30 @@
+{
+
+    "mainnet":{
+
+        "contracts":[
+            
+                       
+            ]
+
+    },
+
+    "goerli":{
+
+        "contracts":[
+            
+            {
+             "address":"0x568cD537Ed5C70aE1A2b1B0Fd6DE6D94c7FAdD77", 
+             "startBlock": 8721723,
+             "type":"DegenTx"
+            }
+            
+            
+            
+            ]
+    }
+
+
+
+
+}
