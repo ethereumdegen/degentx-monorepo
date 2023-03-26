@@ -1,13 +1,15 @@
 import axios from 'axios'
 import chai, { expect } from 'chai'
-import { ethers } from 'ethers'
+import { ethers, Wallet } from 'ethers'
  
   
 import { disconnectTestDatabase, initTestDatabase } from './util/test-utils'
   
 import ProductController from '../controllers/product-controller'
 import { Product } from '../dbextensions/product-extension'
+import { mongoIdToString } from '../lib/mongo-helper'
 
+import {stubProject} from "../modules/project-module"
 
 let productController = new ProductController()
 
@@ -33,22 +35,34 @@ describe('Product Controller', () => {
 
     it('should create product', async () => {
 
+        let wallet = Wallet.createRandom()
+
+       let project:Project = await stubProject({
+            name:'testproject',
+            ownerAddress: wallet.address
+       })
+
+       const projectId = mongoIdToString(project._id);
+
+       console.log({projectId})
+
        let created = await productController.createProduct(
             {fields: {
 
                 name:'api_access',
 
-                projectId: 'projId',
+                projectId,
 
-                publicAddress: ethers.constants.AddressZero,
+                publicAddress: wallet.address,
 
                 authToken: 'test_auth_token'
 
             }}
         )
-
-
-    expect(created).to.exist
+        
+        console.log(created.error)
+        expect(created.success).to.eql(true)
+        expect(created.data).to.exist
     })
 
 

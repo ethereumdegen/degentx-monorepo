@@ -106,13 +106,15 @@ export default class ProductController {
 
   
     let projectOwnerAddress = await getProjectOwnerAddress(projectId)
-    if( projectOwnerAddress != publicAddress ){
+    if( !projectOwnerAddress || projectOwnerAddress != publicAddress ){
       return {success: false, error:"Not the owner of this project"}
     }
 
+    console.log({projectOwnerAddress})
     const result = await Product.create({
       ownerAddress:publicAddress,
-      name: name 
+      name: name ,
+      projectId : projectId
     })
 
     return {success:true, data: result}
