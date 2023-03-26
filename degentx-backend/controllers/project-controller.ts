@@ -74,7 +74,7 @@ export default class ProjectController {
   createProject: ControllerMethod = async (req: any) => {
    
     const sanitizeResponse = sanitizeAndValidateInputs(req.fields , [
-      { key: 'name', type: ValidationType.string, required: true }          
+      { key: 'name', type: ValidationType.string, required: true } ,   
       { key: 'publicAddress', type: ValidationType.publicaddress, required: true },
       { key: 'authToken', type: ValidationType.string, required: true },  
     ])
