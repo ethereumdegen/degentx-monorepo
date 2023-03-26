@@ -6,6 +6,7 @@ import { validateAuthToken } from '../lib/auth-helper'
  
 import { BigNumber, ethers } from "ethers"
 import { Project } from "../dbextensions/project-extension"
+import { stringToMongoId } from "../lib/mongo-helper"
  
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
@@ -20,7 +21,7 @@ export default class ProjectController {
   getProject: ControllerMethod = async (req: any) => {
  
     const sanitizeResponse = sanitizeAndValidateInputs(req.query , [
-      { key: 'key', type: ValidationType.string,  required: true },
+      { key: 'projectId', type: ValidationType.string,  required: true },
       { key: 'publicAddress', type: ValidationType.publicaddress,  required: true },
       { key: 'authToken', type: ValidationType.string, required: true },  
     ])
@@ -29,14 +30,14 @@ export default class ProjectController {
     if(!isAssertionSuccess(sanitizeResponse)) return sanitizeResponse
 
      
-    const {publicAddress, key, authToken} = sanitizeResponse.data;
+    const {publicAddress, projectId, authToken} = sanitizeResponse.data;
 
     //check the auth token !! 
     let authTokenValidationResponse = await validateAuthToken({publicAddress, authToken})
     if(!isAssertionSuccess(authTokenValidationResponse)) return authTokenValidationResponse;
 
    
-    const results = await Project.findOne({key, ownerAddress:publicAddress, status: 'active'})
+    const results = await Project.findOne({_id: stringToMongoId(projectId), ownerAddress:publicAddress, status: 'active'})
 
     return {success:true, data : results}
 
@@ -72,14 +73,15 @@ export default class ProjectController {
 
   createProject: ControllerMethod = async (req: any) => {
    
-    const sanitizeResponse = sanitizeAndValidateInputs(req.fields , [          
+    const sanitizeResponse = sanitizeAndValidateInputs(req.fields , [
+      { key: 'name', type: ValidationType.string, required: true }          
       { key: 'publicAddress', type: ValidationType.publicaddress, required: true },
       { key: 'authToken', type: ValidationType.string, required: true },  
     ])
 
     if(!isAssertionSuccess(sanitizeResponse)) return sanitizeResponse
 
-    const {publicAddress, authToken} = sanitizeResponse.data;
+    const {publicAddress, authToken, name} = sanitizeResponse.data;
  
 
     let authTokenValidationResponse = await validateAuthToken({publicAddress, authToken})
@@ -88,7 +90,10 @@ export default class ProjectController {
     const randomKey:string = BigNumber.from(ethers.utils.randomBytes(12)).toHexString().slice(2) //secure random 
    
 
-    const result = await Project.create({ownerAddress:publicAddress, key: randomKey})
+    const result = await Project.create({
+      ownerAddress:publicAddress, 
+      name 
+    })
 
     return {success:true, data: result}
 
