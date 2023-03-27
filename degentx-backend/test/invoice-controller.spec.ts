@@ -72,7 +72,8 @@ describe('Invoice Controller', () => {
 
             }}
         )
-         
+            
+        console.log(created.error)
         expect(created.success).to.eql(true)
         expect(created.data).to.exist
     })
