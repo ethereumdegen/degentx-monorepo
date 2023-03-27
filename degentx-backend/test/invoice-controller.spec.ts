@@ -43,8 +43,8 @@ describe('Invoice Controller', () => {
        
 
        const invoice: PayspecInvoice = {
-           payspecContractAddress: '',
-           description: '', //can use product id here 
+           payspecContractAddress: '0x568cD537Ed5C70aE1A2b1B0Fd6DE6D94c7FAdD77',
+           description: 'PROD_ID_1245', //can use product id here 
            nonce: getPayspecRandomNonce(),
            token: ETH_ADDRESS,
            totalAmountDue: '100',
