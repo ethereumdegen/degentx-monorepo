@@ -33,6 +33,10 @@ PRODUCT: Advanced Guide - one time payment of $5 of 0xbtc
  - build api endpoint that shows if an invoice is PAID     (vibegraph req)
  - show invoices and their statuses on the frontend (vibegraph req)
 
+## IDEA 
+Make an endpoint that links an endpoint to a product (must own product to call) and also optionally accepts a 'ClientPublicAddress' which is an account which is somehow 'rewarded' by the fact that the invoice [uuid] gets PAID 
+
+Could also optionally accept an 'Access Key' which gets released (emailed?) (becomes accessable) to the public address if status is PAID 
 
 ### BUGS 
 

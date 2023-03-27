@@ -138,15 +138,15 @@ function Main(  ) {
         {web3Store.authorized && product &&
 
           <div> 
-            <div>
+            <div className="inline-block">
 
             <SimpleButton
-              customClass="hover:bg-slate-300 flex flex-row"
+              customClass="hover:bg-slate-300 flex flex-row inline-block"
               clicked={() => navigate('/dashboard/invoice/new')}  
               >  
               <Lucide icon="PlusCircle" className="w-4 h-4 mr-1" />
                 
-                Add Invoice
+                Add a new Invoice
               </SimpleButton> 
 
             </div>
@@ -155,7 +155,7 @@ function Main(  ) {
 
          
             <div className="px-4 py-16 text-lg font-bold">
-              Invoices 
+              Invoices for this Product
             </div>
              
 

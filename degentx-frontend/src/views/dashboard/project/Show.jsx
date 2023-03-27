@@ -229,7 +229,9 @@ function Main(  ) {
           {web3Store.account && project &&  
             <div>
 
-            
+              <div className="font-bold text-lg">
+                Products in this Project
+              </div>
 
             <ProductsTree
                 web3Store={web3Store}
