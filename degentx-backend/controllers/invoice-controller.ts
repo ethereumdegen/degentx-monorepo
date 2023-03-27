@@ -80,21 +80,21 @@ export default class InvoiceController {
     }*/
 
    
-    const product = await PayspecInvoice.find({
+    const invoice = await PayspecInvoice.find({
       projectId: projectId, 
     })
 
         
 
-    return {success:true, data : product}
+    return {success:true, data : invoice}
 
 
   }
 
-  createInvoice: ControllerMethod = async (req: any) => {
+  addInvoice: ControllerMethod = async (req: any) => {
    
     const sanitizeResponse = sanitizeAndValidateInputs(req.fields , [  
-      { key: 'uuid', type: ValidationType.string, required: true},
+      { key: 'invoice', type: ValidationType.payspecinvoice, required: true},
        
       { key: 'publicAddress', type: ValidationType.publicaddress, required: true },
       { key: 'authToken', type: ValidationType.string, required: true },  

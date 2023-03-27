@@ -15,6 +15,7 @@ export enum ValidationType {
     boolean = 'boolean',
     publicaddress = 'publicaddress',
     pagination = 'pagination',
+    payspecinvoice = 'payspecinvoice',
      
   }
 
@@ -136,6 +137,22 @@ export enum ValidationType {
   
     if (type == ValidationType.phone) {
       return escapeString(input)
+    }
+
+    if (type == ValidationType.payspecinvoice) {
+      return {
+
+        payspecContractAddress: sanitizeInput(input.payspecContractAddress, ValidationType.publicaddress),
+        description: sanitizeInput(input.description, ValidationType.string),
+        nonce: sanitizeInput(input.nonce, ValidationType.string),
+        token: sanitizeInput(input.token, ValidationType.publicaddress),
+        tokenAmountDue: sanitizeInput(input.tokenAmountDue, ValidationType.string),
+        payToArrayStringified:  sanitizeInput(input.payToArrayStringified, ValidationType.string),
+        amountsDueArrayStringified:  sanitizeInput(input.amountsDueArrayStringified, ValidationType.string),
+        expiresAt: sanitizeInput(input.expiresAt, ValidationType.string ),
+        invoiceUUID: sanitizeInput(input.invoiceUUID, ValidationType.string)
+
+      }  
     }
   
     if (type == ValidationType.boolean) {
