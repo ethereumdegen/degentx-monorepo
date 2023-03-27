@@ -20,6 +20,11 @@ import ProductShow from "../views/dashboard/product/Show"
   
 import ProjectIndex from "../views/dashboard/project/Index"
 import ProjectShow from "../views/dashboard/project/Show"
+
+
+import InvoiceIndex from "../views/dashboard/invoice/Index"
+import InvoiceShow from "../views/dashboard/invoice/Show"
+import InvoiceNew from "../views/dashboard/invoice/New"
     
 function Router() {
   const routes = [
@@ -46,12 +51,7 @@ function Router() {
             path:"/metadata",
             element: <Metadata/>
            },
-
-          
-
-     
-
-         
+ 
 
         ]
       
@@ -77,6 +77,23 @@ function Router() {
           path: "/dashboard/product/:productId",
           element: <ProductShow />,
         },
+
+
+        {
+          path: "/dashboard/invoices",
+          element: <InvoiceIndex />,
+        },
+
+        {
+          path: "/dashboard/invoice/new",
+          element: <InvoiceNew />,
+        },
+        {
+          path: "/dashboard/invoice/:invoiceId",
+          element: <InvoiceShow />,
+        },
+
+       
       ]
     },
    

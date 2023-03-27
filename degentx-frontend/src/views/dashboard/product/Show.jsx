@@ -1,9 +1,7 @@
 
 import axios from "axios";
 
-
-import ApiKeyRow from "@/views/components/api-key-row/Main.jsx";
-
+ 
 import { useState, useEffect } from 'react';
  
 import { useOutletContext, useParams } from 'react-router-dom';
@@ -17,7 +15,7 @@ import TinyBadge from "@/views/components/tiny-badge/Main"
 
 import { getBackendServerUrl } from '@/lib/app-helper'
 
-
+import InvoicesList from "@/views/components/invoice/invoices-list/Main"
 
 
 function Main(  ) {
@@ -35,7 +33,7 @@ function Main(  ) {
   
 
   const fetchProduct = async () => {
-    console.log('start fetch product')
+   
     const backendApiUri = `${getBackendServerUrl()}/v1/product`
     let response = await axios.get(backendApiUri,{
       params:{
@@ -52,8 +50,7 @@ function Main(  ) {
 
     return product 
   }
- 
-
+  
 
    const loadProduct = async (newFilter) => {
     console.log('loading product')
@@ -124,13 +121,40 @@ function Main(  ) {
 
  
 
-      {!web3Store.authorized  && 
+       {!web3Store.authorized  && 
       
-      <div className="px-4 py-16 text-lg font-bold">
+         <div className="px-4 py-16 text-lg font-bold">
 
-         Sign in to view your product
+           Sign in to view your product
          
-         </div>}
+         </div>
+
+         }
+        
+        {web3Store.authorized && product &&
+      
+        <div className="flex flex-col">
+
+         
+            <div className="px-4 py-16 text-lg font-bold">
+              Invoices 
+            </div>
+             
+
+            <div>
+
+              <InvoicesList
+                productId={product._id}
+              />
+
+ 
+
+            </div>
+         
+         </div>
+         
+         
+         }
           
           
 

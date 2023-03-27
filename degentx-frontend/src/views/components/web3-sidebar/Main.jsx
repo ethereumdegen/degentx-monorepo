@@ -4,7 +4,7 @@ import React,{ useState , useRef, useEffect} from 'react';
  
 
 import Blockie from "@/views/components/blockie/Main.jsx"
-import FadingAlert from "@/views/components/fading-alert/Main.jsx"
+import FadingAlert from "@/views/base-components/fading-alert/Main.jsx"
 
 import AccountNavButtons from "@/views/components/account-nav-buttons/Main.jsx"
  
