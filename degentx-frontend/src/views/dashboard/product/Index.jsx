@@ -29,7 +29,27 @@ function Main(  ) {
     let statusFilter 
  
     const [products, productsSet] = useState(null) 
+    const [projects, projectsSet] = useState(null) 
 
+
+
+    const createProject = async () => {
+      
+      const backendApiUri = `${getBackendServerUrl()}/v1/project`
+      let response = await axios.post(backendApiUri,{
+          
+          publicAddress: web3Store.account,
+          authToken: web3Store.authToken 
+        
+      }) 
+  
+      if(!response || !response.data ) return undefined 
+  
+      console.log({response})
+
+      loadProjects()
+   
+    }
 
  
     const createProduct = async () => {
@@ -49,6 +69,26 @@ function Main(  ) {
       loadProducts()
    
     }
+
+
+  const fetchProjects = async () => {
+    console.log('start fetch projects')
+    const backendApiUri = `${getBackendServerUrl()}/v1/projects`
+    let response = await axios.get(backendApiUri,{
+      params:{
+        publicAddress: web3Store.account,
+        authToken: web3Store.authToken 
+      }
+    }) 
+
+    if(!response || !response.data ) return undefined 
+
+    console.log({response})
+    let projects = response.data.data
+
+    return projects 
+  }
+ 
 
 
   const fetchProducts = async () => {
@@ -88,6 +128,19 @@ function Main(  ) {
    })*/
 
 
+   const loadProjects = async (newFilter) => {
+    console.log('loading projects')
+       
+        try{ 
+          const projects = await fetchProjects()
+          console.log({projects})
+
+          projectsSet(projects)
+        }catch(e){
+          console.error(e)
+        }
+   }
+
    const loadProducts = async (newFilter) => {
     console.log('loading products')
        
@@ -109,12 +162,14 @@ function Main(  ) {
   observe(web3Store, 'authorized', function() {
     console.log('acct:', web3Store.account);
     loadProducts()
+    loadProjects()
   });
    
 
  //load api keys on mount 
  useEffect(()=>{
   loadProducts()
+  loadProjects()
 }, []) // <-- empty dependency array
 
  
@@ -129,15 +184,7 @@ function Main(  ) {
       </div>
       <div className="intro-y box pt-4 px-5 pb-4 mt-2 flex flex-col items-center">
       
-        <div className="flex flex-row w-full"> 
-          <div className="flex flex-grow"></div>
-          {web3Store.authorized && <div className="flex ">
-            <SimpleButton
-            customClass="hover:bg-slate-300"
-            clicked={() => createProduct()}
-            >  Create New Product </SimpleButton> 
-          </div> }
-        </div> 
+    
 
 
 
@@ -159,46 +206,11 @@ function Main(  ) {
         {/* END: Tx Title */}
         {/* BEGIN: Tx Content */}
 
-        <div className="w-full">
+        <div className="w-full   ">
 
+      <div className="container mx-auto lg:w-1/2">
 
-{/*
-   <Tab.Group>
-    <Tab.List variant="boxed-tabs">
-        <Tab>
-            <Tab.Button className="w-full py-2" as="button" clicked={()=>{setStatusFilter(undefined)}}>
-                All
-            </Tab.Button>
-        </Tab>
-        <Tab>
-            <Tab.Button className="w-full py-2" as="button" clicked={()=>{setStatusFilter('pending')}}>
-                Pending
-            </Tab.Button> 
-        </Tab>
-        <Tab>
-            <Tab.Button className="w-full py-2" as="button" clicked={()=>{setStatusFilter('finalized')}}>
-                Finalized
-            </Tab.Button>             
-        </Tab>
-        <Tab>
-            <Tab.Button className="w-full py-2" as="button" clicked={()=>{setStatusFilter('denied')}}>
-                Denied
-            </Tab.Button> 
-        </Tab>
-    </Tab.List> 
-    <Tab.Panels className="mt-5">
-        <Tab.Panel className="leading-relaxed">
-          </Tab.Panel>
-          <Tab.Panel className="leading-relaxed">
-          </Tab.Panel>
-          <Tab.Panel className="leading-relaxed">
-          </Tab.Panel>
-          <Tab.Panel className="leading-relaxed">
-          </Tab.Panel>
-    </Tab.Panels>
-
-</Tab.Group> 
-  */ }
+ 
 
       {!web3Store.authorized  && <div className="px-4 py-16 text-lg font-bold"> 
      
@@ -208,9 +220,20 @@ function Main(  ) {
           
           
 
-          {web3Store.account && products && products.map((item,index)=>{ 
-            return (
 
+      {web3Store.account && web3Store.authorized && !products &&  
+           
+              <div className="my-8">
+                  No products found.        
+
+              </div>
+            
+          }
+
+
+          {web3Store.account && web3Store.authorized && products && products.map((item,index)=>{ 
+            return (
+              <div className="my-8">
               <ProductRow
                 key={item._id}
                 web3Store ={web3Store}
@@ -219,14 +242,38 @@ function Main(  ) {
                         
               ></ProductRow>
 
-          
+
+           
+
+              </div>
             )
           })}
+
+
+
+          {web3Store.account && web3Store.authorized &&
+          
+          
+          <div className="flex flex-row w-full"> 
+          <div className="flex flex-grow text-center">
+         
+            <SimpleButton
+            customClass="hover:bg-slate-300"
+            clicked={() => createProject()}
+            >  Add Project </SimpleButton> 
+
+          </div>
+           
+        </div> 
+
+          }
         </div>
-            
+    
+        </div>
     
         {/* END: Tx Content */}
       </div>
+      
       </div>
 
     </>

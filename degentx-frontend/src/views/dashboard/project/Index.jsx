@@ -16,9 +16,6 @@ import SimpleButton from "@/views/components/simple-button/Main"
 
 import { getBackendServerUrl } from '../../../lib/app-helper'
 
-
-
-
 function Main(  ) {
  
      

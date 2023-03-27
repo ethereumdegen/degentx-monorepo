@@ -11,6 +11,10 @@
     {"type":"get","uri":"/account","method":"getAccount","controller":"account"},
 
     {"type":"post","uri":"/v1/product","method":"createProduct","controller":"product"},
-    {"type":"get","uri":"/v1/products","method":"getProducts","controller":"product"}
+    {"type":"get","uri":"/v1/products","method":"getProducts","controller":"product"},
+
+
+    {"type":"post","uri":"/v1/project","method":"createProject","controller":"project"},
+    {"type":"get","uri":"/v1/projects","method":"getProjects","controller":"project"}
 
 ]

@@ -9,12 +9,12 @@ import SimpleButton from '@/views/components/simple-button/Main.jsx'
 
 import { observer } from "mobx-react";
 
-function ProductRow({web3Store, productData}) {
+function ProjectRow({web3Store, projectData}) {
 
   let navigate = useNavigate();
 
   
-  console.log({productData})
+  console.log({projectData})
 
 
  
@@ -27,9 +27,9 @@ function ProductRow({web3Store, productData}) {
          
 
         <div className="flex flex-grow flex-col ">
-         {productData && <div className="flex flex-row my-2">
-            <div className='font-bold  '> {productData.name } </div>
-          
+         {projectData && <div className="flex flex-row my-2">
+            <div className='font-bold  '> {projectData.name } </div>
+           
           </div> }
 
         
@@ -39,9 +39,9 @@ function ProductRow({web3Store, productData}) {
 
        <div className="flex flex-row"> 
         <div> 
-          {productData && <div 
+          {projectData && <div 
           className={`mx-4 p-2 capitalize font-bold bg-slate-200 border-2 border-gray-400 cursor-pointer`}
-          onClick={()=>{navigate(`/dashboard/product/${productData.key}`)}}
+          onClick={()=>{navigate(`/dashboard/project/${projectData._id}`)}}
           > 
             View
           </div>}
@@ -67,6 +67,6 @@ function ProductRow({web3Store, productData}) {
   
 
 
-export default observer(ProductRow);
+export default observer(ProjectRow);
 
 
