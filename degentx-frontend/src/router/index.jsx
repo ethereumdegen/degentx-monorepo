@@ -48,7 +48,12 @@ function Router() {
             element: <PayspecJS/>
            },
 
-       
+           { 
+            path:"/degentxsol",
+            element: <DegenTxSol/>
+           },
+
+           
  
 
         ]
