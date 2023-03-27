@@ -2,7 +2,6 @@
 import axios from "axios";
 
 
-import ProductRow from "@/views/components/product-row/Main.jsx";
 
 import { useState, useEffect } from 'react';
  
@@ -14,8 +13,9 @@ import {observe} from 'mobx'
 import { Tab } from "@/views/base-components/Headless";
 import SimpleButton from "@/views/components/simple-button/Main"
 
-import { getBackendServerUrl } from '@/lib/app-helper'
+import ProductsTree from "@/views/components/product/products-tree/Main.jsx"
 
+import { getBackendServerUrl } from '@/lib/app-helper'
 
 
 
@@ -180,9 +180,11 @@ function Main(  ) {
   return (
     <>
       <div className="intro-y flex flex-col sm:flex-row items-center mt-2">
+
+     
        
       </div>
-      <div className="intro-y box pt-4 px-5 pb-4 mt-2 flex flex-col items-center">
+      <div className="intro-y box pt-4 px-5 pb-4 mt-2 flex flex-col items-center relative">
       
     
 
@@ -230,43 +232,20 @@ function Main(  ) {
             
           }
 
+          {web3Store.account && web3Store.authorized &&  
 
-          {web3Store.account && web3Store.authorized && products && products.map((item,index)=>{ 
-            return (
-              <div className="my-8">
-              <ProductRow
-                key={item._id}
-                web3Store ={web3Store}
-                productData = {item}
+              <ProductsTree
+                web3Store={web3Store}
+                products={products}
+              />
 
-                        
-              ></ProductRow>
-
-
-           
-
-              </div>
-            )
-          })}
-
-
-
-          {web3Store.account && web3Store.authorized &&
           
-          
-          <div className="flex flex-row w-full"> 
-          <div className="flex flex-grow text-center">
-         
-            <SimpleButton
-            customClass="hover:bg-slate-300"
-            clicked={() => createProject()}
-            >  Add Project </SimpleButton> 
-
-          </div>
-           
-        </div> 
-
           }
+
+ 
+
+
+         
         </div>
     
         </div>
