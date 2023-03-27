@@ -8,7 +8,7 @@
 The smart contract utilizes OpenZeppelin's Ownable and ReentrancyGuard contracts for access control and security against re-entrancy attacks. It has a mapping of invoice UUIDs to Invoice structs, which hold the invoice data. The contract provides functions to create and pay invoices, as well as query invoice information.
 
 
-### Deployements 
+### Deployments 
 
 [Deployed on Goerli](https://goerli.etherscan.io/address/0x568cD537Ed5C70aE1A2b1B0Fd6DE6D94c7FAdD77)
 
