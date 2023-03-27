@@ -1,10 +1,13 @@
 
 import axios from "axios";
 
- 
+import {
+  Lucide, 
+} from "@/base-components";
+
 import { useState, useEffect } from 'react';
  
-import { useOutletContext, useParams } from 'react-router-dom';
+import { useOutletContext, useParams, useNavigate } from 'react-router-dom';
 
 import { observer } from "mobx-react";
 import {observe} from 'mobx'
@@ -15,11 +18,12 @@ import TinyBadge from "@/views/components/tiny-badge/Main"
 
 import { getBackendServerUrl } from '@/lib/app-helper'
 
-import InvoicesList from "@/views/components/invoice/invoices-list/Main"
+import ProductInvoicesList from "@/views/components/invoice/product-invoices-list/Main"
 
 
 function Main(  ) {
- 
+  
+  let navigate = useNavigate(); 
      
     const [web3Store] = useOutletContext(); // <-- access context value
 
@@ -132,7 +136,21 @@ function Main(  ) {
          }
         
         {web3Store.authorized && product &&
-      
+
+          <div> 
+            <div>
+
+            <SimpleButton
+              customClass="hover:bg-slate-300 flex flex-row"
+              clicked={() => navigate('/dashboard/invoice/new')}  
+              >  
+              <Lucide icon="PlusCircle" className="w-4 h-4 mr-1" />
+                
+                Add Invoice
+              </SimpleButton> 
+
+            </div>
+
         <div className="flex flex-col">
 
          
@@ -143,8 +161,9 @@ function Main(  ) {
 
             <div>
 
-              <InvoicesList
+              <ProductInvoicesList
                 productId={product._id}
+                web3Store={web3Store}
               />
 
  
@@ -153,7 +172,7 @@ function Main(  ) {
          
          </div>
          
-         
+          </div>
          }
           
           

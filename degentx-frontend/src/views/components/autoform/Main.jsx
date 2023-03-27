@@ -7,6 +7,25 @@ import {
   } from "@/base-components";
  
 
+  /*
+
+  architecture = [
+      {
+      name: 'colors',
+      type: 'select',
+      label: 'Colors',
+      required: true,
+      options: [
+        { label: 'Red', value: 'red' },
+        { label: 'Green', value: 'green' },
+        { label: 'Blue', value: 'blue' },
+      ],
+    }
+  ]
+
+
+  */
+
 
 function AutoForm({ architecture, onSubmit }) {
   const [formData, setFormData] = useState({});
@@ -42,6 +61,26 @@ function AutoForm({ architecture, onSubmit }) {
               onChange={handleChange}
             />
           )}
+
+
+           {field.type === 'select' && (
+            <select
+              name={field.name}
+              id={field.name}
+              required={field.required}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              value={formData[field.name] || ''}
+              onChange={handleChange}
+            >
+              {field.options.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          )}
+
+
         {field.type === 'number' && (
             <input
               type="number"

@@ -41,14 +41,14 @@ export default class InvoiceController {
    
     const result = await PayspecInvoice.findOne({uuid:uuid , status: 'active'})
 
-    if(!result || !result.projectId){
+    /*if(!result || !result.projectId){
       return {success:false, error:"Could not find matching product"}
     }
 
     let projectOwnerAddress = await getProjectOwnerAddress(result.projectId)
     if( projectOwnerAddress != publicAddress ){
       return {success: false, error:"Not the owner of this product"}
-    }
+    }*/
 
     return {success:true, data: result}
 
@@ -74,10 +74,10 @@ export default class InvoiceController {
     let authTokenValidationResponse = await validateAuthToken({publicAddress, authToken})
     if(!isAssertionSuccess(authTokenValidationResponse)) return authTokenValidationResponse;
 
-    let projectOwnerAddress = await getProjectOwnerAddress(projectId)
+   /* let projectOwnerAddress = await getProjectOwnerAddress(projectId)
     if( projectOwnerAddress != publicAddress ){
       return {success: false, error:"Not the owner of this project"}
-    }
+    }*/
 
    
     const product = await PayspecInvoice.find({

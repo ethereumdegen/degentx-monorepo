@@ -26,7 +26,12 @@ PRODUCT: Advanced Guide - one time payment of $5 of 0xbtc
 
 
  ### IMMEDIATE TODO 
- - show the list of projects !!  getprojects seems to be broken
+ 
+ - allow for creating invoice in front end form
+ - allow for paying an invoice in front end goerli 
+
+ - build api endpoint that shows if an invoice is PAID     (vibegraph req)
+ - show invoices and their statuses on the frontend (vibegraph req)
 
 
 ### BUGS 
