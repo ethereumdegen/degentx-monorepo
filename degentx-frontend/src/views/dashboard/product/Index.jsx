@@ -31,44 +31,7 @@ function Main(  ) {
     const [products, productsSet] = useState(null) 
     const [projects, projectsSet] = useState(null) 
 
-
-
-    const createProject = async () => {
-      
-      const backendApiUri = `${getBackendServerUrl()}/v1/project`
-      let response = await axios.post(backendApiUri,{
-          
-          publicAddress: web3Store.account,
-          authToken: web3Store.authToken 
-        
-      }) 
-  
-      if(!response || !response.data ) return undefined 
-  
-      console.log({response})
-
-      loadProjects()
-   
-    }
-
  
-    const createProduct = async () => {
-      
-      const backendApiUri = `${getBackendServerUrl()}/v1/product`
-      let response = await axios.post(backendApiUri,{
-       
-          publicAddress: web3Store.account,
-          authToken: web3Store.authToken 
-        
-      }) 
-  
-      if(!response || !response.data ) return undefined 
-  
-      console.log({response})
-
-      loadProducts()
-   
-    }
 
 
   const fetchProjects = async () => {
@@ -237,6 +200,11 @@ function Main(  ) {
               <ProductsTree
                 web3Store={web3Store}
                 products={products}
+
+                onProductsChanged={() => {
+                  loadProjects();
+                  loadProducts();
+                }}
               />
 
           

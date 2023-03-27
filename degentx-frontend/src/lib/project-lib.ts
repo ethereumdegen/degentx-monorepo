@@ -1,12 +1,57 @@
 import { Provider } from "@ethersproject/abstract-provider"
+import axios from "axios"
 import { ethers } from "ethers"
 
+  
+import { getBackendServerUrl } from "./app-helper"
 
-import  JpegsNftAbi from '../config/abi/jpegsNft.abi.json'
+export async function createProject({
+    name, publicAddress, authToken, onFinished
+}:{
+    name: string
+    publicAddress:string,
+    authToken:string,
+
+    onFinished: ( ) => any
+}){
+    console.log('creating project', name )
+
+    const backendApiUri = `${getBackendServerUrl()}/v1/project`
+    let response = await axios.post(backendApiUri,{
+        name,
+        publicAddress,//: web3Store.account,
+        authToken//: web3Store.authToken 
+      
+    }) 
+
+    if(!response || !response.data ) return undefined 
+
+    console.log({response})
+
+    onFinished() 
+
+}
+
+/*
+const createProject = async () => {
+      
+    const backendApiUri = `${getBackendServerUrl()}/v1/project`
+    let response = await axios.post(backendApiUri,{
+        
+        publicAddress: web3Store.account,
+        authToken: web3Store.authToken 
+      
+    }) 
+
+    if(!response || !response.data ) return undefined 
+
+    console.log({response})
+
+    loadProjects()
  
-import MemesAuctionAbi from '../config/abi/memesAuction.abi.json'
+  }
 
-import  contractsConfig from '../config/contracts-config.json'
+
 
 export async function getMintCount(networkName:string, provider: Provider){
 
@@ -38,4 +83,4 @@ export async function getOwnerOf(tokenId: string, networkName:string, provider: 
     let jpegsContract = new ethers.Contract(localConfig['jpegsNFT'].address, JpegsNftAbi, provider)
 
     return await jpegsContract.ownerOf(tokenId)
-}
+}*/
