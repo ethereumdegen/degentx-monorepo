@@ -77,4 +77,4 @@ const invoiceFormArchitecture = {
 }
 
 
-export default observer(ProductsTree);
+export default observer(InvoicesList);
