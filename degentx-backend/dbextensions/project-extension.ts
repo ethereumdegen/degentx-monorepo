@@ -9,6 +9,7 @@ import mongoose, {Mongoose, Schema, Model, model, Require_id, InferSchemaType} f
       
         name: { type:String, required:true,  indexed: true  },
         ownerAddress: {type:String,required:true,  indexed: true },
+        status:{type:String, default:'active'}
       
       
     } 

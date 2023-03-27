@@ -79,9 +79,13 @@ export default class ProductController {
     }
 
    
-    const results = await Product.find({projectId: projectId, ownerAddress:publicAddress, status: 'active'})
+    const product = await Product.find({
+      projectId: projectId, 
+        status: 'active'})
 
-    return {success:true, data : results}
+        
+
+    return {success:true, data : product}
 
 
   }

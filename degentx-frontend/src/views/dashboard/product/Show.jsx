@@ -6,13 +6,14 @@ import ApiKeyRow from "@/views/components/api-key-row/Main.jsx";
 
 import { useState, useEffect } from 'react';
  
-import { useOutletContext } from 'react-router-dom';
+import { useOutletContext, useParams } from 'react-router-dom';
 
 import { observer } from "mobx-react";
 import {observe} from 'mobx'
 
 import { Tab } from "@/views/base-components/Headless";
-import SimpleButton from "@/views/components/simple-button/Main"
+import SimpleButton from "@/views/components/simple-button/Main" 
+import TinyBadge from "@/views/components/tiny-badge/Main"
 
 import { getBackendServerUrl } from '@/lib/app-helper'
 
@@ -25,39 +26,20 @@ function Main(  ) {
     const [web3Store] = useOutletContext(); // <-- access context value
 
     console.log('web3Store' , web3Store)
-
-    let statusFilter 
  
-    const [apiKeys, apiKeysSet] = useState(null) 
-
-
  
-    const createApiKey = async () => {
-      console.log('start create key')
-      const backendApiUri = `${getBackendServerUrl()}/v1/apikey`
-      let response = await axios.post(backendApiUri,{
-       
-          publicAddress: web3Store.account,
-          authToken: web3Store.authToken 
-        
-      }) 
-  
-      if(!response || !response.data ) return undefined 
-  
-      console.log({response})
-
-      loadApiKeys()
-    //  let {apiKeys} = response.data.data
-  
-      //return apiKeys 
-    }
+    const [product, productSet] = useState(null) 
 
 
-  const fetchApiKeys = async () => {
-    console.log('start fetch keys')
-    const backendApiUri = `${getBackendServerUrl()}/v1/apikeys`
+    const { productId } = useParams();
+  
+
+  const fetchProduct = async () => {
+    console.log('start fetch product')
+    const backendApiUri = `${getBackendServerUrl()}/v1/product`
     let response = await axios.get(backendApiUri,{
       params:{
+        productId,
         publicAddress: web3Store.account,
         authToken: web3Store.authToken 
       }
@@ -66,38 +48,21 @@ function Main(  ) {
     if(!response || !response.data ) return undefined 
 
     console.log({response})
-    let apiKeys = response.data.data
+    let product = response.data.data
 
-    return apiKeys 
+    return product 
   }
  
-/*
-   useEffect(() => {
-      async function loadApiKeys() {
-        console.log('loading api keys')
+
+
+   const loadProduct = async (newFilter) => {
+    console.log('loading product')
        
         try{ 
-          const keys = await fetchApiKeys()
-          console.log({keys})
+          const product = await fetchProduct()
+          console.log({product})
 
-          apiKeysSet(keys)
-        }catch(e){
-          console.error(e)
-        }
-      }
-
-      //loadApiKeys()
-   })*/
-
-
-   const loadApiKeys = async (newFilter) => {
-    console.log('loading api keys')
-       
-        try{ 
-          const keys = await fetchApiKeys()
-          console.log({keys})
-
-          apiKeysSet(keys)
+          productSet(product)
         }catch(e){
           console.error(e)
         }
@@ -109,32 +74,16 @@ function Main(  ) {
   
   observe(web3Store, 'authorized', function() {
     console.log('acct:', web3Store.account);
-    loadApiKeys()
+    loadProduct()
   });
    
 
  //load api keys on mount 
  useEffect(()=>{
-  loadApiKeys()
+  loadProduct()
 }, []) // <-- empty dependency array
 
-
-/*
-    useEffect(() => {
-      const pollForPending = setInterval(async () => {
-        console.log('fetch pending')
-        const pendingTransaction = await fetchPendingTransaction()
-  
-        pendingTransactionSet(pendingTransaction)
-      }, 5000);
-
-      return () => clearInterval(pollForPending); // This represents the unmount function, in which you need to clear your interval to prevent memory leaks.
-    }, [])
-    
-    
-    */
-
-  
+ 
 
 
 
@@ -145,101 +94,47 @@ function Main(  ) {
       </div>
       <div className="intro-y box pt-4 px-5 pb-4 mt-2 flex flex-col items-center">
       
-        <div className="flex flex-row w-full"> 
-          <div className="flex flex-grow"></div>
-          {web3Store.authorized && <div className="flex ">
-            <SimpleButton
-            customClass="hover:bg-slate-300"
-            clicked={() => createApiKey()}
-            >  New Api Key </SimpleButton> 
-          </div> }
-        </div>
-
-
-
-
-    
-
-
-
+     
+ 
 
         <div className="pt-4 px-2 pb-16 w-full">
       
       
         {/* BEGIN:   Title */}
-        <div className="text-center">
-          <div className="text-xl  mt-5">
-            API Keys
+        {product && 
+        <div className=" mt-2 mb-5 ">
+          <div className="text-xl   my-2 ">
+          {product.name}
           </div>
-          <div className="text-base text-slate-500 mt-3">
-           
-          </div>
+          <TinyBadge
+            customClass="my-2 bg-black text-white"
+          >
+           product
+          </TinyBadge>
+         
           <a href="" className="  block text-primary text-base">
              
           </a>
         </div>
+        }
         {/* END: Tx Title */}
         {/* BEGIN: Tx Content */}
 
         <div className="w-full">
 
+ 
 
-{/*
-   <Tab.Group>
-    <Tab.List variant="boxed-tabs">
-        <Tab>
-            <Tab.Button className="w-full py-2" as="button" clicked={()=>{setStatusFilter(undefined)}}>
-                All
-            </Tab.Button>
-        </Tab>
-        <Tab>
-            <Tab.Button className="w-full py-2" as="button" clicked={()=>{setStatusFilter('pending')}}>
-                Pending
-            </Tab.Button> 
-        </Tab>
-        <Tab>
-            <Tab.Button className="w-full py-2" as="button" clicked={()=>{setStatusFilter('finalized')}}>
-                Finalized
-            </Tab.Button>             
-        </Tab>
-        <Tab>
-            <Tab.Button className="w-full py-2" as="button" clicked={()=>{setStatusFilter('denied')}}>
-                Denied
-            </Tab.Button> 
-        </Tab>
-    </Tab.List> 
-    <Tab.Panels className="mt-5">
-        <Tab.Panel className="leading-relaxed">
-          </Tab.Panel>
-          <Tab.Panel className="leading-relaxed">
-          </Tab.Panel>
-          <Tab.Panel className="leading-relaxed">
-          </Tab.Panel>
-          <Tab.Panel className="leading-relaxed">
-          </Tab.Panel>
-    </Tab.Panels>
+      {!web3Store.authorized  && 
+      
+      <div className="px-4 py-16 text-lg font-bold">
 
-</Tab.Group> 
-  */ }
-
-      {!web3Store.authorized  && <div className="px-4 py-16 text-lg font-bold"> Sign in to view your api keys </div>}
+         Sign in to view your product
+         
+         </div>}
           
           
 
-          {web3Store.account && apiKeys && apiKeys.map((item,index)=>{ 
-            return (
-
-              <ApiKeyRow
-                key={item._id}
-                web3Store ={web3Store}
-                apiKeyData = {item}
-
-                        
-              ></ApiKeyRow>
-
           
-            )
-          })}
         </div>
             
     

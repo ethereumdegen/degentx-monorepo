@@ -54,9 +54,7 @@ function Dashboard() {
            
            slot={<div> </div>} 
          
-         /> 
-  
-
+         />  
 
      
       {/* BEGIN: Side Menu */}
@@ -90,7 +88,7 @@ function Dashboard() {
       </div>
 
 
-        <div className="content">
+        <div className="content relative">
           <Outlet 
           
           context={[web3Store]}

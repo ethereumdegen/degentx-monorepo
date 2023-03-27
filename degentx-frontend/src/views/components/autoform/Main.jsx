@@ -2,6 +2,12 @@ import { useState } from 'react';
 
 import { observer } from "mobx-react";
 
+import {
+    Lucide, 
+  } from "@/base-components";
+ 
+
+
 function AutoForm({ architecture, onSubmit }) {
   const [formData, setFormData] = useState({});
 
@@ -88,6 +94,7 @@ function AutoForm({ architecture, onSubmit }) {
               onChange={handleChange}
             />
           )}
+
           {field.type === 'textarea' && (
             <textarea
               name={field.name}
@@ -101,12 +108,17 @@ function AutoForm({ architecture, onSubmit }) {
           )}
         </div>
       ))}
-      <button
-        type="submit"
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-      >
-        Submit
-      </button>
+
+      <div className="flex flex-row">
+        <div className="flex-grow"></div>
+        <button
+            type="submit"
+            className="bg-black hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        >
+           Submit
+        </button>
+      </div>
+
     </form>
   );
 }

@@ -41,7 +41,7 @@ function ProductRow({web3Store, productData}) {
         <div> 
           {productData && <div 
           className={`mx-4 p-2 capitalize font-bold bg-slate-200 border-2 border-gray-400 cursor-pointer`}
-          onClick={()=>{navigate(`/dashboard/product/${productData.key}`)}}
+          onClick={()=>{navigate(`/dashboard/product/${productData._id}`)}}
           > 
             View
           </div>}

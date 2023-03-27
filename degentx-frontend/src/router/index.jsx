@@ -14,9 +14,12 @@ import Metadata from '../views/pages/metadata.md'
 import ErrorPage from "../views/error-page/Main";
 
   
-import ProductIndex from "../views/dashboard/product/Index"
-
+//import ProductIndex from "../views/dashboard/product/Index"
 import ProductShow from "../views/dashboard/product/Show"
+
+  
+import ProjectIndex from "../views/dashboard/project/Index"
+import ProjectShow from "../views/dashboard/project/Show"
     
 function Router() {
   const routes = [
@@ -60,11 +63,16 @@ function Router() {
         {
           path: "/dashboard",
           element: <DashboardView />,
-        },      
+        },   
         {
-          path: "/dashboard/products",
-          element: <ProductIndex />,
+          path: "/dashboard/projects",
+          element: <ProjectIndex />,
         },
+        {
+          path: "/dashboard/project/:projectId",
+          element: <ProjectShow />,
+        },   
+        
         {
           path: "/dashboard/product/:productId",
           element: <ProductShow />,

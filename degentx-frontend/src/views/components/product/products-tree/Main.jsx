@@ -29,6 +29,8 @@ function ProductsTree({web3Store, products, onProductsChanged}) {
 
 
  const toggleNewProjectModal = () => setNewProjectModalIsOpen(!isNewProjectModalOpen);
+ const closeNewProjectModal = () => setNewProjectModalIsOpen(false);
+
 
 
 const projectFormArchitecture = {
@@ -44,29 +46,7 @@ const projectFormArchitecture = {
   return (
      <div>
     
-      <div className="absolute z-10">
-        <div className="flex justify-center items-center h-screen">
-        <Modal 
-        title={'Create New Project'}
-        isOpen={isNewProjectModalOpen}
-        closeModal={toggleNewProjectModal}
-         >
- 
-                <AutoForm 
-                    architecture={projectFormArchitecture}
-                    onSubmit={(formdata) => createProject( {
-                        name:formdata.name ,
-                        publicAddress: web3Store.account,
-                        authToken: web3Store.authToken,
-                        onFinished: onProductsChanged
-                    })}
-                
-                />
-
-        </Modal>
-        </div>
-      </div>
-
+     
  
 
 
@@ -92,17 +72,7 @@ const projectFormArchitecture = {
 
 
          
-        <div className="flex flex-row w-full"> 
-            <div className="flex flex-grow text-center">
-          
-              <SimpleButton
-              customClass="hover:bg-slate-300"
-              clicked={() => toggleNewProjectModal()}  
-              >  Add Project </SimpleButton> 
-
-            </div>
-            
-          </div> 
+     
 
   </div>
   );

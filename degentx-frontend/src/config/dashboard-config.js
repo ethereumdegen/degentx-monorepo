@@ -35,10 +35,11 @@ const config = {
 
             {
               icon: "MessageSquare",
-              title: "Products",
-              pathname: "/dashboard/products",             
+              title: "Projects",
+              pathname: "/dashboard/projects",             
               
             },
+ 
       
             {
               icon: "MessageSquare",

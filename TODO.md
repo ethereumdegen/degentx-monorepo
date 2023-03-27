@@ -32,7 +32,7 @@ PRODUCT: Advanced Guide - one time payment of $5 of 0xbtc
 ### BUGS 
 
 -connect is unreliable w metamask 
-
+Since strict-mode is enabled, changing (observed) observable values without using an action is not allowed. Tried to modify: Web3Store@5.active
 
   
  
