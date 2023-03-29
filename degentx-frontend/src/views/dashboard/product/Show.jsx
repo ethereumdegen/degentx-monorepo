@@ -19,6 +19,7 @@ import TinyBadge from "@/views/components/tiny-badge/Main"
 import { getBackendServerUrl } from '@/lib/app-helper'
 
 import ProductInvoicesList from "@/views/components/invoice/product-invoices-list/Main"
+import SignInRequiredWarning from "@/views/components/sign-in-required-warning/Main"
 
 
 function Main(  ) {
@@ -125,15 +126,14 @@ function Main(  ) {
 
  
 
-       {!web3Store.authorized  && 
+
+        <SignInRequiredWarning
+        authorized={web3Store.authorized}            
+      >
+          Sign in to view your product
+      </SignInRequiredWarning> 
+
       
-         <div className="px-4 py-16 text-lg font-bold">
-
-           Sign in to view your product
-         
-         </div>
-
-         }
         
         {web3Store.authorized && product &&
 

@@ -26,7 +26,7 @@ function Main(  ) {
 
     let statusFilter 
  
-    const [apiKeys, apiKeysSet] = useState(null) 
+   // const [apiKeys, apiKeysSet] = useState(null) 
 
 
    observe(web3Store, 'account', function() {
@@ -35,7 +35,7 @@ function Main(  ) {
   
   observe(web3Store, 'authorized', function() {
     console.log('acct:', web3Store.account);
-    loadApiKeys()
+   // loadApiKeys()
   });
    
 

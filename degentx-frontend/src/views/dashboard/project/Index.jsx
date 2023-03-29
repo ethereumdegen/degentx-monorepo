@@ -16,6 +16,7 @@ import SimpleButton from "@/views/components/simple-button/Main"
 import ProjectsTree from "@/views/components/project/projects-tree/Main.jsx"
 
 import { getBackendServerUrl } from '@/lib/app-helper'
+import SignInRequiredWarning from "@/views/components/sign-in-required-warning/Main"
 
 
 
@@ -126,11 +127,14 @@ function Main(  ) {
 
  
 
-      {!web3Store.authorized  && <div className="px-4 py-16 text-lg font-bold"> 
-     
-      Sign in to view your projects
-      
-      </div>}
+      <SignInRequiredWarning
+        authorized={web3Store.authorized}            
+      >
+        Sign in to view your projects
+      </SignInRequiredWarning> 
+
+
+    
            
 
          {web3Store.account && web3Store.authorized && !projects &&  

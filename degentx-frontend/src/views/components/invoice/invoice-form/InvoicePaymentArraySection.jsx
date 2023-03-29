@@ -43,7 +43,7 @@ function InvoicePaymentElementSection({     }) {
 
       <div>
 
-      <div class="inline-block">
+      <div className="inline-block">
 
 
         <SimpleButton
