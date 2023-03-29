@@ -95,7 +95,7 @@ export default class InvoiceController {
    
     const sanitizeResponse = sanitizeAndValidateInputs(req.fields , [  
       { key: 'invoice', type: ValidationType.payspecinvoice, required: true},
-      { key: 'paymentEffects' , type: ValidationType.payspecpaymenteffect, shouldBeArray: true, required: false }
+      { key: 'paymentEffects' , type: ValidationType.payspecpaymenteffect, shouldBeArray: true, required: false },
        
       { key: 'publicAddress', type: ValidationType.publicaddress, required: true },
       { key: 'authToken', type: ValidationType.string, required: true },  
@@ -116,7 +116,7 @@ export default class InvoiceController {
     /*
       require that the protocol fee is included or else we reject with an error 
 
-      
+    
     */
 
     /*

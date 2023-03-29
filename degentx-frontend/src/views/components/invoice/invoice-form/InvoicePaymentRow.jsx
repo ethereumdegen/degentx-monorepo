@@ -9,7 +9,7 @@ import {
  
  
 
-function InvoicePaymentRow({  currentRowData, onUpdatedPayToAddress, onUpdatedPayToAmount   }) {
+function InvoicePaymentRow({  currentRowData, onUpdatedPayToAddress, onUpdatedPayToAmount, onRemoveRow   }) {
   const [formData, setFormData] = useState({});
 
   {/*
@@ -39,6 +39,24 @@ function InvoicePaymentRow({  currentRowData, onUpdatedPayToAddress, onUpdatedPa
         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         onChange={(event)=>{onUpdatedPayToAmount(event.target.value)}}
       />
+
+      <div className="p-4 mx-4">
+
+      <Lucide 
+      icon="X" className="
+      w-4 h-4 mr-1 
+      cursor-pointer 
+      p-4
+       rounded bg-slate-700 
+       text-white font-bold"
+      onClick={()=>{
+        
+        onRemoveRow()
+      }}
+      />
+               
+
+      </div>
       
 
         

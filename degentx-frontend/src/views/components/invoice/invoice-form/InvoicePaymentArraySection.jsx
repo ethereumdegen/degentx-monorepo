@@ -24,6 +24,19 @@ function InvoicePaymentElementSection({  onUpdated   }) {
     })
 
     setPaymentRows(newPaymentRows)
+   onUpdated('paymentRowsData',[...newPaymentRows])
+
+  }
+
+  const removePaymentRow= (index) => {
+
+    let newPaymentRows = [...paymentRows]
+    
+    newPaymentRows.splice(index)
+
+    setPaymentRows(newPaymentRows)
+     onUpdated('paymentRowsData',[...newPaymentRows])
+
   }
 
 
@@ -60,10 +73,12 @@ function InvoicePaymentElementSection({  onUpdated   }) {
       <div>
       {paymentRows && Array.isArray(paymentRows) &&  paymentRows.map((paymentRow, index) => (
            <InvoicePaymentRow
+            key={index}
               currentRowData={paymentRow}
               onUpdatedPayToAddress={(updatedAddress) => updatePaymentRowInput(index,'address',updatedAddress)}
               onUpdatedPayToAmount={(updatedAmount) => updatePaymentRowInput(index,'amount',updatedAmount)}
-           /> 
+              onRemoveRow={()=>{removePaymentRow(index)}}
+              /> 
       ))}
       </div>  
 
