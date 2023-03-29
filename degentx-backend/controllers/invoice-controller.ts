@@ -112,6 +112,13 @@ export default class InvoiceController {
 
     //do something w payment effects  -- tie to db and link 
 
+
+    /*
+      require that the protocol fee is included or else we reject with an error 
+
+      
+    */
+
     /*
     let projectOwnerAddress = await getProjectOwnerAddress(projectId)
     if( !projectOwnerAddress || projectOwnerAddress != publicAddress ){
