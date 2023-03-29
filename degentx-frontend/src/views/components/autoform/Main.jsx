@@ -30,6 +30,9 @@ import {
 function AutoForm({ architecture, onSubmit }) {
   const [formData, setFormData] = useState({});
 
+  /*
+  this updates our formdata from simple components like <input>
+  */
   const handleChange = (event) => {
     
     setFormData({
@@ -38,17 +41,17 @@ function AutoForm({ architecture, onSubmit }) {
     });
   };
 
-
+  /*
+  this updates our formdata from advanced custom components
+  */
   const handleUpdate = (key, val) => {
     
     setFormData({
       ...formData,
       [key]:val,
     });
+ 
 
-
-    console.log('handle update', formData)
-    
   };
 
   const handleSubmit = (event) => {

@@ -152,7 +152,7 @@ function Main(  ) {
 
           
                 //build me !!  from formdata 
-                const paymentsArray = [] 
+                const paymentsArray = formData.paymentRowsData
           
                 console.log({paymentsArray})
 
