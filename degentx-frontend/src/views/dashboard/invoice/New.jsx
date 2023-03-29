@@ -22,6 +22,13 @@ import InvoicesList from "@/views/components/invoice/invoices-list/Main"
 import AutoForm from '@/views/components/autoform/Main.jsx'
 import InvoiceForm from '@/views/components/invoice/invoice-form/Main.jsx'
 
+
+import {addInvoice} from "@/lib/invoice-lib"
+import {getCurrencyTokenAddress} from 'payspec-js'
+
+ 
+
+
 function Main(  ) {
  
      
@@ -109,20 +116,73 @@ function Main(  ) {
         <div className="flex flex-col">
 
          
-            <div className="px-4 py-16 text-lg font-bold">
+            <div className="px-4 mb-16 text-lg font-bold">
                
             </div>
              
 
             <div>
 
+
+              { /*  
+              1. select fields dont assume a default value unfortunately 
+
+              2. allow for removing a payment element row !!! 
+
+
+              */}
+
           
             <InvoiceForm
               
-              onSubmit={(data) => {
-                console.log('data:', data);
+              onSubmit={async (formData) => {
+                console.log('create invoice starting with:', formData);
 
-                //createInvoice(data) 
+                let description = formData.name 
+
+                const chainId = formData.network
+
+
+                const tokenAddress = getCurrencyTokenAddress({
+                  tokenName: formData.token,
+                  chainId
+                })
+
+                console.log({description})
+
+          
+                //build me !!  from formdata 
+                const paymentsArray = [] 
+          
+                console.log({paymentsArray})
+
+
+                //build me !! from formdata 
+                const paymentEffects = [] 
+
+                console.log({paymentEffects})
+
+
+
+                let created = await addInvoice( {
+
+                  chainId,
+                  description,
+
+                  tokenAddress,
+                  paymentsArray,
+
+                  paymentEffects, 
+
+                  ownerAddress: web3Store.account,
+                  authToken: web3Store.authToken 
+
+                } ) 
+
+
+                console.log({created})
+
+
               }
             }
             />

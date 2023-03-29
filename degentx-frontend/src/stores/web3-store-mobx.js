@@ -25,7 +25,7 @@ export class Web3Store {
     signer = undefined 
     account=undefined
     active=false
-    balance=0
+  //  balance=0
     chainId=undefined 
 
     transactionCount = undefined 
@@ -47,7 +47,7 @@ export class Web3Store {
             signer: observable,
             account: observable,
             active: observable,
-            balance: observable,
+        //    balance: observable,
             challenge: observable,
             authToken: observable,
             authorized: observable, 
@@ -73,15 +73,15 @@ export class Web3Store {
       console.log("Account:", await this.signer.getAddress());
       let account = await this.signer.getAddress()
 
-      let balance = await this.signer.getBalance()
-      let balanceFormatted = ethers.utils.formatEther(balance)
+    //  let balance = await this.signer.getBalance()
+      //let balanceFormatted = ethers.utils.formatEther(balance)
 
       const { chainId } = await this.provider.getNetwork()
 
   
 
       this.account = account 
-      this.balance = balance 
+     // this.balance = balance 
       this.active = true 
       this.chainId = chainId 
       

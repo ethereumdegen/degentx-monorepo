@@ -10,7 +10,7 @@ import {
  
  import InvoicePaymentRow from './InvoicePaymentRow';
 
-function InvoicePaymentElementSection({     }) {
+function InvoicePaymentElementSection({  onUpdated   }) {
   const [paymentRows, setPaymentRows] = useState( [] );
 
   
@@ -19,11 +19,35 @@ function InvoicePaymentElementSection({     }) {
 
     let newPaymentRows = [...paymentRows]
     newPaymentRows.push({
-      payToAddress: '',
-      payToAmount: ''
+      payToAddress: '0x...',
+      payToAmount: '0'
     })
 
     setPaymentRows(newPaymentRows)
+  }
+
+
+  const updatePaymentRowInput = (index,fieldName,value) => {
+
+    const paymentRowsData = [...paymentRows]
+
+    paymentRowsData[index] = Object.assign({},paymentRowsData[index]);
+
+    if(fieldName == 'address'){
+      paymentRowsData[index].payToAddress = value
+    }else if(fieldName == 'amount'){
+      paymentRowsData[index].payToAmount = value
+    }else {
+      throw new Error('Unknown field type:',fieldName)
+    }
+ 
+    //to send back down to children for rendering 
+    setPaymentRows([...paymentRowsData])
+
+    //to send to callback up to parent 
+    onUpdated('paymentRowsData',[...paymentRowsData])
+
+
   }
 
   return (
@@ -34,9 +58,11 @@ function InvoicePaymentElementSection({     }) {
       </div>   
 
       <div>
-      {paymentRows && Array.isArray(paymentRows) &&  paymentRows.map((paymentRow) => (
+      {paymentRows && Array.isArray(paymentRows) &&  paymentRows.map((paymentRow, index) => (
            <InvoicePaymentRow
-           
+              currentRowData={paymentRow}
+              onUpdatedPayToAddress={(updatedAddress) => updatePaymentRowInput(index,'address',updatedAddress)}
+              onUpdatedPayToAmount={(updatedAmount) => updatePaymentRowInput(index,'amount',updatedAmount)}
            /> 
       ))}
       </div>  

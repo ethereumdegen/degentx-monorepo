@@ -9,7 +9,7 @@ import {
  
  
 
-function InvoicePaymentRow({   handleChange   }) {
+function InvoicePaymentRow({  currentRowData, onUpdatedPayToAddress, onUpdatedPayToAmount   }) {
   const [formData, setFormData] = useState({});
 
   {/*
@@ -23,10 +23,10 @@ function InvoicePaymentRow({   handleChange   }) {
       type="text"
       name="payToAddress"
       placeholder="Pay To Address"
+      value={currentRowData.payToAddress}
       required={true}
       className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-   
-      
+      onChange={(event)=>{onUpdatedPayToAddress(event.target.value)}}
       />
      
 
@@ -34,9 +34,10 @@ function InvoicePaymentRow({   handleChange   }) {
         type="text"
         name="payAmount"
         placeholder="Pay Amount"
+        value={currentRowData.payToAmount}
         required={true}
         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-  
+        onChange={(event)=>{onUpdatedPayToAmount(event.target.value)}}
       />
       
 

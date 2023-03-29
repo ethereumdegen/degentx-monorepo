@@ -16,6 +16,7 @@ export enum ValidationType {
     publicaddress = 'publicaddress',
     pagination = 'pagination',
     payspecinvoice = 'payspecinvoice',
+    payspecpaymenteffect = 'payspecpaymenteffect'
      
   }
 
@@ -151,6 +152,17 @@ export enum ValidationType {
         amountsDueArrayStringified:  sanitizeInput(input.amountsDueArrayStringified, ValidationType.string),
         expiresAt: sanitizeInput(input.expiresAt, ValidationType.string ),
         invoiceUUID: sanitizeInput(input.invoiceUUID, ValidationType.string)
+
+      }  
+    }
+
+    if (type == ValidationType.payspecpaymenteffect) {
+      return {
+
+        type: sanitizeInput(input.type, ValidationType.string),
+        invoiceUUID: sanitizeInput(input.invoiceUUID, ValidationType.string),
+        referenceId: sanitizeInput(input.referenceId, ValidationType.string),
+        targetPublicAddress: sanitizeInput(input.targetPublicAddress, ValidationType.publicaddress)
 
       }  
     }

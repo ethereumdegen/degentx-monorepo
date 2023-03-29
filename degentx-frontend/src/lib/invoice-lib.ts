@@ -9,6 +9,7 @@ import { getBackendServerUrl } from "./app-helper"
 import {
  
     PayspecPaymentElement,
+    PayspecPaymentEffect,
   
     PayspecInvoice,
      
@@ -32,12 +33,40 @@ import {
 
 */
 
+enum PayspecEffectType {
+
+    GRANT_PRODUCT_ACCESS 
+    
+}
+
+
+interface PayspecPaymentEffect{
+
+    type: PayspecEffectType, 
+
+    invoiceUUID: string, //triggers when this invoice is paid 
+
+
+
+    referenceId: string, //a product id for example 
+
+    targetPublicAddress: string, 
+
+
+}
+
+/*
+
+ 
+*/
 
 export async function addInvoice({
     chainId, 
     description, 
     tokenAddress, 
     paymentsArray,
+
+    paymentEffects,
 
     ownerAddress,
     authToken,
@@ -48,6 +77,8 @@ export async function addInvoice({
     description: string,
     tokenAddress:string, 
     paymentsArray:PayspecPaymentElement[],
+
+    paymentEffects: PayspecPaymentEffect[], 
 
     ownerAddress: string, 
     authToken:string, 
@@ -70,6 +101,9 @@ export async function addInvoice({
     const backendApiUri = `${getBackendServerUrl()}/v1/invoice`
     let response = await axios.post(backendApiUri,{
         invoice,
+
+        paymentEffects,
+
         publicAddress: ownerAddress,//: web3Store.account,
         authToken//: web3Store.authToken 
       

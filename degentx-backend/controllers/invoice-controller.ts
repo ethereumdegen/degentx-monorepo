@@ -95,6 +95,7 @@ export default class InvoiceController {
    
     const sanitizeResponse = sanitizeAndValidateInputs(req.fields , [  
       { key: 'invoice', type: ValidationType.payspecinvoice, required: true},
+      { key: 'paymentEffects' , type: ValidationType.payspecpaymenteffect, shouldBeArray: true, required: false }
        
       { key: 'publicAddress', type: ValidationType.publicaddress, required: true },
       { key: 'authToken', type: ValidationType.string, required: true },  
@@ -102,12 +103,16 @@ export default class InvoiceController {
 
     if(!isAssertionSuccess(sanitizeResponse)) return sanitizeResponse
 
-    const { authToken, publicAddress, invoice } = sanitizeResponse.data;
- 
+    const { authToken, publicAddress, paymentEffects, invoice } = sanitizeResponse.data;
+    
 
     let authTokenValidationResponse = await validateAuthToken({publicAddress, authToken})
     if(!isAssertionSuccess(authTokenValidationResponse)) return authTokenValidationResponse;
-/*
+
+
+    //do something w payment effects  -- tie to db and link 
+
+    /*
     let projectOwnerAddress = await getProjectOwnerAddress(projectId)
     if( !projectOwnerAddress || projectOwnerAddress != publicAddress ){
       return {success: false, error:"Not the owner of this project"}
@@ -136,6 +141,15 @@ export default class InvoiceController {
     //should return the uuid !! 
 
     return {success:true, data: result}
+
+
+  }
+
+
+
+  addPaymentEffectToInvoice : ControllerMethod = async (req:any) => {
+
+
 
 
   }

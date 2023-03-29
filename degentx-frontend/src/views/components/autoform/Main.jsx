@@ -31,10 +31,24 @@ function AutoForm({ architecture, onSubmit }) {
   const [formData, setFormData] = useState({});
 
   const handleChange = (event) => {
+    
     setFormData({
       ...formData,
       [event.target.name]: event.target.value,
     });
+  };
+
+
+  const handleUpdate = (key, val) => {
+    
+    setFormData({
+      ...formData,
+      [key]:val,
+    });
+
+
+    console.log('handle update', formData)
+    
   };
 
   const handleSubmit = (event) => {
@@ -60,7 +74,7 @@ function AutoForm({ architecture, onSubmit }) {
               required={field.required}
           //    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           //    value={formData[field.name] || ''}
-              onChange={handleChange}
+              onUpdated={handleUpdate}
             >
               
             </field.type>
