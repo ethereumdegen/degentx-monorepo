@@ -49,6 +49,24 @@ function AutoForm({ architecture, onSubmit }) {
           <label htmlFor={field.name} className="block text-gray-700 font-bold mb-2">
             {field.label}
           </label>
+         
+
+
+            {/*custom component support*/}
+          {typeof field.type != 'string' && (
+            <field.type
+              name={field.name}
+              id={field.name}
+              required={field.required}
+          //    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          //    value={formData[field.name] || ''}
+              onChange={handleChange}
+            >
+              
+            </field.type>
+          )}
+          
+
           {field.type === 'text' && (
             <input
               type="text"
@@ -61,7 +79,6 @@ function AutoForm({ architecture, onSubmit }) {
               onChange={handleChange}
             />
           )}
-
 
            {field.type === 'select' && (
             <select

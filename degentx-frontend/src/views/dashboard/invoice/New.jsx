@@ -20,6 +20,7 @@ import { getBackendServerUrl } from '@/lib/app-helper'
 import InvoicesList from "@/views/components/invoice/invoices-list/Main"
 
 import AutoForm from '@/views/components/autoform/Main.jsx'
+import InvoiceForm from '@/views/components/invoice/invoice-form/Main.jsx'
 
 function Main(  ) {
  
