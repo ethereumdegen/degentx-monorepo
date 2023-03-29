@@ -11291,6 +11291,15 @@ payspec-js@^0.16.0:
     ts-node "^9.1.1"
     web3-utils "^1.7.3"
 
+payspec-js@^0.23.0:
+  version "0.23.2"
+  resolved "https://registry.yarnpkg.com/payspec-js/-/payspec-js-0.23.2.tgz#24e3fc2ac849fdeef6514b1f9452484482c930e0"
+  integrity sha512-bWwNUiW6K6DtxIXVUvla2Op3VvxxjD95oNfDMv9s5FIwkgzQf1JZflRTcuCjO6WhQqkU/OZaVCGWqxr9kcANng==
+  dependencies:
+    ethers "^5.6.4"
+    ts-node "^9.1.1"
+    web3-utils "^1.7.3"
+
 payspec-js@^0.23.1:
   version "0.23.1"
   resolved "https://registry.yarnpkg.com/payspec-js/-/payspec-js-0.23.1.tgz#5d222dc35b239687c724c5897e9e0f32ecb74eda"
