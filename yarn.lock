@@ -11291,19 +11291,10 @@ payspec-js@^0.16.0:
     ts-node "^9.1.1"
     web3-utils "^1.7.3"
 
-payspec-js@^0.22.0:
-  version "0.22.0"
-  resolved "https://registry.yarnpkg.com/payspec-js/-/payspec-js-0.22.0.tgz#b5900c2fad95a9462f086d4eb0d55945edf70e5b"
-  integrity sha512-IR9GZR71o83VM5YcxKVHWASG/k51kUJ+sJb8Vsx+Bw6eSCycBoqJPGflplVB3Kj9lv1PpClgVkXd6uKG0W6YSQ==
-  dependencies:
-    ethers "^5.6.4"
-    ts-node "^9.1.1"
-    web3-utils "^1.7.3"
-
-payspec-js@^0.22.1:
-  version "0.22.1"
-  resolved "https://registry.yarnpkg.com/payspec-js/-/payspec-js-0.22.1.tgz#717cae2151aa5809fb94a2fbda760b134d70a173"
-  integrity sha512-nk2iwqYJhFld3nxHsbATWb2uf6Ylz9uw4C6ndX1GciHxfs+iSMbDguQpiITZU+RDMTHS7aConFeJksnhRz+GWQ==
+payspec-js@^0.23.1:
+  version "0.23.1"
+  resolved "https://registry.yarnpkg.com/payspec-js/-/payspec-js-0.23.1.tgz#5d222dc35b239687c724c5897e9e0f32ecb74eda"
+  integrity sha512-s3iZCJ+oHlYcUe/6wfoEL4OayZHluDRkieNTUNh0ptn7lBh2wY/msXCF172uQOyy3yc2kZPmc5b0ng/pNRtBDQ==
   dependencies:
     ethers "^5.6.4"
     ts-node "^9.1.1"

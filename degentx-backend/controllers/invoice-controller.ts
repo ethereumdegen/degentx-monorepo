@@ -102,24 +102,38 @@ export default class InvoiceController {
 
     if(!isAssertionSuccess(sanitizeResponse)) return sanitizeResponse
 
-    const {publicAddress, authToken, name, projectId } = sanitizeResponse.data;
+    const { authToken, publicAddress, invoice } = sanitizeResponse.data;
  
 
     let authTokenValidationResponse = await validateAuthToken({publicAddress, authToken})
     if(!isAssertionSuccess(authTokenValidationResponse)) return authTokenValidationResponse;
-
-  
+/*
     let projectOwnerAddress = await getProjectOwnerAddress(projectId)
     if( !projectOwnerAddress || projectOwnerAddress != publicAddress ){
       return {success: false, error:"Not the owner of this project"}
-    }
+    }*/
 
-    console.log({projectOwnerAddress})
+  //  console.log({projectOwnerAddress})
+
+
+
+
+    //should validate the invoice here !! using payspec-js ... validate the stringified arrays for example 
+
+
+
     const result = await PayspecInvoice.create({
-      ownerAddress:publicAddress,
-      name: name ,
-      projectId : projectId
+      payspecContractAddress: invoice.payspecContractAddress,
+      description: invoice.description,
+      nonce: invoice.nonce,
+      token: invoice.token,
+      totalAmountDue: invoice.totalAmountDue,
+      payToArrayStringified: invoice.payToArrayStringified,
+      amountsDueArrayStringified: invoice.amountsDueArrayStringified,
+      expiresAt: invoice.expiresAt
     })
+
+    //should return the uuid !! 
 
     return {success:true, data: result}
 
