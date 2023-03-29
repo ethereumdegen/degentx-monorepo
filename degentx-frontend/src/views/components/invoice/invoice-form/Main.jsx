@@ -9,10 +9,10 @@ import {
  import AutoForm from '@/views/components/autoform/Main'
  import InvoicePaymentArraySection from './InvoicePaymentArraySection'
 
-
 import {getCurrencyTokenAddress} from 'payspec-js'
 
 
+//WHY IS THIS CRASHING THE APP ?
 import { addInvoice } from '@/lib/invoice-lib';
 
   const architecture = {
@@ -79,7 +79,7 @@ function InvoiceForm({   onSubmit }) {
     architecture={architecture} 
 
     
-    onSubmit={ (  ) =>{
+    onSubmit={ async( formData ) =>{
 
       console.log('on submit invoice')
 
@@ -96,15 +96,15 @@ function InvoiceForm({   onSubmit }) {
 
       console.log({paymentsArray})
 
-
-      addInvoice( {
+      /*
+      let added = await addInvoice( {
         chainId: formData.network,
         description: formData.name,
         tokenAddress ,
         paymentsArray ,
 
 
-      })
+      })*/
 
     }}
     

@@ -20,16 +20,15 @@
     "cors": "^2.8.5",
     "degen-route-loader": "^0.35",
     "dotenv": "^16.0.0",
-    "ethereumjs-util": "^7.1.5",
+  
     "ethers": "^5.7.2",
     "express": "^4.18.2",
     "express-formidable": "^1.2.0",
     "mongoose": "^6.9.0",
-    "payspec-js": "^0.23.1",
+    "payspec-js": "^0.25.0",
     "ts-mocha": "^9.0.2",
     "typechain": "^5.1.1",
-    "typescript": "^4.6.4",
-    "web3-utils": "^1.8.1"
+    "typescript": "^4.6.4"
   },
   "devDependencies": {
     "@babel/cli": "^7.10.5",
