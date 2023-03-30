@@ -96,7 +96,7 @@ function InvoicePaymentElementSection({  onUpdated   }) {
         >
          <Lucide icon="PlusCircle" className="w-8 h-8 mr-2" />
 
-          Add new payment row
+          Add new payment effect
         </SimpleButton>
       </div>
       </div>

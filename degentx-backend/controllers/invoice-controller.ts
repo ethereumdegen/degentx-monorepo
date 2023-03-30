@@ -120,19 +120,12 @@ export default class InvoiceController {
 
     
     */
-
-    /*
-    let projectOwnerAddress = await getProjectOwnerAddress(projectId)
-    if( !projectOwnerAddress || projectOwnerAddress != publicAddress ){
-      return {success: false, error:"Not the owner of this project"}
-    }*/
-
-  //  console.log({projectOwnerAddress})
+  
 
 
 
-
-    //should validate the invoice here !! using payspec-js ... validate the stringified arrays for example 
+    //should validate the invoice here !! using payspec-js
+    /// ... validate the stringified arrays for example 
 
 
 

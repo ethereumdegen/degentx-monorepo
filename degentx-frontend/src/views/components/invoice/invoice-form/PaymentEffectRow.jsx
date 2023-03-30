@@ -9,7 +9,7 @@ import {
  
  
 
-function InvoicePaymentRow({  currentRowData, onUpdatedPayToAddress, onUpdatedPayToAmount, onRemoveRow   }) {
+function PaymentEffectRow({  currentRowData, onUpdatedPayToAddress, onUpdatedPayToAmount, onRemoveRow   }) {
   const [formData, setFormData] = useState({});
 
   {/*
@@ -19,10 +19,10 @@ function InvoicePaymentRow({  currentRowData, onUpdatedPayToAddress, onUpdatedPa
   return (
     <div className="flex flex-row p-2 my-2 "> 
 
-      <input
+      <select
       type="text"
-      name="payToAddress"
-      placeholder="Pay To Address"
+      name="productReferenceId"
+      placeholder="Product Reference Id"
       value={currentRowData.payTo}
       required={true}
       className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -32,8 +32,8 @@ function InvoicePaymentRow({  currentRowData, onUpdatedPayToAddress, onUpdatedPa
 
       <input
         type="text"
-        name="payAmount"
-        placeholder="Pay Amount"
+        name="targetPublicAddress"
+        placeholder="Target Public Address"
         value={currentRowData.amountDue}
         required={true}
         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"

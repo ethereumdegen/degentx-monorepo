@@ -7,8 +7,10 @@ import {
   } from "@/base-components";
  
  import AutoForm from '@/views/components/autoform/Main'
+ 
  import InvoicePaymentArraySection from './InvoicePaymentArraySection'
 
+ import PaymentEffectsArraySection from './PaymentEffectsArraySection'
 
   const architecture = {
     fields:[
@@ -22,7 +24,7 @@ import {
       },
 
       {
-        name: 'network',
+        name: 'chainId',
         type: 'select',
         label: 'Network',
         placeholder: 'Network',
@@ -35,7 +37,7 @@ import {
       },
 
       {
-        name: 'tokenAddress',
+        name: 'tokenName',
         type: 'select',
         label: 'Token',
         placeholder: 'Token',
@@ -51,8 +53,16 @@ import {
         name: 'paymentElementArray',
         type: InvoicePaymentArraySection, 
         label: 'Payment Elements',
-        required: true,
-        
+       
+
+      },
+
+
+      {
+        name: 'paymentEffectsArray',
+        type: PaymentEffectsArraySection, 
+        label: 'Payment Effects',
+       
 
       }
 

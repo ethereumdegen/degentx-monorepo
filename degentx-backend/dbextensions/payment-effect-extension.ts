@@ -13,7 +13,7 @@ import mongoose, {Mongoose, Schema, Model, model, Require_id, InferSchemaType} f
         type:String, required:true
       },
 
-      productReference:{
+      productReferenceId:{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Product",
         required:true 

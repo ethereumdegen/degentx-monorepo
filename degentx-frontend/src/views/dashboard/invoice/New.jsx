@@ -140,11 +140,11 @@ function Main(  ) {
 
                 let description = formData.name 
 
-                const chainId = formData.network
+                const chainId = parseInt(formData.chainId)
 
 
                 const tokenAddress = getCurrencyTokenAddress({
-                  tokenName: formData.token,
+                  tokenName: formData.tokenName,
                   chainId
                 })
 
@@ -175,7 +175,9 @@ function Main(  ) {
                   paymentEffects, 
 
                   ownerAddress: web3Store.account,
-                  authToken: web3Store.authToken 
+                  authToken: web3Store.authToken ,
+
+                  onFinished: () => {} 
 
                 } ) 
 

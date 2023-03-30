@@ -20,7 +20,7 @@
     {"type":"get","uri":"/v1/project","method":"getProject","controller":"project"},
 
 
-    {"type":"post","uri":"/v1/invoice","method":"createInvoice","controller":"invoice"},
+    {"type":"post","uri":"/v1/invoice","method":"addInvoice","controller":"invoice"},
     {"type":"get","uri":"/v1/invoices","method":"getInvoices","controller":"invoice"},
     {"type":"get","uri":"/v1/invoice","method":"getInvoice","controller":"invoice"},
 
