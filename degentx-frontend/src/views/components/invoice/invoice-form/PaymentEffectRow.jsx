@@ -9,7 +9,7 @@ import {
  
  
 
-function PaymentEffectRow({  currentRowData, onUpdatedPayToAddress, onUpdatedPayToAmount, onRemoveRow   }) {
+function PaymentEffectRow({  currentRowData, productOptions , onUpdatedProductReferenceId, onUpdatedTargetPublicAddress, onRemoveRow   }) {
   const [formData, setFormData] = useState({});
 
   {/*
@@ -20,24 +20,32 @@ function PaymentEffectRow({  currentRowData, onUpdatedPayToAddress, onUpdatedPay
     <div className="flex flex-row p-2 my-2 "> 
 
       <select
-      type="text"
+      
       name="productReferenceId"
       placeholder="Product Reference Id"
-      value={currentRowData.payTo}
+      value={currentRowData.productReferenceId}
       required={true}
       className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-      onChange={(event)=>{onUpdatedPayToAddress(event.target.value)}}
-      />
+      onChange={(event)=>{onUpdatedProductReferenceId(event.target.value)}}
+      >
+
+          {productOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+          ))}
+
+      </select>
      
 
       <input
         type="text"
         name="targetPublicAddress"
         placeholder="Target Public Address"
-        value={currentRowData.amountDue}
+        value={currentRowData.targetPublicAddress}
         required={true}
         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        onChange={(event)=>{onUpdatedPayToAmount(event.target.value)}}
+        onChange={(event)=>{onUpdatedTargetPublicAddress(event.target.value)}}
       />
 
       <div className="p-2 mx-4 rounded bg-slate-700">
@@ -65,4 +73,4 @@ function PaymentEffectRow({  currentRowData, onUpdatedPayToAddress, onUpdatedPay
 
 
 
-export default observer(InvoicePaymentRow);
+export default observer(PaymentEffectRow);

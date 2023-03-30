@@ -8,57 +8,64 @@ import {
  
   import SimpleButton from '@/views/components/simple-button/Main'
  
- import InvoicePaymentRow from './InvoicePaymentRow';
+ import PaymentEffectRow from './PaymentEffectRow';
 
-function InvoicePaymentElementSection({  onUpdated   }) {
-  const [paymentRows, setPaymentRows] = useState( [] );
+function PaymentEffectsArraySection({  onUpdated   }) {
+  const [effectRows, setEffectRows] = useState( [] );
+
+
+  //load this from api ? 
+  const [productOptions, setProductOptions] = useState( [] );
+
 
   
-  const addPaymentRow = () => {
+
+  
+  const addEffectRow = () => {
 
 
-    let newPaymentRows = [...paymentRows]
-    newPaymentRows.push({
-      payTo: '0x...',
-      amountDue: '0'
+    let newEffectRows = [...effectRows]
+    newEffectRows.push({
+        productReferenceId: '0',
+        targetPublicAddress: '0x...'
     })
 
-    setPaymentRows(newPaymentRows)
-   onUpdated('paymentRowsData',[...newPaymentRows])
+    setEffectRows(newEffectRows)
+   onUpdated('effectRowsData',[...newEffectRows])
 
   }
 
-  const removePaymentRow= (index) => {
+  const removeEffectRow= (index) => {
 
-    let newPaymentRows = [...paymentRows]
+    let newEffectRows = [...effectRows]
     
-    newPaymentRows.splice(index)
+    newEffectRows.splice(index)
 
-    setPaymentRows(newPaymentRows)
-     onUpdated('paymentRowsData',[...newPaymentRows])
+    setEffectRows(newEffectRows)
+    onUpdated('effectRowsData',[...newEffectRows])
 
   }
 
 
-  const updatePaymentRowInput = (index,fieldName,value) => {
+  const updateEffectRowInput = (index,fieldName,value) => {
 
-    const paymentRowsData = [...paymentRows]
+    const effectRowsData = [...effectRows]
 
-    paymentRowsData[index] = Object.assign({},paymentRowsData[index]);
+    effectRowsData[index] = Object.assign({},effectRowsData[index]);
 
-    if(fieldName == 'payTo'){
-      paymentRowsData[index].payTo = value
-    }else if(fieldName == 'amountDue'){
-      paymentRowsData[index].amountDue = value
+    if(fieldName == 'productReferenceId'){
+        effectRowsData[index].productReferenceId = value
+    }else if(fieldName == 'targetPublicAddress'){
+        effectRowsData[index].targetPublicAddress = value
     }else {
       throw new Error('Unknown field type:',fieldName)
     }
  
     //to send back down to children for rendering 
-    setPaymentRows([...paymentRowsData])
+    setEffectRows([...effectRowsData])
 
     //to send to callback up to parent 
-    onUpdated('paymentRowsData',[...paymentRowsData])
+    onUpdated('effectRowsData',[...newEffectRows])
 
 
   }
@@ -71,13 +78,14 @@ function InvoicePaymentElementSection({  onUpdated   }) {
       </div>   
 
       <div>
-      {paymentRows && Array.isArray(paymentRows) &&  paymentRows.map((paymentRow, index) => (
-           <InvoicePaymentRow
-            key={index}
-              currentRowData={paymentRow}
-              onUpdatedPayToAddress={(updatedAddress) => updatePaymentRowInput(index,'payTo',updatedAddress)}
-              onUpdatedPayToAmount={(updatedAmount) => updatePaymentRowInput(index,'amountDue',updatedAmount)}
-              onRemoveRow={()=>{removePaymentRow(index)}}
+      {effectRows && Array.isArray(effectRows) &&  effectRows.map((effectRow, index) => (
+           <PaymentEffectRow
+              key={index}
+              currentRowData={effectRow}
+              productOptions={productOptions}
+              onUpdatedProductReferenceId={(updatedProductReferenceId) => updateEffectRowInput(index,'productReferenceId',updatedProductReferenceId)}
+              onUpdatedTargetPublicAddress={(updatedTargetPublicAddress) => updateEffectRowInput(index,'targetPublicAddress',updatedTargetPublicAddress)}
+              onRemoveRow={()=>{removeEffectRow(index)}}
               /> 
       ))}
       </div>  
@@ -90,7 +98,7 @@ function InvoicePaymentElementSection({  onUpdated   }) {
         <SimpleButton
         customClass={"hover:bg-gray-700 hover:text-white flex flex-row text-lg  "}
         clicked={() => {
-          addPaymentRow()
+          addEffectRow()
         }}
         
         >
@@ -110,4 +118,4 @@ function InvoicePaymentElementSection({  onUpdated   }) {
 
 
 
-export default observer(InvoicePaymentElementSection);
+export default observer(PaymentEffectsArraySection);
