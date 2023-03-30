@@ -40,19 +40,16 @@ function InvoicePaymentRow({  currentRowData, onUpdatedPayToAddress, onUpdatedPa
         onChange={(event)=>{onUpdatedPayToAmount(event.target.value)}}
       />
 
-      <div className="p-4 mx-4">
+      <div className="p-2 mx-4 rounded bg-slate-700">
+
+
 
       <Lucide 
-      icon="X" className="
-      w-4 h-4 mr-1 
-      cursor-pointer 
-      p-4
-       rounded bg-slate-700 
-       text-white font-bold"
-      onClick={()=>{
-        
-        onRemoveRow()
-      }}
+      icon="X"
+      className="w-6 h-6 mr-1 cursor-pointer rounded bg-transparent font-bold text-white"
+
+      color="white"
+      onClick={ onRemoveRow }
       />
                
 

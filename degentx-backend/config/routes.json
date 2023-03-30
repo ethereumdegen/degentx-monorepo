@@ -22,7 +22,9 @@
 
     {"type":"post","uri":"/v1/invoice","method":"createInvoice","controller":"invoice"},
     {"type":"get","uri":"/v1/invoices","method":"getInvoices","controller":"invoice"},
-    {"type":"get","uri":"/v1/invoice","method":"getInvoice","controller":"invoice"}
+    {"type":"get","uri":"/v1/invoice","method":"getInvoice","controller":"invoice"},
 
+    {"type":"post","uri":"/v1/paymenteffect","method":"addPaymentEffectToInvoice","controller":"invoice"}
+    
 
 ]

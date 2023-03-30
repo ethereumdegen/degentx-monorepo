@@ -159,9 +159,9 @@ export enum ValidationType {
     if (type == ValidationType.payspecpaymenteffect) {
       return {
 
-        type: sanitizeInput(input.type, ValidationType.string),
+        effectType: sanitizeInput(input.type, ValidationType.string),
         invoiceUUID: sanitizeInput(input.invoiceUUID, ValidationType.string),
-        referenceId: sanitizeInput(input.referenceId, ValidationType.string),
+        productReferenceId: sanitizeInput(input.referenceId, ValidationType.string),
         targetPublicAddress: sanitizeInput(input.targetPublicAddress, ValidationType.publicaddress)
 
       }  

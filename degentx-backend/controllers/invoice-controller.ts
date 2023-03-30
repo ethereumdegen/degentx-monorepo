@@ -9,6 +9,8 @@ import { BigNumber, ethers } from "ethers"
 import {PayspecInvoice} from "../dbextensions/payspec-extension"
 
 import {getProjectOwnerAddress} from "../modules/project-module"
+import { PaymentEffect } from "../dbextensions/payment-effect-extension"
+import { stringToMongoId } from "../lib/mongo-helper"
  
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
@@ -156,8 +158,34 @@ export default class InvoiceController {
 
   addPaymentEffectToInvoice : ControllerMethod = async (req:any) => {
 
+    const sanitizeResponse = sanitizeAndValidateInputs(req.fields , [  
+    
+      { key: 'paymentEffect' , type: ValidationType.payspecpaymenteffect,  required: true },
+       
+      { key: 'publicAddress', type: ValidationType.publicaddress, required: true },
+      { key: 'authToken', type: ValidationType.string, required: true },  
+    ])
 
 
+    if(!isAssertionSuccess(sanitizeResponse)) return sanitizeResponse
+
+    const { authToken, publicAddress, paymentEffect  } = sanitizeResponse.data;
+    
+
+    let authTokenValidationResponse = await validateAuthToken({publicAddress, authToken})
+    if(!isAssertionSuccess(authTokenValidationResponse)) return authTokenValidationResponse;
+
+    const result = await PaymentEffect.create({
+
+      effectType: paymentEffect.effectType,
+      invoiceUUID: paymentEffect.invoiceUUID,
+      productReferenceId: stringToMongoId(paymentEffect.productReferenceId),
+      targetPublicAddress: paymentEffect.targetPublicAddress,
+      
+    })
+
+
+    return {success:false, error:'not implemented'}
 
   }
  
