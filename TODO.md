@@ -27,9 +27,11 @@ PRODUCT: Advanced Guide - one time payment of $5 of 0xbtc
 
  ### IMMEDIATE TODO 
  
- - allow for creating invoice in front end form (build form for this !!! the payment element thing is tricky so use gpt ??? )
+ - allow for creating invoice in front end form 
+ - now that invoice is in DB, build SHOW page for it -> then pay button  +(+show any effects)
  - allow for paying an invoice in front end goerli 
 
+then..
  - build api endpoint that shows if an invoice is PAID     (vibegraph req)
  - show invoices and their statuses on the frontend (vibegraph req)
 
