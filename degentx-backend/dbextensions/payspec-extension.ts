@@ -24,16 +24,19 @@ import mongoose, {Mongoose, Schema, Model, model, Require_id, InferSchemaType} f
   export const PayspecInvoiceSchema = new Schema(
     {
       
-        payspecContractAddress: String,
-        description : String,
-        nonce: String, //BigNumberToString
-        token: String,
-        totalAmountDue: String,
+        payspecContractAddress: {type: String, required:true},
+        description : {type: String, required:true},
+        nonce: {type: String, required:true},  
+        token: {type: String, required:true},
+        totalAmountDue: {type: String, required:true},
         
-        payToArrayStringified: String,
-        amountsDueArrayStringified: String,
-        expiresAt: Number,
-        invoiceUUID: String 
+        payToArrayStringified: {type: String, required:true},
+        amountsDueArrayStringified: {type: String, required:true},
+        expiresAt: {type: Number, required:true},
+        invoiceUUID: {type: String, required:true, unique:true, index:true } ,
+
+        createdBy: String,
+        status: {type:String, default:'active'},
     } 
   ) 
  

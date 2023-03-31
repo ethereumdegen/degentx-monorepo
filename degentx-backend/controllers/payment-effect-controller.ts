@@ -7,20 +7,27 @@ import { validateAuthToken } from '../lib/auth-helper'
 import { BigNumber, ethers } from "ethers"
  
 import {PayspecInvoice} from "../dbextensions/payspec-extension"
+
+import {getProjectOwnerAddress} from "../modules/project-module"
+import { PaymentEffect } from "../dbextensions/payment-effect-extension"
+import { stringToMongoId } from "../lib/mongo-helper"
+import { Product } from "../dbextensions/product-extension"
+import { getProductOwnerAddress } from "../modules/product-module"
  
+
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
-export default class InvoiceController {
+export default class PaymentEffectController {
   
 
   getControllerName() : string {
-    return 'invoice'
+    return 'paymenteffect'
   }
 
 
-  getInvoice: ControllerMethod = async (req: any) => {
+  getPaymentEffect: ControllerMethod = async (req: any) => {
  
     const sanitizeResponse = sanitizeAndValidateInputs(req.query , [
-      { key: 'uuid', type: ValidationType.string,  required: true },
+      { key: 'paymentEffectId', type: ValidationType.string,  required: true },
       { key: 'publicAddress', type: ValidationType.publicaddress,  required: true },
       { key: 'authToken', type: ValidationType.string, required: true },  
     ])
@@ -29,14 +36,14 @@ export default class InvoiceController {
     if(!isAssertionSuccess(sanitizeResponse)) return sanitizeResponse
 
      
-    const {publicAddress, uuid, authToken} = sanitizeResponse.data;
+    const {paymentEffectId, publicAddress,  authToken} = sanitizeResponse.data;
 
     //check the auth token !! 
     let authTokenValidationResponse = await validateAuthToken({publicAddress, authToken})
     if(!isAssertionSuccess(authTokenValidationResponse)) return authTokenValidationResponse;
 
    
-    const result = await PayspecInvoice.findOne({invoiceUUID:uuid })
+    const result = await PaymentEffect.findById(paymentEffectId)
 
     /*if(!result || !result.projectId){
       return {success:false, error:"Could not find matching product"}
@@ -52,10 +59,11 @@ export default class InvoiceController {
 
   }
 
-  //returns all invoices from a particular owner (creator) publicAddress
-  getInvoicesByOwner: ControllerMethod = async (req: any) => {
+  
+  getPaymentEffectsByInvoice: ControllerMethod = async (req: any) => {
  
     const sanitizeResponse = sanitizeAndValidateInputs(req.query , [
+      { key: 'invoiceUUID', type: ValidationType.string,  required: true },
       { key: 'publicAddress', type: ValidationType.publicaddress,  required: true },
       { key: 'authToken', type: ValidationType.string, required: true },  
     ]) 
@@ -63,7 +71,7 @@ export default class InvoiceController {
     if(!isAssertionSuccess(sanitizeResponse)) return sanitizeResponse
 
      
-    const {publicAddress,authToken,projectId} = sanitizeResponse.data;
+    const {publicAddress,authToken,invoiceUUID} = sanitizeResponse.data;
 
     //check the auth token !! 
     let authTokenValidationResponse = await validateAuthToken({publicAddress, authToken})
@@ -75,61 +83,22 @@ export default class InvoiceController {
     }*/
 
    
-    const invoices = await PayspecInvoice.find({
-      createdBy: publicAddress, 
+    const effects = await PaymentEffect.find({
+      invoiceUUID 
     })
 
         
 
-    return {success:true, data : invoices}
+    return {success:true, data : effects}
 
 
   }
-
- /* getInvoicesByProduct: ControllerMethod = async (req: any) => {
  
-    const sanitizeResponse = sanitizeAndValidateInputs(req.query , [
-      { key: 'productId', type: ValidationType.string,  required: true },
-      { key: 'publicAddress', type: ValidationType.publicaddress,  required: true },
-      { key: 'authToken', type: ValidationType.string, required: true },  
-    ]) 
-   
-    if(!isAssertionSuccess(sanitizeResponse)) return sanitizeResponse
-
-     
-    const {publicAddress,authToken,productId} = sanitizeResponse.data;
-
-    //check the auth token !! 
-    let authTokenValidationResponse = await validateAuthToken({publicAddress, authToken})
-    if(!isAssertionSuccess(authTokenValidationResponse)) return authTokenValidationResponse;
-
-
-   
-    let productOwnerAddress = await getProductOwnerAddress(productId.projectId)
-    if( productOwnerAddress != publicAddress ){
-      return {success: false, error:"Not the owner of this product"}
-    } 
-
-
-
-    //find linkages via payment effects !? 
-   
-    const invoice = await PayspecInvoice.find({
-      projectId: projectId, 
-    })
-
-        
-
-    return {success:true, data : invoice}
-
-
-  }*/
-
-  addInvoice: ControllerMethod = async (req: any) => {
+  addPaymentEffect: ControllerMethod = async (req: any) => {
    
     const sanitizeResponse = sanitizeAndValidateInputs(req.fields , [  
-      { key: 'invoice', type: ValidationType.payspecinvoice, required: true},
-      { key: 'paymentEffects' , type: ValidationType.payspecpaymenteffect, shouldBeArray: true, required: false },
+      
+      { key: 'paymentEffect' , type: ValidationType.payspecpaymenteffect,  required: false },
        
       { key: 'publicAddress', type: ValidationType.publicaddress, required: true },
       { key: 'authToken', type: ValidationType.string, required: true },  
@@ -137,7 +106,7 @@ export default class InvoiceController {
 
     if(!isAssertionSuccess(sanitizeResponse)) return sanitizeResponse
 
-    const { authToken, publicAddress, paymentEffects, invoice } = sanitizeResponse.data;
+    const { authToken, publicAddress, paymentEffect } = sanitizeResponse.data;
     
 
     let authTokenValidationResponse = await validateAuthToken({publicAddress, authToken})
@@ -152,27 +121,30 @@ export default class InvoiceController {
 
     
     */
-  
+    
+      //make sure the invoice with that UUID exists and is active ? 
+      //also make sure that the product is owned by this 
 
 
+    let productId = paymentEffect.productReferenceId;
 
-    //should validate the invoice here !! using payspec-js
-    /// ... validate the stringified arrays for example 
+   
+    let productOwnerAddress = await getProductOwnerAddress(productId)
+    if( productOwnerAddress != publicAddress ){
+      return {success: false, error:"Not the owner of this product"}
+    } 
 
+ 
 
+    const result = await PaymentEffect.create({
+      effectType: paymentEffect.effectType,
+      invoiceUUID: paymentEffect.invoiceUUID,
+      productReferenceId: stringToMongoId(paymentEffect.productReferenceId),
+      targetPublicAddress: paymentEffect.targetPublicAddress,
 
-    const result = await PayspecInvoice.create({
-      payspecContractAddress: invoice.payspecContractAddress,
-      description: invoice.description,
-      nonce: invoice.nonce,
-      token: invoice.token,
-      totalAmountDue: invoice.totalAmountDue,
-      payToArrayStringified: invoice.payToArrayStringified,
-      amountsDueArrayStringified: invoice.amountsDueArrayStringified,
-      expiresAt: invoice.expiresAt
     })
 
-    //should return the uuid !! 
+   
 
     return {success:true, data: result}
 
@@ -181,6 +153,7 @@ export default class InvoiceController {
 
 
  
+  
 
 
 }

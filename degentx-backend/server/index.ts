@@ -16,6 +16,7 @@ import StatusController from '../controllers/status-controller';
 import ProjectController from '../controllers/project-controller';
 import ProductController from '../controllers/product-controller';
 import InvoiceController from '../controllers/invoice-controller';
+import PaymentEffectController from '../controllers/payment-effect-controller';
 
 const APP_NAME = getAppName()
 
@@ -47,7 +48,8 @@ async function start(){
      
      new ProjectController(),
      new ProductController(),
-     new InvoiceController() 
+     new InvoiceController(),
+     new PaymentEffectController()
     
   ]
 

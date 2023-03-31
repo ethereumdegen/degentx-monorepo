@@ -21,10 +21,10 @@
 
 
     {"type":"post","uri":"/v1/invoice","method":"addInvoice","controller":"invoice"},
-    {"type":"get","uri":"/v1/invoices","method":"getInvoices","controller":"invoice"},
+    {"type":"get","uri":"/v1/invoices_by_owner","method":"getInvoicesByOwner","controller":"invoice"},
     {"type":"get","uri":"/v1/invoice","method":"getInvoice","controller":"invoice"},
 
-    {"type":"post","uri":"/v1/paymenteffect","method":"addPaymentEffectToInvoice","controller":"invoice"}
+    {"type":"post","uri":"/v1/paymenteffect","method":"addPaymentEffect","controller":"paymenteffect"}
     
 
 ]
