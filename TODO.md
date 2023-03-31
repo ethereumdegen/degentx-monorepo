@@ -28,6 +28,7 @@ PRODUCT: Advanced Guide - one time payment of $5 of 0xbtc
  ### IMMEDIATE TODO 
  
  - allow for creating invoice in front end form 
+ -build an INVOICES tab and a PRODUCTS tab (get all products of address)  (cap out accounts on a max of 5 projects) and 25 products in each . 
  - now that invoice is in DB, build SHOW page for it -> then pay button  +(+show any effects)
  - allow for paying an invoice in front end goerli 
 
