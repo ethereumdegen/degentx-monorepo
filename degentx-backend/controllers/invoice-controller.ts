@@ -9,6 +9,7 @@ import { BigNumber, ethers } from "ethers"
 import {validateInvoice} from "payspec-js"
  
 import {PayspecInvoice} from "../dbextensions/payspec-extension"
+import { PaymentEffect } from "../dbextensions/payment-effect-extension"
  
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export default class InvoiceController {
@@ -40,6 +41,10 @@ export default class InvoiceController {
    
     const result = await PayspecInvoice.findOne({invoiceUUID:uuid })
 
+    if(!result){
+      return {success:false, error:"Could not find matching invoice"}
+    }
+
     /*if(!result || !result.projectId){
       return {success:false, error:"Could not find matching product"}
     }
@@ -49,7 +54,13 @@ export default class InvoiceController {
       return {success: false, error:"Not the owner of this product"}
     }*/
 
-    return {success:true, data: result}
+    const paymentEffects = await PaymentEffect.find({
+      invoiceUUID: uuid
+    })
+
+    let invoice = Object.assign(result, {paymentEffects})
+
+    return {success:true, data: invoice}
 
 
   }

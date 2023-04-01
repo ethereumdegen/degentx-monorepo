@@ -1,6 +1,8 @@
 
 import axios from "axios";
 
+import {ethers} from "ethers"
+
  
 import { useState, useEffect } from 'react';
  
@@ -10,10 +12,13 @@ import { observer } from "mobx-react";
 import {observe} from 'mobx'
 
 import ViewJsonButton from '@/views/components/button/ViewJsonButton'
+import SimpleButton from '@/views/components/button/SimpleButton'
 
 import TinyBadge from "@/views/components/tiny-badge/Main"
 
 import { getBackendServerUrl } from '@/lib/app-helper'
+
+import { payInvoiceUsingProvider } from '@/lib/invoice-lib'
 
 import InvoicesList from "@/views/components/invoice/invoices-list/Main"
 
@@ -74,6 +79,26 @@ function Main(  ) {
         }catch(e){
           console.error(e)
         }
+   }
+
+   const payInvoice = async() => {
+      console.log('paying invoice',JSON.stringify(invoice))
+
+      const networkName = "goerli"
+
+
+      let prov =  new ethers.providers.Web3Provider(window.ethereum, "any");
+
+ 
+      let paid = await payInvoiceUsingProvider(
+        {
+          from:web3Store.account,
+          invoice,
+          provider:web3Store.provider,
+          networkName: networkName
+        }
+      )
+
    }
 
   observe(web3Store, 'account', function() {
@@ -171,14 +196,39 @@ function Main(  ) {
 
               <InvoiceSection
               title={"Token Currency"}> 
-                lalalllala
+              {invoice.token}
               </InvoiceSection>
 
 
-              <div> total amount </div>
+              <InvoiceSection
+              title={"Total Amount Due"}> 
+              {invoice.totalAmountDue}
+              </InvoiceSection>
+
+              <div className="my-4">
 
 
-              <div>pay this invoice btn</div>
+              {!web3Store.account && 
+                <div>
+                  Connect to web3 to pay invoice.
+                </div>
+              }
+
+              {web3Store.account && 
+              <div className="inline">
+
+              <SimpleButton
+                customClass="bg-blue-500 hover:bg-blue-400 text-white"
+                clicked={()=>{payInvoice()}}
+              >
+                Pay Invoice
+              </SimpleButton>
+
+              </div>
+              }
+
+              </div>
+  
 
             </div>
          

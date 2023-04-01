@@ -1,15 +1,21 @@
-import { Provider } from "@ethersproject/abstract-provider"
+ 
 import axios from "axios"
-import { ethers } from "ethers"
+ 
 
-  
+import { Web3Provider } from '@ethersproject/providers';
+//export async function userPayInvoice( from:string, invoiceData: PayspecInvoice, provider: Web3Provider, netName?: string ) : Promise<{success:boolean, error?:any, data?: any}> {
+
+
 import { getBackendServerUrl } from "./app-helper"
 
 
 import {
  
     PayspecPaymentElement,
+    
     PayspecPaymentEffect,
+
+    userPayInvoice,
   
     PayspecInvoice,
      
@@ -83,7 +89,7 @@ export async function addInvoice({
     ownerAddress: string, 
     authToken:string, 
 
-    onFinished: ( invoiceUUID:string ) => any
+    onFinished: ( invoiceUUID:string|undefined ) => any
 }){
 
    
@@ -114,5 +120,31 @@ export async function addInvoice({
     console.log({response})
 
     onFinished(invoice.invoiceUUID) 
+
+}
+
+
+
+
+export async function payInvoiceUsingProvider({
+    from,
+    invoice,
+    provider,
+    networkName
+}:{
+    from:string,
+    invoice: PayspecInvoice,
+    provider: Web3Provider,
+    networkName: string 
+}){
+
+    let paid = await userPayInvoice(
+        from,
+        invoice,
+        provider,
+        networkName
+    )
+
+    return paid 
 
 }
