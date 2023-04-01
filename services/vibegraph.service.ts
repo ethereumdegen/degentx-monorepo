@@ -32,6 +32,10 @@ const MONGO_URI = getDatabaseConnectURI()
 const APP_NAME = getAppName()
  
 
+
+const chainId: number = 5  
+
+
 export interface CustomIndexerFixed {
   abi: ethers.ContractInterface,
   handler: any, 
@@ -83,7 +87,7 @@ export default class VibegraphService extends Service {
             this.logger.info('Vibegraph Cron created')
 
             let indexerPayspec = new IndexerPayspec(
-              this.createPaymentCallback.bind(this)
+              this.createPaymentCallback.bind(this), this.chainId
               )
 
             customIndexers.push({
@@ -115,7 +119,6 @@ export async function getVibegraphConfig(): Promise<any> {
 
  
 
-  const chainId: number = 5 //localConfig.chainId
 
   if (!chainId) throw new Error('Vibegraph: Undefined chainId')
   const networkName = getNetworkNameFromChainId(chainId)

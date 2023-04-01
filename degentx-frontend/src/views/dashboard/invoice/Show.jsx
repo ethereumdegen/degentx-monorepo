@@ -22,6 +22,7 @@ import { payInvoiceUsingProvider } from '@/lib/invoice-lib'
 
 import InvoicesList from "@/views/components/invoice/invoices-list/Main"
 
+import {getEtherscanTransactionLink} from "@/utils/frontend-helper"
 
 
 const InvoiceSection = ({ title, children }) => {
@@ -67,6 +68,14 @@ function Main(  ) {
     return invoice 
   }
   
+  const getInvoiceStatus = (invoice) => {
+
+    if(invoice.paymentTransactionHash){
+      return "paid"
+    }
+
+    return "requested"
+  }
 
    const loadInvoice = async ( ) => {
     console.log('loading invoice')
@@ -168,13 +177,24 @@ function Main(  ) {
                 <div className="px-4  text-lg font-bold">
                   Invoice 
                 </div>
+
+                <TinyBadge
+                  customClass="my-2 bg-black text-white"
+                >
+                 {getInvoiceStatus(invoice)}
+                </TinyBadge>
+
                 </div>
+
+                <div>
 
                 <ViewJsonButton
                 jsonData={invoice}
                  > 
                  View JSON 
                  </ViewJsonButton>
+
+                 </div>
 
 
             </div>
@@ -213,13 +233,13 @@ function Main(  ) {
               <div className="my-4">
 
 
-              {!web3Store.account && 
+              {!web3Store.account && !invoice.paymentTransactionHash &&
                 <div>
                   Connect to web3 to pay invoice.
                 </div>
               }
 
-              {web3Store.account && 
+              {web3Store.account && !invoice.paymentTransactionHash &&
               <div className="inline">
 
               <SimpleButton
@@ -228,6 +248,19 @@ function Main(  ) {
               >
                 Pay Invoice
               </SimpleButton>
+
+              </div>
+              }
+
+            { invoice.paymentTransactionHash && 
+              <div className="p-2 my-4 ">
+
+              This invoice has been paid.  <a className={"text-blue-500"} href={getEtherscanTransactionLink(
+                {
+                  transactionHash: invoice.paymentTransactionHash,
+                  chainId: invoice.paymentChainId
+                }
+                )}>View Transaction</a>
 
               </div>
               }

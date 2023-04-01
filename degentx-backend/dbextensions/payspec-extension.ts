@@ -1,8 +1,6 @@
 
 import mongoose, {Mongoose, Schema, Model, model, Require_id, InferSchemaType} from 'mongoose'
  
- 
- 
 
 import {getDatabaseName} from "../lib/app-helper"
 

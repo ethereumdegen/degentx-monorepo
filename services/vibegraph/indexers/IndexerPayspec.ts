@@ -15,7 +15,7 @@ export default class IndexerPayspec extends VibegraphIndexer{
 
   //  invoicePaymentModel: Model<any>
 
-    constructor(public createPaymentCallback: (payment)=>any){
+    constructor(public createPaymentCallback: (payment)=>any, public chainId:number){
         super()
     }
 
@@ -44,7 +44,7 @@ export default class IndexerPayspec extends VibegraphIndexer{
             let uuid = (outputs['0']).toLowerCase()
             let paidBy = ethers.utils.getAddress(outputs['1'])
                          
-            await this.insertPaidInvoice(  contractAddress , uuid, paidBy, blockNumber, transactionHash) 
+            await this.insertPaidInvoice(  contractAddress , uuid, paidBy, blockNumber, transactionHash, this.chainId) 
         }
         
         
@@ -53,7 +53,7 @@ export default class IndexerPayspec extends VibegraphIndexer{
 
      
 
-    async insertPaidInvoice( contractAddress :string, invoiceUUID:string , paidBy:string, paidAtBlock:number, transactionHash:string ){
+    async insertPaidInvoice( contractAddress :string, invoiceUUID:string , paidBy:string, paidAtBlock:number, transactionHash:string , chainId:number){
 
        
        try{
@@ -62,18 +62,12 @@ export default class IndexerPayspec extends VibegraphIndexer{
             invoiceUUID , 
             paidBy ,
             paidAtBlock,
-            transactionHash
+            transactionHash,
+            chainId
         }
 
         await this.createPaymentCallback(payment)
-       /* await this.invoicePaymentModel.create(
-             {
-                 payspecContractAddress: contractAddress, 
-                 invoiceUUID , 
-                 paidBy ,
-                 paidAtBlock,
-                 transactionHash 
-             } )     */   
+        
        }catch(error){
            console.error(error)
        }
