@@ -6348,7 +6348,7 @@ domutils@^3.0.1:
     domelementtype "^2.3.0"
     domhandler "^5.0.1"
 
-dotenv@*, dotenv@^16.0.0, dotenv@^16.0.1:
+dotenv@*, dotenv@^16.0.0, dotenv@^16.0.1, dotenv@^16.0.3:
   version "16.0.3"
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-16.0.3.tgz#115aec42bac5053db3c456db30cc243a5a836a07"
   integrity sha512-7GO6HghkA5fYG9TYnNxi14/7K9f5occMlp3zXAuSxn7CKCxt9xbNWG7yF8hTCSUchlfWSe3uLmlPfigevRItzQ==
@@ -13926,12 +13926,13 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-vibegraph@^0.42.1:
-  version "0.42.1"
-  resolved "https://registry.yarnpkg.com/vibegraph/-/vibegraph-0.42.1.tgz#494624520c1ac649c00acabb097a33ff4a58e635"
-  integrity sha512-AsHCQalhoa7tMJlsLh6qL3G0sb1pXpLrToDO+6YRCrNZQjv1Z+XFQr74g5VQUmLo77zLoVcmW3C/6n5de50wgQ==
+vibegraph@^0.42.3:
+  version "0.42.3"
+  resolved "https://registry.yarnpkg.com/vibegraph/-/vibegraph-0.42.3.tgz#fc31cf422ce3b23dbed0cb840555897289e5870b"
+  integrity sha512-71O2q9zuXektcL8xzjJ4V2gDgAhFty5bgJeoH99N7hj9p4YBn75RwGO7jF0WELNn+qBdokyjueMjumtevPLxoQ==
   dependencies:
     "@ensdomains/eth-ens-namehash" "^2.0.15"
+    dotenv "^16.0.3"
     ethers "^5.7.1"
     mongodb "^3.6.5"
     mongoose "^6.9.1"

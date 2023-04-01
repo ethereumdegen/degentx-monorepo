@@ -2,6 +2,13 @@ import { Schema, Model, InferSchemaType, model, Require_id } from 'mongoose'
 
 import { ModelWithTimestamps } from './types'
 
+
+
+import {getDatabaseName} from "../lib/app-helper"
+
+const dbName = getDatabaseName()
+
+
 export const NfTokenSchema = new Schema(
   {
     contractAddress: { type: String, required: true, index: true },
@@ -26,12 +33,19 @@ export const NfTokenSchema = new Schema(
 //remove me ?
 NfTokenSchema.index({ contractAddress: 1, tokenId: 1 }, { unique: true })
 
+
+mongoose.pluralize(null);
+
+let dbConnection = mongoose.connection.useDb(dbName)
+
+
+
 export type INfTokenWithoutTimestamp = Require_id<
   InferSchemaType<typeof NfTokenSchema>
 >
 export type INfToken = ModelWithTimestamps<INfTokenWithoutTimestamp>
 
-export const NfToken = model<INfToken, Model<INfToken>>('nftokens', NfTokenSchema)
+export const NfToken = dbConnection.model<INfToken, Model<INfToken>>('nftokens', NfTokenSchema)
 
 
 
@@ -48,5 +62,5 @@ export const MintedTokenSchema = new Schema(
 export type IMintedToken = Require_id<
   InferSchemaType<typeof MintedTokenSchema>
 > 
-export const MintedToken = model<IMintedToken, Model<IMintedToken>>('mintedtokens', MintedTokenSchema)
+export const MintedToken = dbConnection.model<IMintedToken, Model<IMintedToken>>('mintedtokens', MintedTokenSchema)
 

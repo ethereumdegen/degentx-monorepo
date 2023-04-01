@@ -2,7 +2,7 @@
  
 
 import {ethers} from 'ethers' 
-import { InvoicePayment } from '../../../degentx-backend/dbextensions/payspec-extension'
+import { InvoicePayment, IInvoicePayment } from '../../../degentx-backend/dbextensions/payspec-extension'
  
 import { ContractEvent } from 'vibegraph'
 import VibegraphIndexer from 'vibegraph/dist/indexers/VibegraphIndexer'
@@ -15,7 +15,7 @@ export default class IndexerPayspec extends VibegraphIndexer{
 
   //  invoicePaymentModel: Model<any>
 
-    constructor(public createPaymentCallback: (invoice)=>any){
+    constructor(public createPaymentCallback: (payment)=>any){
         super()
     }
 
@@ -57,11 +57,14 @@ export default class IndexerPayspec extends VibegraphIndexer{
 
        
        try{
-        let payment = { payspecContractAddress: contractAddress, 
+        let payment:Omit<IInvoicePayment,'_id'> = { 
+            payspecContractAddress: contractAddress, 
             invoiceUUID , 
             paidBy ,
             paidAtBlock,
-            transactionHash}
+            transactionHash
+        }
+
         await this.createPaymentCallback(payment)
        /* await this.invoicePaymentModel.create(
              {

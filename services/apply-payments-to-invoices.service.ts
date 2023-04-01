@@ -16,26 +16,12 @@ import mongoose, {Model,ConnectOptions} from 'mongoose'
 import {IInvoicePayment,InvoicePaymentSchema} from "../degentx-backend/dbextensions/payspec-extension"
 
 const contractsConfig = require('./vibegraph/contracts-config.json')
-
- import IndexerPayspec from './vibegraph/indexers/IndexerPayspec'
  
-let PayspecABI = require( './vibegraph/abi/payspec.abi.json' )
- 
-
-
 const Cron = require('moleculer-cron') 
 
 const NODE_ENVIRONMENT =  getEnvironmentName()
-
-const MONGO_URI = getDatabaseConnectURI()
  
-//Tell our payspec indexer that it should be creating records in the database 'degentx_NODEENV' even though our vibegraph data uses VIBEGRAPH_NODEENV'
-let degenDbConnection =  mongoose.createConnection(getDatabaseConnectURI(`degentx_${NODE_ENVIRONMENT}`),{});
-const invoicePaymentModel = degenDbConnection.model<IInvoicePayment, Model<IInvoicePayment>>('invoicepayments', InvoicePaymentSchema);
-
-let indexerPayspec = new IndexerPayspec(invoicePaymentModel)
-  
-
+ 
 const PAGE_SIZE= 25;
 
 export default class ApplyPaymentsToInvoicesService extends Service {
@@ -66,24 +52,37 @@ export default class ApplyPaymentsToInvoicesService extends Service {
             
             const paymentQuery:any  = {}// cursorId ? { _id: { $gt: cursorId }, appliedToInvoiceAt:{$exists:false} } : { appliedToInvoiceAt:{$exists:false} } 
  
-            try{
-            let unappliedPayments = await this.broker.call('invoice_payment_primary.find',{
-              query: paymentQuery,
-              sortBy: { '_id': 1 },
-              limit: PAGE_SIZE
-             })
-
-             this.logger.info("found invoice payments",unappliedPayments)
              
-             console.log({unappliedPayments})
+              let unappliedPayments:IInvoicePayment[] = await this.broker.call('invoice_payment_primary.find',{
+                query: paymentQuery,
+                sortBy: { '_id': 1 },
+                limit: PAGE_SIZE
+              })
+
+              for(let unappliedPayment of unappliedPayments){
 
 
-            }catch (error) {
-              this.logger.error('Error fetching unapplied payments:', error);
-            }
+                let invoiceUUID = unappliedPayment.invoiceUUID
+                let transactionHash = unappliedPayment.transactionHash
+                let chainId = unappliedPayment.chainId
 
-         
-        
+                let updatedPayment = await this.broker.call('invoice_payment_primary.updateOne',{
+                  query:{invoiceUUID: invoiceUUID},
+                  set:{ appliedToInvoiceAt: Date.now() }
+                })
+
+                let updatedInvoice = await this.broker.call('payspec_invoice_primary.updateOne',{
+                  query:{invoiceUUID: invoiceUUID},
+                  set:{ 
+                    status: 'paid',
+                    paymentTransactionHash: transactionHash,
+                    paymentChainId: chainId
+                  }
+                })
+
+                //only if updated invoice works do we update payment 
+
+              } 
 
 
 

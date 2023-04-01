@@ -4,6 +4,12 @@ import mongoose, { Schema, Model, InferSchemaType, model, Require_id } from 'mon
 
 import { ModelWithTimestamps } from './types'
 
+
+
+import {getDatabaseName} from "../lib/app-helper"
+
+const dbName = getDatabaseName()
+
 export const ChallengeTokenSchema = new Schema(
   {
    
@@ -38,13 +44,15 @@ export const AuthenticationTokenSchema = new Schema(
 mongoose.pluralize(null);
 
 
+let dbConnection = mongoose.connection.useDb(dbName)
+
 
 export type IChallengeTokenWithoutTimestamp = Require_id<
   InferSchemaType<typeof ChallengeTokenSchema>
 >
 export type IChallengeToken = ModelWithTimestamps<IChallengeTokenWithoutTimestamp>
 
-export const ChallengeToken = model<IChallengeToken, Model<IChallengeToken>>('challengetokens', ChallengeTokenSchema)
+export const ChallengeToken = dbConnection.model<IChallengeToken, Model<IChallengeToken>>('challengetokens', ChallengeTokenSchema)
 
 
 export type IAuthenticationTokenWithoutTimestamp = Require_id<
@@ -52,4 +60,4 @@ export type IAuthenticationTokenWithoutTimestamp = Require_id<
 >
 export type IAuthenticationToken = ModelWithTimestamps<IAuthenticationTokenWithoutTimestamp>
 
-export const AuthenticationToken = model<IAuthenticationToken, Model<IAuthenticationToken>>('authenticationtokens', AuthenticationTokenSchema)
+export const AuthenticationToken = dbConnection.model<IAuthenticationToken, Model<IAuthenticationToken>>('authenticationtokens', AuthenticationTokenSchema)

@@ -2,6 +2,10 @@
 import mongoose, {Mongoose, Schema, Model, model, Require_id, InferSchemaType} from 'mongoose'
   
 
+
+import {getDatabaseName} from "../lib/app-helper"
+
+const dbName = getDatabaseName()
  
 
 
@@ -33,6 +37,8 @@ import mongoose, {Mongoose, Schema, Model, model, Require_id, InferSchemaType} f
  
 mongoose.pluralize(null);
 
+let dbConnection = mongoose.connection.useDb(dbName)
+
  
 
 //define product access effect
@@ -41,5 +47,5 @@ InferSchemaType<typeof PaymentEffectSchema>
 >
  
 
-export const PaymentEffect = model<IPaymentEffect, Model<IPaymentEffect>>('paymenteffects', PaymentEffectSchema)
+export const PaymentEffect = dbConnection.model<IPaymentEffect, Model<IPaymentEffect>>('paymenteffects', PaymentEffectSchema)
  

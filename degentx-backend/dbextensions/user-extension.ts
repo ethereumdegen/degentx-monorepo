@@ -1,7 +1,14 @@
 
-import { Schema, Model, InferSchemaType, model, Require_id } from 'mongoose'
+import mongoose, { Schema, Model, InferSchemaType, model, Require_id } from 'mongoose'
 
 import { ModelWithTimestamps } from './types'
+
+
+
+import {getDatabaseName} from "../lib/app-helper"
+
+const dbName = getDatabaseName()
+
 
 export const UserSchema = new Schema(
   {
@@ -27,6 +34,11 @@ export const UserSessionSchema = new Schema(
   }
 ) 
  
+
+mongoose.pluralize(null);
+
+let dbConnection = mongoose.connection.useDb(dbName)
+
  
 
 export type IUserWithoutTimestamp = Require_id<
@@ -34,7 +46,7 @@ export type IUserWithoutTimestamp = Require_id<
 >
 export type IUser = ModelWithTimestamps<IUserWithoutTimestamp>
 
-export const User = model<IUser, Model<IUser>>('users', UserSchema)
+export const User = dbConnection.model<IUser, Model<IUser>>('users', UserSchema)
 
  
 
@@ -43,4 +55,4 @@ InferSchemaType<typeof UserSessionSchema>
 >
 export type IUserSession = ModelWithTimestamps<IUserSessionWithoutTimestamp>
 
-export const UserSession = model<IUserSession, Model<IUserSession>>('usersessions', UserSessionSchema)
+export const UserSession = dbConnection.model<IUserSession, Model<IUserSession>>('usersessions', UserSessionSchema)

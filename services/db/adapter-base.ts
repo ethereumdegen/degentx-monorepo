@@ -40,7 +40,7 @@ export default abstract class DbAdapterBase extends Service {
 
           let element = args.params
 
-          console.log({element})
+           
           try {
             inserted = await Model.create(element)
            
@@ -208,8 +208,9 @@ export default abstract class DbAdapterBase extends Service {
     }   else {
       if (!DATABASE_CONNECT_URI) throw new Error('No Mongo URI specified')
       // Mongo adapter
-      const adapterURI = `${DATABASE_CONNECT_URI}/${PRIMARY_DB_NAME}`
+      const adapterURI = `${DATABASE_CONNECT_URI}/default`
 
+      console.log('adapter', adapterURI)
       return new MongooseDbAdapter(adapterURI)
     }
   }
@@ -222,8 +223,9 @@ export default abstract class DbAdapterBase extends Service {
     }  else {
       if (!DATABASE_CONNECT_URI) throw new Error('No Mongo URI specified')
       // Mongo adapter
-      const adapterURI = `${DATABASE_CONNECT_URI}/${VIBEGRAPH_DB_NAME}`
-      
+      const adapterURI = `${DATABASE_CONNECT_URI}/default`
+
+      console.log('adapter', adapterURI)
       return new MongooseDbAdapter(adapterURI)
     }
   }

@@ -11,9 +11,7 @@ import AppHelper, {
 import {ethers} from 'ethers'
 
 import Vibegraph, { CustomIndexer, VibegraphConfig } from 'vibegraph'
- 
-import mongoose, {Model,ConnectOptions} from 'mongoose'
-
+  
 import {IInvoicePayment,InvoicePaymentSchema} from "../degentx-backend/dbextensions/payspec-extension"
 
 const contractsConfig = require('./vibegraph/contracts-config.json')
@@ -32,12 +30,7 @@ const MONGO_URI = getDatabaseConnectURI()
 
 
 const APP_NAME = getAppName()
-
  
-//Tell our payspec indexer that it should be creating records in the database 'degentx_NODEENV' even though our vibegraph data uses VIBEGRAPH_NODEENV'
-//let degenDbConnection =  mongoose.createConnection(getDatabaseConnectURI(`${APP_NAME}_${NODE_ENVIRONMENT}`),{});
-//const invoicePaymentModel = degenDbConnection.model<IInvoicePayment, Model<IInvoicePayment>>('invoicepayments', InvoicePaymentSchema);
-
 
 export interface CustomIndexerFixed {
   abi: ethers.ContractInterface,

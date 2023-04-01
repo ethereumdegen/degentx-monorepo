@@ -4,6 +4,10 @@ import mongoose, {Mongoose, Schema, Model, model, Require_id, InferSchemaType} f
  
  
 
+import {getDatabaseName} from "../lib/app-helper"
+
+const dbName = getDatabaseName()
+
   export const ProjectSchema = new Schema(
     {
       
@@ -18,6 +22,8 @@ import mongoose, {Mongoose, Schema, Model, model, Require_id, InferSchemaType} f
 mongoose.pluralize(null);
 
 
+let dbConnection = mongoose.connection.useDb(dbName)
+
 //dual uniqueness
 ProjectSchema.index({ name: 1, ownerAddress: 1 }, { unique: true })
 
@@ -28,5 +34,5 @@ InferSchemaType<typeof ProjectSchema>
 >
  
 
-export const Project = model<IProject, Model<IProject>>('projects', ProjectSchema)
+export const Project = dbConnection.model<IProject, Model<IProject>>('projects', ProjectSchema)
  
