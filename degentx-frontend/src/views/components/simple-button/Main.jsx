@@ -2,8 +2,6 @@
 
 function Main(props) {
   
- 
-
   return (
     <div
       className= {`p-2 mx-2 text-md border-2 border-slate-400 rounded select-none cursor-pointer ${ props.customClass }`}

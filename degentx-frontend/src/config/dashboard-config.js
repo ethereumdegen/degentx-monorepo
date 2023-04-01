@@ -39,6 +39,14 @@ const config = {
               pathname: "/dashboard/projects",             
               
             },
+
+
+            {
+              icon: "MessageSquare",
+              title: "Invoices",
+              pathname: "/dashboard/invoices",             
+              
+            },
  
       
             {

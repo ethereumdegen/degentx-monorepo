@@ -2,9 +2,9 @@
 import axios from "axios";
 
  
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
  
-import { useOutletContext, useParams } from 'react-router-dom';
+import { useOutletContext, useParams,  } from 'react-router-dom';
 
 import { observer } from "mobx-react";
 import {observe} from 'mobx'
@@ -16,28 +16,28 @@ import TinyBadge from "@/views/components/tiny-badge/Main"
 import { getBackendServerUrl } from '@/lib/app-helper'
 
 import InvoicesList from "@/views/components/invoice/invoices-list/Main"
+import TablePaginated from "../../components/table/TablePaginated";
 
 
 function Main(  ) {
  
      
+    // Add a state to trigger the force update
+    const [forceUpdateToken, setForceUpdateToken] = useState(0);
+
+
     const [web3Store] = useOutletContext(); // <-- access context value
 
     console.log('web3Store' , web3Store)
  
- 
-    const [product, productSet] = useState(null) 
-
-
-    const { productId } = useParams();
   
 
-  const fetchProduct = async () => {
+  const fetchInvoices = async (pageNumber) => {
    
-    const backendApiUri = `${getBackendServerUrl()}/v1/product`
+    const backendApiUri = `${getBackendServerUrl()}/v1/invoices_by_owner`
     let response = await axios.get(backendApiUri,{
       params:{
-        productId,
+        
         publicAddress: web3Store.account,
         authToken: web3Store.authToken 
       }
@@ -46,24 +46,40 @@ function Main(  ) {
     if(!response || !response.data ) return undefined 
 
     console.log({response})
-    let product = response.data.data
+    let invoices = response.data.data
 
-    return product 
+    return invoices 
   }
   
-
-   const loadProduct = async (newFilter) => {
-    console.log('loading product')
+/*
+   const loadInvoices = async (pageNumber) => {
+    console.log('loading invoices')
        
         try{ 
-          const product = await fetchProduct()
-          console.log({product})
+          const invoices = await fetchInvoices(pageNumber)
+          console.log({invoices})
 
-          productSet(product)
+          //invoicesSet(product)
         }catch(e){
           console.error(e)
         }
-   }
+   }*/
+
+
+   const tableHeaders = [
+      { displayName: 'Invoice UUID', key: 'invoiceUUID' },
+      { displayName: 'Description', key: 'description' }
+    ];
+
+
+
+
+  // Define a forceUpdate function
+  const forceUpdateTable = useCallback(() => {
+    setForceUpdateToken((prevToken) => prevToken + 1);
+  }, []);
+
+
 
    observe(web3Store, 'account', function() {
     console.log('acct:', web3Store.account); 
@@ -71,17 +87,18 @@ function Main(  ) {
   
   observe(web3Store, 'authorized', function() {
     console.log('acct:', web3Store.account);
-    loadProduct()
+    //loadInvoices(1)
+    forceUpdateTable()
   });
    
 
  //load api keys on mount 
  useEffect(()=>{
-  loadProduct()
+  //loadInvoices(1)
+  forceUpdateTable()
 }, []) // <-- empty dependency array
 
- 
-
+  
 
 
   return (
@@ -90,30 +107,28 @@ function Main(  ) {
        
       </div>
       <div className="intro-y box pt-4 px-5 pb-4 mt-2 flex flex-col items-center">
-      
-     
- 
+       
 
         <div className="pt-4 px-2 pb-16 w-full">
       
       
         {/* BEGIN:   Title */}
-        {product && 
+       
         <div className=" mt-2 mb-5 ">
           <div className="text-xl   my-2 ">
-          {product.name}
+          My Invoices
           </div>
           <TinyBadge
             customClass="my-2 bg-black text-white"
           >
-           product
+           invoices
           </TinyBadge>
          
           <a href="" className="  block text-primary text-base">
              
           </a>
         </div>
-        }
+        
         {/* END: Tx Title */}
         {/* BEGIN: Tx Content */}
 
@@ -125,25 +140,32 @@ function Main(  ) {
       
          <div className="px-4 py-16 text-lg font-bold">
 
-           Sign in to view your product
+           Sign in to view your invoices
          
          </div>
 
          }
         
-        {web3Store.authorized && product &&
+        {web3Store.authorized && true &&
       
         <div className="flex flex-col">
 
          
-            <div className="px-4 py-16 text-lg font-bold">
-              Invoices 
+            <div className="px-4 pb-16 text-lg font-bold">
+             
             </div>
              
 
             <div>
  
- 
+              <TablePaginated
+                headers={tableHeaders}
+                rowsPerPage={25}
+                fetchRows={fetchInvoices}
+                
+                forceUpdate={forceUpdateToken}
+              
+              />
 
             </div>
          
