@@ -141,15 +141,14 @@ export enum ValidationType {
     }
 
     if (type == ValidationType.payspecinvoice) {
-
-      console.log('meep',JSON.stringify(input))
+ 
       return {
 
         payspecContractAddress: sanitizeInput(input.payspecContractAddress, ValidationType.publicaddress),
         description: sanitizeInput(input.description, ValidationType.string),
         nonce: sanitizeInput(input.nonce, ValidationType.string),
         token: sanitizeInput(input.token, ValidationType.publicaddress),
-        totalAmountDue: sanitizeInput(input.totalAmountDue, ValidationType.string),
+        chainId: sanitizeInput(input.chainId, ValidationType.string),
         payToArrayStringified:   (input.payToArrayStringified ),  //no sanitization needed since we do validate invoice 
         amountsDueArrayStringified:   (input.amountsDueArrayStringified ), //no sanitization needed since we do validate invoice
         expiresAt: sanitizeInput(input.expiresAt, ValidationType.string ),

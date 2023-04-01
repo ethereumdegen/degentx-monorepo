@@ -15,7 +15,7 @@ const deployFn: DeployFunction = async (hre:any) => {
     args: [ ],
     skipIfAlreadyDeployed: false,
     hre, 
-  //  from: deployerKey
+   from: deployerKey
   })
 
 

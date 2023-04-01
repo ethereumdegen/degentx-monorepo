@@ -177,7 +177,7 @@ describe('Payspec Contract', () => {
         description: 'testtx',
         nonce: BigNumber.from(1).toString(),
         token: ETH_ADDRESS,
-        chainId: BigNumber.from(31337).toString(), 
+        chainId: BigNumber.from(0).toString(), 
         payToArrayStringified: JSON.stringify(payToArray),
         amountsDueArrayStringified: JSON.stringify(amountsDueArray),
         expiresAt: 0

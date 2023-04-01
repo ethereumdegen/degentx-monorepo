@@ -27,7 +27,7 @@ import mongoose, {Mongoose, Schema, Model, model, Require_id, InferSchemaType} f
         description : {type: String, required:true},
         nonce: {type: String, required:true},  
         token: {type: String, required:true},
-        totalAmountDue: {type: String, required:true},
+        chainId: {type: String, required:true},
         
         payToArrayStringified: {type: String, required:true},
         amountsDueArrayStringified: {type: String, required:true},
@@ -36,7 +36,11 @@ import mongoose, {Mongoose, Schema, Model, model, Require_id, InferSchemaType} f
 
         createdBy: String,
         createdAt: {type: Number, default: Date.now},
-        status: {type:String, default:'active'},
+        status: {type:String, default:'active'}, //active or paid 
+
+        paymentTransaction:{type:String},
+        paymentChainId:{type:String},
+        triggeredPaymentEffectsAt: {type:Number}
     } 
   ) 
  

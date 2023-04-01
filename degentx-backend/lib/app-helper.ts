@@ -52,10 +52,11 @@ export function getNetworkName(): string {
   return serverConfig[envName].networkName
 }
 
-export function getDatabaseConnectURI(): string {
+export function getDatabaseConnectURI(dbName?:string): string {
   if (!MONGO_CONNECT_URI) throw new Error('Missing ENV variable: MONGO_URI')
 
-  return MONGO_CONNECT_URI
+
+  return dbName ? `${MONGO_CONNECT_URI}/${dbName}` : `${MONGO_CONNECT_URI}`
 }
 
 export function getDatabasePrefix(): string {

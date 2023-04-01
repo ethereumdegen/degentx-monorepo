@@ -7,16 +7,19 @@ import AppHelper, {
   getRpcUrl,
 } from '../degentx-backend/lib/app-helper'
 
-
+import {ethers} from 'ethers'
 
 import Vibegraph, { CustomIndexer, VibegraphConfig } from 'vibegraph'
  
+import mongoose, {Model,ConnectOptions} from 'mongoose'
+
+import {IInvoicePayment,InvoicePaymentSchema} from "../degentx-backend/dbextensions/payspec-extension"
 
 const contractsConfig = require('./vibegraph/contracts-config.json')
 
- import IndexerDegenTx from './vibegraph/indexers/IndexerDegenTx'
+ import IndexerPayspec from './vibegraph/indexers/IndexerPayspec'
  
-let DegenTxABI = require( './vibegraph/abi/degentx.abi.json' )
+let PayspecABI = require( './vibegraph/abi/payspec.abi.json' )
  
 
 
@@ -25,13 +28,25 @@ const Cron = require('moleculer-cron')
 const NODE_ENVIRONMENT =  getEnvironmentName()
 
 const MONGO_URI = getDatabaseConnectURI()
+ 
+//Tell our payspec indexer that it should be creating records in the database 'degentx_NODEENV' even though our vibegraph data uses VIBEGRAPH_NODEENV'
+let degenDbConnection =  mongoose.createConnection(getDatabaseConnectURI(`degentx_${NODE_ENVIRONMENT}`),{});
+const invoicePaymentModel = degenDbConnection.model<IInvoicePayment, Model<IInvoicePayment>>('invoicepayments', InvoicePaymentSchema);
 
+let indexerPayspec = new IndexerPayspec(invoicePaymentModel)
  
- 
-const customIndexers:CustomIndexer[]= [{
- type:'DegenTx', 
- abi: DegenTxABI ,  
- handler: IndexerDegenTx
+
+export interface CustomIndexerFixed {
+  abi: ethers.ContractInterface,
+  handler: any, 
+  type:string 
+}
+
+
+const customIndexers:CustomIndexerFixed[]= [{
+ type:'Payspec', 
+ abi: PayspecABI ,  
+ handler: indexerPayspec
 }];
 
 
@@ -102,8 +117,8 @@ export async function getVibegraphConfig(): Promise<any> {
     contracts: localConfig.contracts,
     dbName: VIBE_DB_NAME.concat('_').concat(NODE_ENVIRONMENT),
     indexRate: 1 * 1000, // one second
-    fineBlockGap: localConfig.fineBlockGap? localConfig.fineBlockGap:1000,
-    courseBlockGap: localConfig.courseBlockGap?localConfig.courseBlockGap:8000,
+    fineBlockGap: localConfig.fineBlockGap? localConfig.fineBlockGap:10,
+    courseBlockGap: localConfig.courseBlockGap?localConfig.courseBlockGap:500,
     logLevel:'debug',
     subscribe:false, 
     updateBlockNumberRate: 60*1000,

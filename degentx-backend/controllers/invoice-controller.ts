@@ -177,7 +177,7 @@ export default class InvoiceController {
       description: invoice.description,
       nonce: invoice.nonce,
       token: invoice.token,
-      totalAmountDue: invoice.totalAmountDue,
+      chainId: invoice.chainId,
       payToArrayStringified: invoice.payToArrayStringified,
       amountsDueArrayStringified: invoice.amountsDueArrayStringified,
       expiresAt: invoice.expiresAt,

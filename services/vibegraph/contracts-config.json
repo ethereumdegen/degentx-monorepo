@@ -14,9 +14,9 @@
         "contracts":[
             
             {
-             "address":"0x568cD537Ed5C70aE1A2b1B0Fd6DE6D94c7FAdD77", 
-             "startBlock": 8721723,
-             "type":"DegenTx"
+             "address":"0x242fc748d08ec2524f15de3f1bce3a97efd1133e", 
+             "startBlock": 8755000,
+             "type":"Payspec"
             }
             
             

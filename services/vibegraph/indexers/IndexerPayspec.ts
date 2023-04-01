@@ -7,9 +7,17 @@ import { InvoicePayment } from '../../../degentx-backend/dbextensions/payspec-ex
 import { ContractEvent } from 'vibegraph'
 import VibegraphIndexer from 'vibegraph/dist/indexers/VibegraphIndexer'
  
+import mongoose,{Model} from 'mongoose'
+/*
+invoicepayments
+*/
+export default class IndexerPayspec extends VibegraphIndexer{
 
-export default class IndexerDegenTx extends VibegraphIndexer{
-      
+  //  invoicePaymentModel: Model<any>
+
+    constructor(public invoicePaymentModel: Model<any>){
+        super()
+    }
 
     async onEventEmitted(evt:ContractEvent ){
 
@@ -36,7 +44,7 @@ export default class IndexerDegenTx extends VibegraphIndexer{
             let uuid = (outputs['0']).toLowerCase()
             let paidBy = ethers.utils.getAddress(outputs['1'])
                          
-            await IndexerDegenTx.insertPaidInvoice(  contractAddress , uuid, paidBy, blockNumber, transactionHash) 
+            await this.insertPaidInvoice(  contractAddress , uuid, paidBy, blockNumber, transactionHash) 
         }
         
         
@@ -45,12 +53,18 @@ export default class IndexerDegenTx extends VibegraphIndexer{
 
      
 
-    static async insertPaidInvoice( contractAddress :string, invoiceUUID:string , paidBy:string, paidAtBlock:number, transactionHash:string ){
+    async insertPaidInvoice( contractAddress :string, invoiceUUID:string , paidBy:string, paidAtBlock:number, transactionHash:string ){
 
        
        try{
-        await InvoicePayment.create( { payspecContractAddress: contractAddress, invoiceUUID , paidBy , paidAtBlock, transactionHash } )
-        //  await createRecord( { payspecContractAddress: contractAddress, invoiceUUID , paidBy , paidAtBlock },  PaidInvoiceDefinition , mongoDB  )  
+        await this.invoicePaymentModel.create(
+             {
+                 payspecContractAddress: contractAddress, 
+                 invoiceUUID , 
+                 paidBy ,
+                 paidAtBlock,
+                 transactionHash 
+             } )        
        }catch(error){
            console.error(error)
        }

@@ -38,7 +38,7 @@ describe('Invoice Controller', () => {
 
        let wallet = Wallet.createRandom()
 
-       let expiration = ( Date.now() / 1000 ) + 50000
+       let expiration = Math.floor(( Date.now() / 1000 ) + 50000)
 
        
 
@@ -47,11 +47,12 @@ describe('Invoice Controller', () => {
            description: 'PROD_ID_1245', //can use product id here 
            nonce: getPayspecRandomNonce(),
            token: ETH_ADDRESS,
-           totalAmountDue: '100',
+           chainId: '0',
            payToArrayStringified: `["${wallet.address}"]`,
            amountsDueArrayStringified: `["100"]`,
            expiresAt: expiration
        }
+ 
 
         //compute uuid using payspec.js on the frontend 
        let computedUuid = getPayspecInvoiceUUID(invoice)
