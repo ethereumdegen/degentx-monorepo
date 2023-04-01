@@ -27,10 +27,13 @@ PRODUCT: Advanced Guide - one time payment of $5 of 0xbtc
 
  ### IMMEDIATE TODO 
   
+
+
  -build an INVOICES tab and a PRODUCTS tab (get all products of address)  (cap out accounts on a max of 5 projects) and 25 products in each . 
 
- - pay button on invoice show page  +(+show any effects)
- - allow for paying an invoice in front end goerli 
+ - deploy payspec to goerli
+ - allow for paying an invoice in front end goerli
+ - make sure vibegraph is tracking the paid events  
 
 then..
  - build api endpoint that shows if an invoice is PAID     (vibegraph req)
