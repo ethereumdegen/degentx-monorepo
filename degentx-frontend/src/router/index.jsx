@@ -92,7 +92,7 @@ function Router() {
           element: <InvoiceNew />,
         },
         {
-          path: "/dashboard/invoice/:invoiceId",
+          path: "/dashboard/invoice/:invoiceUUID",
           element: <InvoiceShow />,
         },
 

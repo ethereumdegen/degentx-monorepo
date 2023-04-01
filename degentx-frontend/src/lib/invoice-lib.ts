@@ -83,7 +83,7 @@ export async function addInvoice({
     ownerAddress: string, 
     authToken:string, 
 
-    onFinished: ( ) => any
+    onFinished: ( invoiceUUID:string ) => any
 }){
 
    
@@ -113,6 +113,6 @@ export async function addInvoice({
 
     console.log({response})
 
-    onFinished() 
+    onFinished(invoice.invoiceUUID) 
 
 }

@@ -21,7 +21,8 @@ function Main({row, rowIndex}) {
         >
             {row && <>
             <td className="px-4 py-2 border">
-               <a
+               <a   
+                   className="hover:text-blue-500"
                    onClick={() => handleClick(row.invoiceUUID)}
                    style={{ cursor: 'pointer' }}
                 >

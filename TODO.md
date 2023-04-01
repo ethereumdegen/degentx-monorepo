@@ -26,15 +26,22 @@ PRODUCT: Advanced Guide - one time payment of $5 of 0xbtc
 
 
  ### IMMEDIATE TODO 
- 
- - allow for creating invoice in front end form 
+  
  -build an INVOICES tab and a PRODUCTS tab (get all products of address)  (cap out accounts on a max of 5 projects) and 25 products in each . 
- - now that invoice is in DB, build SHOW page for it -> then pay button  +(+show any effects)
+ 
+ - pay button on invoice show page  +(+show any effects)
  - allow for paying an invoice in front end goerli 
 
 then..
  - build api endpoint that shows if an invoice is PAID     (vibegraph req)
  - show invoices and their statuses on the frontend (vibegraph req)
+
+
+
+ ## IMPROVEMENTS LATER 
+ 1. make it easier to make invoices for a specific product.. form is way simpler of course .. also auto only includes a single payment effect instead of array component 
+ 2. make an invoice show that isnt in the dashboard layout 
+ 3. invoice w no payment elements ? error warning
 
 ## IDEA 
 Make an endpoint that links an endpoint to a product (must own product to call) and also optionally accepts a 'ClientPublicAddress' which is an account which is somehow 'rewarded' by the fact that the invoice [uuid] gets PAID 

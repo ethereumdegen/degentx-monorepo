@@ -26,18 +26,20 @@ function Main(  ) {
     console.log('web3Store' , web3Store)
  
  
-    const [product, productSet] = useState(null) 
+    const [invoice, invoiceSet] = useState(null)
 
-
-    const { productId } = useParams();
+    const { invoiceUUID } = useParams();
   
 
-  const fetchProduct = async () => {
-   
-    const backendApiUri = `${getBackendServerUrl()}/v1/product`
+  const fetchInvoice = async ( ) => {
+
+    let uuid = invoiceUUID;
+
+    console.log('fetching invoice', uuid )
+    const backendApiUri = `${getBackendServerUrl()}/v1/invoice`
     let response = await axios.get(backendApiUri,{
       params:{
-        productId,
+        uuid,
         publicAddress: web3Store.account,
         authToken: web3Store.authToken 
       }
@@ -46,20 +48,20 @@ function Main(  ) {
     if(!response || !response.data ) return undefined 
 
     console.log({response})
-    let product = response.data.data
+    let invoice = response.data.data
 
-    return product 
+    return invoice 
   }
   
 
-   const loadProduct = async (newFilter) => {
-    console.log('loading product')
+   const loadInvoice = async ( ) => {
+    console.log('loading invoice')
        
         try{ 
-          const product = await fetchProduct()
-          console.log({product})
+          const invoice = await fetchInvoice( )
+          console.log({invoice})
 
-          productSet(product)
+          invoiceSet(invoice)
         }catch(e){
           console.error(e)
         }
@@ -71,13 +73,13 @@ function Main(  ) {
   
   observe(web3Store, 'authorized', function() {
     console.log('acct:', web3Store.account);
-    loadProduct()
+    loadInvoice( )
   });
    
 
- //load api keys on mount 
+ //load on mount 
  useEffect(()=>{
-  loadProduct()
+  loadInvoice( )
 }, []) // <-- empty dependency array
 
  
@@ -98,15 +100,15 @@ function Main(  ) {
       
       
         {/* BEGIN:   Title */}
-        {product && 
+        {invoice && 
         <div className=" mt-2 mb-5 ">
           <div className="text-xl   my-2 ">
-          {product.name}
+          {invoice.invoiceUUID}
           </div>
           <TinyBadge
             customClass="my-2 bg-black text-white"
           >
-           product
+           invoice
           </TinyBadge>
          
           <a href="" className="  block text-primary text-base">
@@ -120,31 +122,29 @@ function Main(  ) {
         <div className="w-full">
 
  
-
-       {!web3Store.authorized  && 
-      
-         <div className="px-4 py-16 text-lg font-bold">
-
-           Sign in to view your product
-         
-         </div>
-
-         }
+ 
         
-        {web3Store.authorized && product &&
+        {invoice &&
       
         <div className="flex flex-col">
 
          
             <div className="px-4 py-16 text-lg font-bold">
-              Invoices 
+              Invoice
             </div>
              
 
-            <div>
+            <div className="flex flex-col">
 
-              
- 
+
+
+              <div> token currency </div>
+
+
+              <div> total amount </div>
+
+
+              <div>pay this invoice btn</div>
 
             </div>
          

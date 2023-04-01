@@ -4,7 +4,7 @@ import axios from "axios";
  
 import { useState, useEffect } from 'react';
  
-import { useOutletContext, useParams } from 'react-router-dom';
+import { useOutletContext, useParams, useNavigate} from 'react-router-dom';
 
 import { observer } from "mobx-react";
 import {observe} from 'mobx'
@@ -40,7 +40,7 @@ function Main(  ) {
 
     const { productId } = useParams();
   
- 
+  const navigate = useNavigate();
    
    observe(web3Store, 'account', function() {
     console.log('acct:', web3Store.account); 
@@ -147,8 +147,7 @@ function Main(  ) {
                   tokenName: formData.tokenName,
                   chainId
                 })
-
-                console.log({description})
+ 
 
           
                 //build me !!  from formdata 
@@ -177,7 +176,9 @@ function Main(  ) {
                   ownerAddress: web3Store.account,
                   authToken: web3Store.authToken ,
 
-                  onFinished: () => {} 
+                  onFinished: (invoiceUUID) => {
+                    navigate(`/dashboard/invoice/${invoiceUUID}`)
+                  } 
 
                 } ) 
 
