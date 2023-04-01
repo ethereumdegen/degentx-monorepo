@@ -9,8 +9,7 @@ import {
 
 
  import { useNavigate } from 'react-router-dom';
-import SimpleButton from '@/views/components/simple-button/Main.jsx'
-
+ 
 import ProductRow from "@/views/components/product/product-row/Main.jsx";
  
 

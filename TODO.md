@@ -28,7 +28,7 @@ PRODUCT: Advanced Guide - one time payment of $5 of 0xbtc
  ### IMMEDIATE TODO 
   
  -build an INVOICES tab and a PRODUCTS tab (get all products of address)  (cap out accounts on a max of 5 projects) and 25 products in each . 
- 
+
  - pay button on invoice show page  +(+show any effects)
  - allow for paying an invoice in front end goerli 
 
@@ -36,7 +36,7 @@ then..
  - build api endpoint that shows if an invoice is PAID     (vibegraph req)
  - show invoices and their statuses on the frontend (vibegraph req)
 
-
+- allow for show invoice JSON on the invoice show page 
 
  ## IMPROVEMENTS LATER 
  1. make it easier to make invoices for a specific product.. form is way simpler of course .. also auto only includes a single payment effect instead of array component 

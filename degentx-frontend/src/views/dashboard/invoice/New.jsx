@@ -9,10 +9,7 @@ import { useOutletContext, useParams, useNavigate} from 'react-router-dom';
 import { observer } from "mobx-react";
 import {observe} from 'mobx'
 
-import { Tab } from "@/views/base-components/Headless";
-import SimpleButton from "@/views/components/simple-button/Main" 
-import TinyBadge from "@/views/components/tiny-badge/Main"
-
+ 
 import SignInRequiredWarning from "@/views/components/sign-in-required-warning/Main"
 
 import { getBackendServerUrl } from '@/lib/app-helper'

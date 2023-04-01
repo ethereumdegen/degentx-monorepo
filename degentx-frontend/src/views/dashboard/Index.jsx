@@ -10,8 +10,7 @@ import { observer } from "mobx-react";
 import {observe} from 'mobx'
 
 import { Tab } from "@/views/base-components/Headless";
-import SimpleButton from "@/views/components/simple-button/Main"
-
+ 
 import { getBackendServerUrl } from '@/lib/app-helper'
 
 

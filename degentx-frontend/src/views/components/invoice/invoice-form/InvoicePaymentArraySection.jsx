@@ -6,7 +6,7 @@ import {
     Lucide, 
   } from "@/base-components";
  
-  import SimpleButton from '@/views/components/simple-button/Main'
+  import SimpleButton from '@/views/components/button/SimpleButton'
  
  import InvoicePaymentRow from './InvoicePaymentRow';
 

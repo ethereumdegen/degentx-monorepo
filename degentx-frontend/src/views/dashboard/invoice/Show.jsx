@@ -9,8 +9,8 @@ import { useOutletContext, useParams } from 'react-router-dom';
 import { observer } from "mobx-react";
 import {observe} from 'mobx'
 
-import { Tab } from "@/views/base-components/Headless";
-import SimpleButton from "@/views/components/simple-button/Main" 
+import ViewJsonButton from '@/views/components/button/ViewJsonButton'
+
 import TinyBadge from "@/views/components/tiny-badge/Main"
 
 import { getBackendServerUrl } from '@/lib/app-helper'
@@ -18,18 +18,27 @@ import { getBackendServerUrl } from '@/lib/app-helper'
 import InvoicesList from "@/views/components/invoice/invoices-list/Main"
 
 
+
+const InvoiceSection = ({ title, children }) => {
+  return <div className="container box flex flex-col mb-4">
+    <div className="font-bold text-md p-2 bg-black text-white ">{title}</div>
+    <div className="p-2 my-2">  {children} </div>
+  
+    </div>;
+};
+
 function Main(  ) {
  
-     
-    const [web3Store] = useOutletContext(); // <-- access context value
+    
+  const [web3Store] = useOutletContext(); // <-- access context value
 
-    console.log('web3Store' , web3Store)
- 
- 
-    const [invoice, invoiceSet] = useState(null)
+  console.log('web3Store' , web3Store)
 
-    const { invoiceUUID } = useParams();
-  
+
+  const [invoice, invoiceSet] = useState(null)
+
+  const { invoiceUUID } = useParams();
+
 
   const fetchInvoice = async ( ) => {
 
@@ -67,7 +76,7 @@ function Main(  ) {
         }
    }
 
-   observe(web3Store, 'account', function() {
+  observe(web3Store, 'account', function() {
     console.log('acct:', web3Store.account); 
   });
   
@@ -100,7 +109,7 @@ function Main(  ) {
       
       
         {/* BEGIN:   Title */}
-        {invoice && 
+        {invoice && false && 
         <div className=" mt-2 mb-5 ">
           <div className="text-xl   my-2 ">
           {invoice.invoiceUUID}
@@ -126,19 +135,44 @@ function Main(  ) {
         
         {invoice &&
       
-        <div className="flex flex-col">
+      
 
-         
-            <div className="px-4 py-16 text-lg font-bold">
-              Invoice
+          <div className="flex flex-col">
+              <div className="flex flex-row mb-16">
+                <div className="flex-grow">
+                <div className="px-4  text-lg font-bold">
+                  Invoice 
+                </div>
+                </div>
+
+                <ViewJsonButton
+                jsonData={invoice}
+                 > 
+                 View JSON 
+                 </ViewJsonButton>
+
+
             </div>
              
 
             <div className="flex flex-col">
 
 
+            <InvoiceSection
+              title={"UUID"}> 
+              {invoice.invoiceUUID}
+              </InvoiceSection>
 
-              <div> token currency </div>
+              <InvoiceSection
+              title={"Description"}> 
+              {invoice.description}
+              </InvoiceSection>
+
+
+              <InvoiceSection
+              title={"Token Currency"}> 
+                lalalllala
+              </InvoiceSection>
 
 
               <div> total amount </div>

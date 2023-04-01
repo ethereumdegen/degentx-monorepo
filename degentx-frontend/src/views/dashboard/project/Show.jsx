@@ -12,7 +12,7 @@ import { useOutletContext, useParams } from 'react-router-dom';
 import { observer } from "mobx-react";
 import {observe} from 'mobx'
  
-import SimpleButton from "@/views/components/simple-button/Main"
+import SimpleButton from "@/views/components/button/SimpleButton"
 import TinyBadge from "@/views/components/tiny-badge/Main"
 
 import Modal from "@/views/components/modal/Main.jsx"

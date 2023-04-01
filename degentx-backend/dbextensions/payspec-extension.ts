@@ -23,7 +23,6 @@ import mongoose, {Mongoose, Schema, Model, model, Require_id, InferSchemaType} f
 
   export const PayspecInvoiceSchema = new Schema(
     {
-      
         payspecContractAddress: {type: String, required:true},
         description : {type: String, required:true},
         nonce: {type: String, required:true},  
@@ -36,6 +35,7 @@ import mongoose, {Mongoose, Schema, Model, model, Require_id, InferSchemaType} f
         invoiceUUID: {type: String, required:true, unique:true, index:true } ,
 
         createdBy: String,
+        createdAt: {type: Number, default: Date.now},
         status: {type:String, default:'active'},
     } 
   ) 

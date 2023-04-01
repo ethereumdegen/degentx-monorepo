@@ -7,8 +7,8 @@ import {
 
 
  import { useNavigate } from 'react-router-dom';
-import SimpleButton from '@/views/components/simple-button/Main.jsx'
-
+ import SimpleButton from '@/views/components/button/SimpleButton'
+ 
 import InvoiceRow from "@/views/components/invoice/invoice-row/Main.jsx";
 
 import { observer } from "mobx-react";

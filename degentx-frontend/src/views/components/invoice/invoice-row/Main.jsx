@@ -4,9 +4,7 @@ import {
  
 
 import { useNavigate } from 'react-router-dom';
-import SimpleButton from '@/views/components/simple-button/Main.jsx'
-
-
+ 
 import { observer } from "mobx-react";
 
 function InvoiceRow({web3Store, invoiceData}) {
