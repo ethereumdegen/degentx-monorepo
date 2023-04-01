@@ -4,8 +4,8 @@ import chaiAsPromised from 'chai-as-promised'
 import { BigNumber, Contract, Signer } from 'ethers'
 import hre from 'hardhat'
 //import { deploy } from 'helpers/deploy-helpers'
-import { FixedSupplyToken, DegenTx } from '../generated/typechain'
-import { getPayspecInvoiceUUID, PayspecInvoice , ETH_ADDRESS} from 'payspec-js'
+import { FixedSupplyToken, Payspec } from '../generated/typechain'
+import { getPayspecInvoiceUUID, getTotalAmountDueFromAmountsDueArray, PayspecInvoice , ETH_ADDRESS} from 'payspec-js'
 import { deploy } from '../helpers/deploy-helpers'
 
 chai.should()
@@ -17,7 +17,7 @@ const { getNamedSigner, deployments } = hre
 interface SetupOptions {}
 
 interface SetupReturn {
-  payspecContract: DegenTx
+  payspecContract: Payspec
   fixedSupplyToken: FixedSupplyToken
 }
 
@@ -27,7 +27,7 @@ const setup = deployments.createFixture<SetupReturn, SetupOptions>(
       keepExistingDeployments: false,
     })
 
-    const payspecContract = await hre.contracts.get<DegenTx>('DegenTx')
+    const payspecContract = await hre.contracts.get<Payspec>('Payspec')
    
         
       const fixedSupplyToken:FixedSupplyToken  = await deploy({
@@ -88,7 +88,7 @@ describe('Payspec Contract', () => {
         description: 'testtx',
         nonce: BigNumber.from(1).toString(),
         token: fixedSupplyToken.address,
-        totalAmountDue: BigNumber.from(100).toString(), 
+        chainId: BigNumber.from(31337).toString(), 
         payToArrayStringified: JSON.stringify(payToArray),
         amountsDueArrayStringified: JSON.stringify(amountsDueArray),
         expiresAt: 0
@@ -99,7 +99,7 @@ describe('Payspec Contract', () => {
           newInvoiceData.description,
           newInvoiceData.nonce,
           newInvoiceData.token,
-          newInvoiceData.totalAmountDue, 
+          newInvoiceData.chainId, 
           payToArray,
           amountsDueArray,
           newInvoiceData.expiresAt
@@ -129,7 +129,7 @@ describe('Payspec Contract', () => {
         description: 'testtx',
         nonce: BigNumber.from(1).toString(),
         token: fixedSupplyToken.address,
-        totalAmountDue: BigNumber.from(100).toString(), 
+        chainId: BigNumber.from(31337).toString(), 
         payToArrayStringified: JSON.stringify(payToArray),
         amountsDueArrayStringified: JSON.stringify(amountsDueArray),
         expiresAt: 0
@@ -149,7 +149,7 @@ describe('Payspec Contract', () => {
         newInvoiceData.description,
         newInvoiceData.nonce,
         newInvoiceData.token,
-        newInvoiceData.totalAmountDue,
+        newInvoiceData.chainId,
         payToArray,
         amountsDueArray, 
         newInvoiceData.expiresAt,
@@ -161,7 +161,7 @@ describe('Payspec Contract', () => {
 
       console.log('invoiceData',invoiceData)
 
-      expect(invoiceData.created).to.eql(true)
+      expect(invoiceData.uuid).to.exist
 
 
     })
@@ -177,7 +177,7 @@ describe('Payspec Contract', () => {
         description: 'testtx',
         nonce: BigNumber.from(1).toString(),
         token: ETH_ADDRESS,
-        totalAmountDue: BigNumber.from(100).toString(), 
+        chainId: BigNumber.from(31337).toString(), 
         payToArrayStringified: JSON.stringify(payToArray),
         amountsDueArrayStringified: JSON.stringify(amountsDueArray),
         expiresAt: 0
@@ -190,23 +190,25 @@ describe('Payspec Contract', () => {
       if(!expecteduuid){
         throw new Error('Undefined expecteduuid')
       }
+
+      let totalAmountDue = getTotalAmountDueFromAmountsDueArray(amountsDueArray); //calc me 
       
       await payspecContract.connect(customer).createAndPayInvoice(
             newInvoiceData.description,
             newInvoiceData.nonce,
             newInvoiceData.token,
-            newInvoiceData.totalAmountDue,
+            newInvoiceData.chainId,
             payToArray,
             amountsDueArray, 
             newInvoiceData.expiresAt,
-            expecteduuid , {value: newInvoiceData.totalAmountDue }
+            expecteduuid , {value: totalAmountDue }
           ) 
 
 
       let invoiceData = await payspecContract.invoices(expecteduuid)
  
 
-      expect(invoiceData.created).to.eql(true)
+      expect(invoiceData.uuid).to.exist
 
 
     })

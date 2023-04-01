@@ -41,7 +41,7 @@
     "lucide-react": "^0.37.0",
     "mobx": "^6.7.0",
     "mobx-react": "^7.6.0",
-    "payspec-js": "0.26.1",
+    "payspec-js":"0.27.0",
     "prop-types": "^15.8.1",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",

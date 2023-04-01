@@ -4,7 +4,7 @@ pragma solidity ^0.8.13;
 
 import "forge-std/Test.sol";
 
-import "../contracts/DegenTx.sol";
+import "../contracts/Payspec.sol";
 
  
 import {FixedSupplyToken} from "../contracts/mock/FixedSupplyToken.sol";
@@ -12,9 +12,9 @@ import {FixedSupplyToken} from "../contracts/mock/FixedSupplyToken.sol";
 import "lib/forge-std/src/console.sol";
 
 
-contract DegenTxTest is Test {
+contract PayspecTest is Test {
      
-    DegenTx degenTx;
+    Payspec payspec;
     FixedSupplyToken xToken;
 
     MockUser fRecipient;
@@ -28,7 +28,7 @@ contract DegenTxTest is Test {
         fRecipient = new MockUser();
         xToken = new FixedSupplyToken();
 
-        degenTx = new DegenTx();
+        payspec = new Payspec();
 
  
 

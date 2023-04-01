@@ -178,15 +178,16 @@ function Main(  ) {
 
 
             </div>
+              
+         
+            <div className="w-full  ">
+
+            <div className="grid md:grid-cols-2 gap-2">
+
+            <div>
+                Product Image   
+            </div>
              
-
-            <div className="flex flex-col">
-
-
-            <InvoiceSection
-              title={"UUID"}> 
-              {invoice.invoiceUUID}
-              </InvoiceSection>
 
               <InvoiceSection
               title={"Description"}> 
@@ -194,9 +195,13 @@ function Main(  ) {
               </InvoiceSection>
 
 
+              
               <InvoiceSection
-              title={"Token Currency"}> 
-              {invoice.token}
+              title={"Payment Effects"}> 
+              
+              
+                  list any payment effects 
+
               </InvoiceSection>
 
 
@@ -229,6 +234,8 @@ function Main(  ) {
 
               </div>
   
+
+            </div>
 
             </div>
          

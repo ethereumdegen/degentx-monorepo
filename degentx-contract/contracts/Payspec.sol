@@ -13,9 +13,13 @@ import "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol";
 import "lib/openzeppelin-contracts/contracts/security/ReentrancyGuard.sol";
 
 
+/*
 
+
+
+*/
   
-contract DegenTx is Ownable, ReentrancyGuard {
+contract Payspec is Ownable, ReentrancyGuard {
 
   uint256 public immutable contractVersion  = 100;
   address immutable ETHER_ADDRESS = address(0x0000000000000000000000000000000000000010);
@@ -32,12 +36,12 @@ contract DegenTx is Ownable, ReentrancyGuard {
     bytes32 uuid;
     string description;
     uint256 nonce;
-    bool created;
+    
 
 
     address token;
    
-    uint256 totalAmountDue;
+    uint256 chainId;
     
     address[] payTo;
     uint[] amountsDue;
@@ -66,11 +70,13 @@ contract DegenTx is Ownable, ReentrancyGuard {
    
 
 
-  function createAndPayInvoice(  string memory description, uint256 nonce, address token,  uint256 totalAmountDue,address[] memory payTo, uint[] memory amountsDue, uint256 ethBlockExpiresAt, bytes32 expecteduuid  ) 
+  function createAndPayInvoice(  string memory description, uint256 nonce, address token,  uint256 chainId,address[] memory payTo, uint[] memory amountsDue, uint256 ethBlockExpiresAt, bytes32 expecteduuid  ) 
     public 
     payable 
     nonReentrant
     returns (bool) {
+
+     uint256 totalAmountDue = calculateTotalAmountDue(amountsDue);
      
      if(token == ETHER_ADDRESS){
        require(msg.value == totalAmountDue, "Transaction sent incorrect ETH amount.");
@@ -78,17 +84,17 @@ contract DegenTx is Ownable, ReentrancyGuard {
        require(msg.value == 0, "Transaction sent ETH for an ERC20 invoice.");
      }
      
-     bytes32 newuuid = _createInvoice(description,nonce,token,totalAmountDue,payTo,amountsDue,ethBlockExpiresAt,expecteduuid);
+     bytes32 newuuid = _createInvoice(description,nonce,token,chainId,payTo,amountsDue,ethBlockExpiresAt,expecteduuid);
     
      return _payInvoice(newuuid);
   }
 
-   function _createInvoice(  string memory description, uint256 nonce, address token, uint256 totalAmountDue, address[] memory payTo, uint[] memory amountsDue, uint256 ethBlockExpiresAt, bytes32 expecteduuid ) 
+   function _createInvoice(  string memory description, uint256 nonce, address token, uint256 chainId, address[] memory payTo, uint[] memory amountsDue, uint256 ethBlockExpiresAt, bytes32 expecteduuid ) 
     private 
     returns (bytes32 uuid) { 
 
 
-      bytes32 newuuid = getInvoiceUUID(description, nonce, token, totalAmountDue, payTo, amountsDue,  ethBlockExpiresAt ) ;
+      bytes32 newuuid = getInvoiceUUID(description, nonce, token, chainId, payTo, amountsDue,  ethBlockExpiresAt ) ;
 
       require(!lockedByOwner);
       require( newuuid == expecteduuid , "Invalid invoice uuid");
@@ -103,7 +109,7 @@ contract DegenTx is Ownable, ReentrancyGuard {
        nonce: nonce,
        token: token,
 
-       totalAmountDue: totalAmountDue,
+       chainId: chainId,
 
        payTo: payTo,
        amountsDue: amountsDue,
@@ -111,8 +117,7 @@ contract DegenTx is Ownable, ReentrancyGuard {
        paidBy: address(0),
         
        ethBlockPaidAt: 0,
-       ethBlockExpiresAt: ethBlockExpiresAt,
-       created:true
+       ethBlockExpiresAt: ethBlockExpiresAt 
       });
 
 
@@ -129,6 +134,8 @@ contract DegenTx is Ownable, ReentrancyGuard {
        require( invoices[invoiceUUID].uuid == invoiceUUID ); //make sure invoice exists
        require( invoiceWasPaid(invoiceUUID) == false ); 
 
+       require( invoices[invoiceUUID].chainId == 0 || invoices[invoiceUUID].chainId == block.chainid, "Invalid chain id");
+
 
        uint256 amountsDueSum = 0;
 
@@ -141,8 +148,7 @@ contract DegenTx is Ownable, ReentrancyGuard {
               require(  _payTokenAmount(invoices[invoiceUUID].token , from , invoices[invoiceUUID].payTo[i], amtDue ) , "Unable to pay amount due." );
        } 
 
-       require(amountsDueSum == invoices[invoiceUUID].totalAmountDue, "Invalid Total Amount Due");
-      
+        
        invoices[invoiceUUID].paidBy = from;
 
        invoices[invoiceUUID].ethBlockPaidAt = block.number;
@@ -169,13 +175,19 @@ contract DegenTx is Ownable, ReentrancyGuard {
       return true;
    }
 
+  function calculateTotalAmountDue(uint256[] memory amountsDue) internal pure returns (uint256 _totalAmountDue) {
+      for (uint256 i = 0; i < amountsDue.length; i++) {
+          _totalAmountDue += amountsDue[i];
+      } 
+  }
 
 
-   function getInvoiceUUID(  string memory description, uint256 nonce, address token,  uint256 totalAmountDue, address[] memory payTo, uint[] memory amountsDue, uint expiresAt  ) public view returns (bytes32 uuid) {
+
+   function getInvoiceUUID(  string memory description, uint256 nonce, address token,  uint256 chainId, address[] memory payTo, uint[] memory amountsDue, uint expiresAt  ) public view returns (bytes32 uuid) {
 
          address payspecContractAddress = address(this); //prevent from paying through the wrong contract
 
-         bytes32 newuuid = keccak256( abi.encodePacked(payspecContractAddress, description, nonce, token, totalAmountDue, payTo, amountsDue,  expiresAt ) );
+         bytes32 newuuid = keccak256( abi.encodePacked(payspecContractAddress, description, nonce, token, chainId, payTo, amountsDue,  expiresAt ) );
 
          return newuuid;
     }
@@ -184,7 +196,7 @@ contract DegenTx is Ownable, ReentrancyGuard {
 
    function invoiceWasCreated( bytes32 invoiceUUID ) public view returns (bool){
 
-       return invoices[invoiceUUID].created ;
+       return invoices[invoiceUUID].uuid != bytes32(0) ;
    }
 
    function invoiceWasPaid( bytes32 invoiceUUID ) public view returns (bool){

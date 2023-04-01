@@ -10,12 +10,12 @@ const deployFn: DeployFunction = async (hre:any) => {
    
   const deployerKey = process.env.PRIVATE_KEY!
 
-  const degentxDeploy = await deploy({
-    contract: 'DegenTx',
+  const contractDeploy = await deploy({
+    contract: 'Payspec',
     args: [ ],
     skipIfAlreadyDeployed: false,
     hre, 
-    from: deployerKey
+  //  from: deployerKey
   })
 
 
