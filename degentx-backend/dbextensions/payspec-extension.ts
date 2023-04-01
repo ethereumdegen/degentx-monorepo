@@ -17,7 +17,9 @@ import mongoose, {Mongoose, Schema, Model, model, Require_id, InferSchemaType} f
       
         paidBy: String,
         transactionHash: String,
-        paidAtBlock: Number
+        paidAtBlock: Number,
+
+        appliedToInvoiceAt: {type:Number}
     } 
   ) 
 
