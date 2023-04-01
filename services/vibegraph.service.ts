@@ -5,6 +5,7 @@ import AppHelper, {
     getEnvironmentName,
   getNetworkNameFromChainId,
   getRpcUrl,
+  getAppName
 } from '../degentx-backend/lib/app-helper'
 
 import {ethers} from 'ethers'
@@ -28,9 +29,13 @@ const Cron = require('moleculer-cron')
 const NODE_ENVIRONMENT =  getEnvironmentName()
 
 const MONGO_URI = getDatabaseConnectURI()
+
+
+const APP_NAME = getAppName()
+
  
 //Tell our payspec indexer that it should be creating records in the database 'degentx_NODEENV' even though our vibegraph data uses VIBEGRAPH_NODEENV'
-let degenDbConnection =  mongoose.createConnection(getDatabaseConnectURI(`degentx_${NODE_ENVIRONMENT}`),{});
+let degenDbConnection =  mongoose.createConnection(getDatabaseConnectURI(`${APP_NAME}_${NODE_ENVIRONMENT}`),{});
 const invoicePaymentModel = degenDbConnection.model<IInvoicePayment, Model<IInvoicePayment>>('invoicepayments', InvoicePaymentSchema);
 
 let indexerPayspec = new IndexerPayspec(invoicePaymentModel)

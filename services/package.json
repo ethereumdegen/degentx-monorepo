@@ -3,8 +3,10 @@
   "version": "0.10.0",
   "description": "",
   "scripts": {
-    "start": "ts-node ./node_modules/.bin/moleculer-runner *.service.ts --hot --repl --env --config moleculer.config.ts"
+    "start": "ts-node ./node_modules/.bin/moleculer-runner ./**/*.service.ts --hot --repl --env --config moleculer.config.ts"
   },
+ 
+
   "author": "",
   "license": "MIT",
   "dependencies": {

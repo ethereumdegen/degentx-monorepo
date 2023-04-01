@@ -4,8 +4,7 @@ import MongooseDbAdapter from 'moleculer-db-adapter-mongoose'
  
 import { Model as MongooseModel } from 'mongoose'
 
-import {getDatabaseConnectURI,getAppName,getEnvironmentName} from '../../lib/app-helper';
-//import AppHelper, { getDatabasePrefix } from '../server/lib/app-helper'
+import {getDatabaseConnectURI,getAppName,getEnvironmentName} from '../../degentx-backend/lib/app-helper';
  
 
 const APP_NAME = getAppName()
@@ -208,7 +207,7 @@ export default abstract class DbAdapterBase extends Service {
       // New DB memory adapter for testing
       return new DbService.MemoryAdapter()
     }   else {
-      if (!process.env.MONGO_URI) throw new Error('No Mongo URI specified')
+      if (!DATABASE_CONNECT_URI) throw new Error('No Mongo URI specified')
       // Mongo adapter
       const adapterURI = `${DATABASE_CONNECT_URI}/${PRIMARY_DB_NAME}`
 
@@ -222,7 +221,7 @@ export default abstract class DbAdapterBase extends Service {
       // New DB memory adapter for testing
       return new DbService.MemoryAdapter()
     }  else {
-      if (!process.env.MONGO_URI) throw new Error('No Mongo URI specified')
+      if (!DATABASE_CONNECT_URI) throw new Error('No Mongo URI specified')
       // Mongo adapter
       const adapterURI = `${DATABASE_CONNECT_URI}/${VIBEGRAPH_DB_NAME}`
       

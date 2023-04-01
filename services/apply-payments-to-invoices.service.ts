@@ -36,6 +36,8 @@ const invoicePaymentModel = degenDbConnection.model<IInvoicePayment, Model<IInvo
 let indexerPayspec = new IndexerPayspec(invoicePaymentModel)
   
 
+const PAGE_SIZE= 25;
+
 export default class ApplyPaymentsToInvoicesService extends Service {
   public constructor(public broker: ServiceBroker) {
     super(broker)
@@ -43,6 +45,7 @@ export default class ApplyPaymentsToInvoicesService extends Service {
    
     this.parseServiceSchema({
       name: 'applypayments',
+      dependencies: ['payspec_invoice_primary','invoice_payment_primary'],
       mixins: [Cron],
       started: async (): Promise<void> => {},
       crons: [
@@ -51,21 +54,26 @@ export default class ApplyPaymentsToInvoicesService extends Service {
           cronTime: '*/10 * * * * *', // every 10 seconds
 
           onTick: async () => {
+
+
+            let paymentQuery = {}
+
+            let unappliedPayments = this.broker.call('invoice_payment_primary.find',{
+              query: paymentQuery,
+              sortBy: { '_id': 1 },
+              limit: PAGE_SIZE
+             })
+
+             this.logger.info("found invoice payments")
             
 
-          /*  try {
-              await updateVibegraph(broker, this.logger, vibegraph)
-            } catch (e) {
-              this.logger.error(e)
-            }*/
-
-
+        
 
 
 
           },
           runOnInit: async () => {
-            this.logger.info('Vibegraph Cron created')
+           // this.logger.info('Vibegraph Cron created')
           },
           timezone: 'America/Nipigon',
         },

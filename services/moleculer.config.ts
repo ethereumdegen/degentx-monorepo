@@ -32,9 +32,9 @@ require('dotenv').config()
  */
 const brokerConfig: BrokerOptions = {
   // Namespace of nodes to segment your nodes on the same network.
-  namespace: 'ensapi',
+  namespace: 'degentx',
   // Unique node identifier. Must be unique in a namespace.
-  nodeID: 'ensapi_1',
+  nodeID: 'degentx_1',
   // Custom metadata store. Store here what you want. Accessing: `this.broker.metadata`
   metadata: {},
 
