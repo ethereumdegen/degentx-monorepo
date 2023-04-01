@@ -85,7 +85,7 @@ function Main(  ) {
 
     console.log('start fetch products', projectId)
     
-    const backendApiUri = `${getBackendServerUrl()}/v1/products`
+    const backendApiUri = `${getBackendServerUrl()}/v1/products_by_project`
     let response = await axios.get(backendApiUri,{
       params:{
         projectId: projectId,

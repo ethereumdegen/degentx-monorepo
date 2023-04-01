@@ -12,7 +12,6 @@ import {observe} from 'mobx'
  
 import SignInRequiredWarning from "@/views/components/sign-in-required-warning/Main"
 
-import { getBackendServerUrl } from '@/lib/app-helper'
 
 import InvoicesList from "@/views/components/invoice/invoices-list/Main"
 
@@ -131,6 +130,8 @@ function Main(  ) {
 
           
             <InvoiceForm
+
+              web3Store={web3Store}
               
               onSubmit={async (formData) => {
                 console.log('create invoice starting with:', formData);
@@ -154,10 +155,14 @@ function Main(  ) {
 
 
                 //build me !! from formdata 
-                const paymentEffects = [] 
+                const paymentEffects = formData.effectRowsData
 
                 console.log({paymentEffects})
 
+                if(!paymentEffects  || !Array.isArray(paymentEffects)){
+                  console.log({formData})
+                    throw new Error('paymentEffects is not an array')
+                }
 
 
                 let created = await addInvoice( {

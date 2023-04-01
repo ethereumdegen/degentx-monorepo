@@ -11,7 +11,8 @@
     {"type":"get","uri":"/account","method":"getAccount","controller":"account"},
 
     {"type":"post","uri":"/v1/product","method":"createProduct","controller":"product"},
-    {"type":"get","uri":"/v1/products","method":"getProducts","controller":"product"},
+    {"type":"get","uri":"/v1/products_by_owner","method":"getProductsByOwner","controller":"product"},
+    {"type":"get","uri":"/v1/products_by_project","method":"getProductsByProject","controller":"product"},
     {"type":"get","uri":"/v1/product","method":"getProduct","controller":"product"},
 
 

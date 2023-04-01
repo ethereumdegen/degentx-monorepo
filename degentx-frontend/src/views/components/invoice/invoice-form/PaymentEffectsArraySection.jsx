@@ -1,6 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-import { observer } from "mobx-react";
+import { observer  } from "mobx-react";
+import {observe} from 'mobx'
+
+import axios from 'axios'
 
 import {
     Lucide, 
@@ -10,7 +13,11 @@ import {
  
  import PaymentEffectRow from './PaymentEffectRow';
 
-function PaymentEffectsArraySection({  onUpdated   }) {
+ import { getBackendServerUrl } from '@/lib/app-helper'
+
+
+
+function PaymentEffectsArraySection({ web3Store, onUpdated   }) {
   const [effectRows, setEffectRows] = useState( [] );
 
 
@@ -19,6 +26,52 @@ function PaymentEffectsArraySection({  onUpdated   }) {
 
 
   
+
+
+  const fetchProducts = async () => {
+   
+    const backendApiUri = `${getBackendServerUrl()}/v1/products_by_owner`
+    let response = await axios.get(backendApiUri,{
+      params:{ 
+        publicAddress: web3Store.account,
+        authToken: web3Store.authToken 
+      }
+    }) 
+
+    if(!response || !response.data ) return undefined 
+
+    console.log({response})
+    let products = response.data.data
+
+    return products
+  }
+  
+
+   const loadProducts = async (newFilter) => {
+    console.log('loading products')
+       
+        try{ 
+          const products = await fetchProducts()
+        
+
+          let productOptions = products.map((product)=>{
+            return {
+              value: product._id,
+              label: product.name
+            }})
+            console.log({productOptions})
+
+          setProductOptions(productOptions)
+        }catch(e){
+          console.error(e)
+        }
+   }
+
+
+
+
+
+
 
   
   const addEffectRow = () => {
@@ -65,10 +118,26 @@ function PaymentEffectsArraySection({  onUpdated   }) {
     setEffectRows([...effectRowsData])
 
     //to send to callback up to parent 
-    onUpdated('effectRowsData',[...newEffectRows])
+    onUpdated('effectRowsData',[...effectRowsData])
 
 
   }
+
+
+  observe(web3Store, 'authorized', function() {
+    console.log('acct:', web3Store.account);
+    loadProducts()
+  });
+   
+
+  //load on mount 
+  useEffect(()=>{
+    loadProducts()
+  }, []) // <-- empty dependency array
+
+ 
+
+
 
   return (
     <div className="p-4 my-4 container box "> 

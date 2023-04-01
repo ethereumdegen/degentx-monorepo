@@ -73,7 +73,7 @@ import {
  
 
 
-function InvoiceForm({ onSubmit }) {
+function InvoiceForm({ web3Store, onSubmit }) {
   const [formData, setFormData] = useState({});
 
   
@@ -81,7 +81,10 @@ function InvoiceForm({ onSubmit }) {
   return (
     <AutoForm 
     
-    architecture={architecture} 
+    architecture={architecture}
+    
+    
+    web3Store={web3Store}
 
     
     onSubmit={ async( formData ) =>{

@@ -162,7 +162,7 @@ export enum ValidationType {
 
         effectType: sanitizeInput(input.type, ValidationType.string),
         invoiceUUID: sanitizeInput(input.invoiceUUID, ValidationType.string),
-        productReferenceId: sanitizeInput(input.referenceId, ValidationType.string),
+        productReferenceId: sanitizeInput(input.productReferenceId, ValidationType.string),
         targetPublicAddress: sanitizeInput(input.targetPublicAddress, ValidationType.publicaddress)
 
       }  

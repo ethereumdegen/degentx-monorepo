@@ -2,7 +2,7 @@
 
 export function getEtherscanTransactionLink(
     {transactionHash,chainId}
-    :{transactionHash:string,chainId:string}
+    :{transactionHash:string,chainId:number}
     ) : string {
 
 

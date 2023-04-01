@@ -8,6 +8,7 @@ import { BigNumber, ethers } from "ethers"
 import { Product } from "../dbextensions/product-extension"
 
 import {getProjectOwnerAddress} from "../modules/project-module"
+import { Project } from "../dbextensions/project-extension"
  
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
@@ -55,7 +56,46 @@ export default class ProductController {
   }
 
 
-  getProducts: ControllerMethod = async (req: any) => {
+
+  getProductsByOwner: ControllerMethod = async (req: any) => {
+
+
+    const sanitizeResponse = sanitizeAndValidateInputs(req.query , [
+      
+      { key: 'publicAddress', type: ValidationType.publicaddress,  required: true },
+      { key: 'authToken', type: ValidationType.string, required: true },  
+    ])
+
+   
+    if(!isAssertionSuccess(sanitizeResponse)) return sanitizeResponse
+
+     
+    const {publicAddress,authToken} = sanitizeResponse.data;
+
+    //check the auth token !! 
+    let authTokenValidationResponse = await validateAuthToken({publicAddress, authToken})
+    if(!isAssertionSuccess(authTokenValidationResponse)) return authTokenValidationResponse;
+    
+
+    let projects = await Project.find(
+      {ownerAddress: publicAddress}
+    );
+
+    let projectIds = projects.map((project) => project._id)
+   
+    const product = await Product.find({
+      projectId: projectIds, 
+      status: 'active'
+    })
+        
+
+    return {success:true, data : product}
+
+
+  }
+ 
+
+  getProductsByProject: ControllerMethod = async (req: any) => {
  
     const sanitizeResponse = sanitizeAndValidateInputs(req.query , [
       { key: 'projectId', type: ValidationType.string,  required: true },

@@ -24,6 +24,7 @@ import InvoicesList from "@/views/components/invoice/invoices-list/Main"
 
 import {getEtherscanTransactionLink} from "@/utils/frontend-helper"
 
+import defaultProductImage from "@/assets/images/default_product_image.png"
 
 const InvoiceSection = ({ title, children }) => {
   return <div className="container box flex flex-col mb-4">
@@ -62,8 +63,17 @@ function Main(  ) {
 
     if(!response || !response.data ) return undefined 
 
-    console.log({response})
-    let invoice = response.data.data
+    //console.log({response})
+    let invoiceResult = response.data.data
+
+    let invoice = invoiceResult.invoice
+    let paymentEffects = invoiceResult.paymentEffects
+
+    console.log({paymentEffects})
+
+    invoice.paymentEffects = paymentEffects
+
+    console.log({invoice})
 
     return invoice 
   }
@@ -200,35 +210,59 @@ function Main(  ) {
             </div>
               
          
-            <div className="w-full  ">
+            <div className="w-full flex flex-col ">
 
-            <div className="grid md:grid-cols-2 gap-2">
+            <div className="flex flex-col lg:flex-row">
 
-            <div>
-                Product Image   
-            </div>
-             
+            <div className="flex flex-col p-4  lg:w-1/2 ">
 
+                <div className="p-2">
+                    
+                    <img 
+                      src={defaultProductImage}
+                    />
+
+                </div>
+
+            {invoice.paymentEffects && invoice.paymentEffects.length > 0 &&
               <InvoiceSection
+                title={"Payment Effects"}> 
+                 
+                  {invoice.paymentEffects.map((paymentEffect, index)=>{
+                    return <div 
+                    key={index}
+                    >
+                      {paymentEffect.productReferenceId}
+                    </div>
+                  } )}
+
+                </InvoiceSection>
+            }
+
+            </div>
+
+            <div className="flex flex-col p-4  lg:w-1/2 ">
+
+
+             <InvoiceSection
               title={"Description"}> 
               {invoice.description}
-              </InvoiceSection>
-
-
-              
-              <InvoiceSection
-              title={"Payment Effects"}> 
-              
-              
-                  list any payment effects 
-
-              </InvoiceSection>
+              </InvoiceSection> 
+            
 
 
               <InvoiceSection
               title={"Total Amount Due"}> 
               {invoice.totalAmountDue}
               </InvoiceSection>
+
+
+            </div>
+
+           
+             
+
+            </div>
 
               <div className="my-4">
 
@@ -268,7 +302,7 @@ function Main(  ) {
               </div>
   
 
-            </div>
+           
 
             </div>
          

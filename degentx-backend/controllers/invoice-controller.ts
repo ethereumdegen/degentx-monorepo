@@ -39,9 +39,9 @@ export default class InvoiceController {
  //   if(!isAssertionSuccess(authTokenValidationResponse)) return authTokenValidationResponse;
 
    
-    const result = await PayspecInvoice.findOne({invoiceUUID:uuid })
+    const invoice = await PayspecInvoice.findOne({invoiceUUID:uuid })
 
-    if(!result){
+    if(!invoice){
       return {success:false, error:"Could not find matching invoice"}
     }
 
@@ -58,9 +58,11 @@ export default class InvoiceController {
       invoiceUUID: uuid
     })
 
-    let invoice = Object.assign(result, {paymentEffects})
+    console.log("paymentEffects", paymentEffects)
 
-    return {success:true, data: invoice}
+    
+
+    return {success:true, data: {invoice, paymentEffects}}
 
 
   }
@@ -157,8 +159,27 @@ export default class InvoiceController {
     if(!isAssertionSuccess(authTokenValidationResponse)) return authTokenValidationResponse;
 
 
+    console.log({paymentEffects})
+
     //do something w payment effects  -- tie to db and link 
 
+    if(paymentEffects && Array.isArray(paymentEffects)){
+
+      for(let effect of paymentEffects){
+
+        let created = await PaymentEffect.create(
+            {
+              invoiceUUID: invoice.invoiceUUID,
+              productReferenceId: effect.productReferenceId,
+              targetPublicAddress: effect.targetPublicAddress,
+              effectType: "product_access_for_account"
+            }
+        )
+
+      }
+
+
+    } 
 
     /*
       require that the protocol fee is included or else we reject with an error 
