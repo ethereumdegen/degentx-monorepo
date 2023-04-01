@@ -2,9 +2,9 @@
 import axios from "axios";
 
  
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback , } from 'react';
  
-import { useOutletContext, useParams,  } from 'react-router-dom';
+import { useOutletContext, useParams, useNavigate } from 'react-router-dom';
 
 import { observer } from "mobx-react";
 import {observe} from 'mobx'
@@ -30,7 +30,8 @@ function Main(  ) {
     const [web3Store] = useOutletContext(); // <-- access context value
 
     console.log('web3Store' , web3Store)
- 
+  
+  const navigate = useNavigate();
   
 
   const fetchInvoices = async (pageNumber) => {
@@ -151,11 +152,17 @@ function Main(  ) {
       
         <div className="flex flex-col">
 
-         
+          <div className="flex flex-row">
+            <div className="flex-grow"></div>
             <div className="px-4 pb-16 text-lg font-bold">
-             
+              <SimpleButton 
+              customClass="hover:bg-slate-700 hover:text-white"
+              clicked={() => {navigate("/dashboard/invoice/new")}}
+              > 
+                Add a new invoice
+              </SimpleButton>
             </div>
-             
+            </div>
 
             <div>
  
