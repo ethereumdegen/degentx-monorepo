@@ -9,4 +9,3 @@ export default class InvoicePaymentModelService extends PrimaryAdapter {
     super(broker, InvoicePayment,"invoice_payment_primary")
   }
 }
-

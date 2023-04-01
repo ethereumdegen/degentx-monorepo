@@ -35,11 +35,9 @@ const APP_NAME = getAppName()
 
  
 //Tell our payspec indexer that it should be creating records in the database 'degentx_NODEENV' even though our vibegraph data uses VIBEGRAPH_NODEENV'
-let degenDbConnection =  mongoose.createConnection(getDatabaseConnectURI(`${APP_NAME}_${NODE_ENVIRONMENT}`),{});
-const invoicePaymentModel = degenDbConnection.model<IInvoicePayment, Model<IInvoicePayment>>('invoicepayments', InvoicePaymentSchema);
+//let degenDbConnection =  mongoose.createConnection(getDatabaseConnectURI(`${APP_NAME}_${NODE_ENVIRONMENT}`),{});
+//const invoicePaymentModel = degenDbConnection.model<IInvoicePayment, Model<IInvoicePayment>>('invoicepayments', InvoicePaymentSchema);
 
-let indexerPayspec = new IndexerPayspec(invoicePaymentModel)
- 
 
 export interface CustomIndexerFixed {
   abi: ethers.ContractInterface,
@@ -48,11 +46,7 @@ export interface CustomIndexerFixed {
 }
 
 
-const customIndexers:CustomIndexerFixed[]= [{
- type:'Payspec', 
- abi: PayspecABI ,  
- handler: indexerPayspec
-}];
+const customIndexers:CustomIndexerFixed[]= [];
 
 
 
@@ -73,6 +67,9 @@ export default class VibegraphService extends Service {
 
     this.parseServiceSchema({
       name: 'vibegraph',
+      dependencies: [
+        'payspec_invoice_primary',
+        'invoice_payment_primary'],
       mixins: [Cron],
       started: async (): Promise<void> => {},
       crons: [
@@ -91,12 +88,31 @@ export default class VibegraphService extends Service {
           },
           runOnInit: async () => {
             this.logger.info('Vibegraph Cron created')
+
+            let indexerPayspec = new IndexerPayspec(
+              this.createPaymentCallback.bind(this)
+              )
+
+            customIndexers.push({
+              type:'Payspec', 
+              abi: PayspecABI ,  
+              handler: indexerPayspec
+             })
           },
           timezone: 'America/Nipigon',
         },
       ],
     })
   }
+
+
+
+
+ async createPaymentCallback(payment:IInvoicePayment){
+    let created = await this.broker.call('invoice_payment_primary.create',payment)
+
+  }
+
 }
 
 export async function getVibegraphConfig(): Promise<any> {

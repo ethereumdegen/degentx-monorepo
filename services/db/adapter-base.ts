@@ -18,8 +18,7 @@ const DATABASE_CONNECT_URI = getDatabaseConnectURI()
 const PRIMARY_DB_NAME = APP_NAME.concat('_').concat(ENV_MODE) 
 
 const VIBEGRAPH_DB_NAME = 'vibegraph'.concat('_').concat(ENV_MODE)
-
-
+ 
 
 interface ServiceBrokerArgs {
   params: any,
@@ -35,32 +34,32 @@ export default abstract class DbAdapterBase extends Service {
       name: serviceName,
       actions: {
 
-        async insertOne(args: ServiceBrokerArgs) {
-          let insertedCount = 0
+        async create(args: ServiceBrokerArgs) {
+         
           let inserted
 
           let element = args.params
 
           console.log({element})
           try {
-            inserted = await Model.insertMany([element])
-            insertedCount = inserted.length
+            inserted = await Model.create(element)
+           
           } catch (error:any) {
           //  if (error instanceof MongoBulkWriteError) {
-              insertedCount = error.insertedCount
+              
               //if (error.code === 11000) {
                 // Duplicate key
                 this.logger.error(error.errmsg)
              // }
          //   }
           }
-          if (insertedCount > 0) {
+          
             this.logger.info(
-              `Added ${insertedCount} ${serviceName} to the database.`
+              `Created ${serviceName} in the database.`
             )
 
           
-          }
+          
           return inserted
         },
 
@@ -173,8 +172,10 @@ export default abstract class DbAdapterBase extends Service {
        //   console.log('calling find w args', {args})
           let result; 
          
+          console.log('performing find', Model, args.params.query)
+          
           try {
-            
+  
             result = await Model.find( args.params.query )
             .sort( args.params.sortBy ? args.params.sortBy : {} )
             .limit(args.params.limit ? args.params.limit : 1000)
@@ -184,10 +185,8 @@ export default abstract class DbAdapterBase extends Service {
                 this.logger.error(error)            
           }
         
-            this.logger.info(
-              `Count for ${serviceName} .`
-            )
-            return result 
+           
+          return result 
            
         },
 

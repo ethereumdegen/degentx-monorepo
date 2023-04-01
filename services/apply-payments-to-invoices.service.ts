@@ -45,28 +45,44 @@ export default class ApplyPaymentsToInvoicesService extends Service {
    
     this.parseServiceSchema({
       name: 'applypayments',
-      dependencies: ['payspec_invoice_primary','invoice_payment_primary'],
+      dependencies: [
+        'payspec_invoice_primary',
+        'invoice_payment_primary'],
       mixins: [Cron],
-      started: async (): Promise<void> => {},
+    
+      started: async (): Promise<void> => {
+        // Wait for the required services to start
+        await this.broker.waitForServices(['payspec_invoice_primary', 'invoice_payment_primary']);
+      },
+
       crons: [
         {
           name: 'Apply Payments To Invoices',
-          cronTime: '*/10 * * * * *', // every 10 seconds
+          cronTime: '*/2 * * * * *', // every 10 seconds
 
           onTick: async () => {
 
-
-            let paymentQuery = {}
-
-            let unappliedPayments = this.broker.call('invoice_payment_primary.find',{
+            const cursorId = undefined;
+            
+            const paymentQuery:any  = {}// cursorId ? { _id: { $gt: cursorId }, appliedToInvoiceAt:{$exists:false} } : { appliedToInvoiceAt:{$exists:false} } 
+ 
+            try{
+            let unappliedPayments = await this.broker.call('invoice_payment_primary.find',{
               query: paymentQuery,
               sortBy: { '_id': 1 },
               limit: PAGE_SIZE
              })
 
-             this.logger.info("found invoice payments")
-            
+             this.logger.info("found invoice payments",unappliedPayments)
+             
+             console.log({unappliedPayments})
 
+
+            }catch (error) {
+              this.logger.error('Error fetching unapplied payments:', error);
+            }
+
+         
         
 
 

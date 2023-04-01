@@ -15,7 +15,7 @@ export default class IndexerPayspec extends VibegraphIndexer{
 
   //  invoicePaymentModel: Model<any>
 
-    constructor(public invoicePaymentModel: Model<any>){
+    constructor(public createPaymentCallback: (invoice)=>any){
         super()
     }
 
@@ -57,14 +57,20 @@ export default class IndexerPayspec extends VibegraphIndexer{
 
        
        try{
-        await this.invoicePaymentModel.create(
+        let payment = { payspecContractAddress: contractAddress, 
+            invoiceUUID , 
+            paidBy ,
+            paidAtBlock,
+            transactionHash}
+        await this.createPaymentCallback(payment)
+       /* await this.invoicePaymentModel.create(
              {
                  payspecContractAddress: contractAddress, 
                  invoiceUUID , 
                  paidBy ,
                  paidAtBlock,
                  transactionHash 
-             } )        
+             } )     */   
        }catch(error){
            console.error(error)
        }
