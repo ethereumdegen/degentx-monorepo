@@ -10,7 +10,7 @@ import DefaultTableRow from './rows/GenericTableRow';
 
 fetchRows is a callback that calls the API to fetch the rows  -- accepts args (currentPage, rowsPerPage)
 */
-const TablePaginated = ({ headers, rowsPerPage , fetchRows , TableRowComponent , forceUpdate}) => {
+const TablePaginated = ({ headers, rowsPerPage , fetchRows , tableRowComponent , forceUpdate}) => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const [rows, setRows] = useState([]);
@@ -33,8 +33,8 @@ const TablePaginated = ({ headers, rowsPerPage , fetchRows , TableRowComponent ,
 
     console.log({fetchRowsResponse})
 
-    if(fetchRowsResponse.success){
-        newRows = fetchRowsResponse.data
+    if(fetchRowsResponse && Array.isArray(fetchRowsResponse)){
+        newRows = fetchRowsResponse
     }
 
     setRows(newRows);
@@ -58,7 +58,7 @@ const TablePaginated = ({ headers, rowsPerPage , fetchRows , TableRowComponent ,
 
 
 // Use tableRowClass if it's provided, otherwise use the fallback component
-const TableRow = TableRowComponent ? TableRowComponent :  DefaultTableRow;
+const TableRow = tableRowComponent ? tableRowComponent :  DefaultTableRow;
   
 
   //onMount run onPageUpdated -> fetchRows -> setRows 

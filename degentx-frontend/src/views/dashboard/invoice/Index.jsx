@@ -18,6 +18,7 @@ import { getBackendServerUrl } from '@/lib/app-helper'
 import InvoicesList from "@/views/components/invoice/invoices-list/Main"
 import TablePaginated from "../../components/table/TablePaginated";
 
+import InvoiceTableRow from "@/views/components/table/rows/InvoiceTableRow"
 
 function Main(  ) {
  
@@ -162,7 +163,7 @@ function Main(  ) {
                 headers={tableHeaders}
                 rowsPerPage={25}
                 fetchRows={fetchInvoices}
-                
+                tableRowComponent={InvoiceTableRow}
                 forceUpdate={forceUpdateToken}
               
               />
