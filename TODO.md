@@ -40,9 +40,11 @@ PRODUCT: Advanced Guide - one time payment of $5 of 0xbtc
 
 then..
  - build api endpoint that shows if an invoice is PAID     (vibegraph req)
- - show invoices and their statuses on the frontend (vibegraph req)
+ -  
+-  make the invoice show page look better 
 
-- allow for show invoice JSON on the invoice show page 
+- make payment effects trigger 
+- show payment effects on invoice
 
  ## IMPROVEMENTS LATER 
  1. make it easier to make invoices for a specific product.. form is way simpler of course .. also auto only includes a single payment effect instead of array component 
