@@ -14,10 +14,20 @@ import { stringToMongoId } from "../lib/mongo-helper"
 import { Product } from "../dbextensions/product-extension"
 import { getProductOwnerAddress } from "../modules/product-module"
  
+export enum ValidEffectTypes  {
+
+  PRODUCT_ACCESS="product_access_for_account"
+
+
+
+}
+
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export default class PaymentEffectController {
   
+ 
+
 
   getControllerName() : string {
     return 'paymenteffect'

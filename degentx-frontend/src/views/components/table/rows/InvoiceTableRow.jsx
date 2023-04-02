@@ -33,6 +33,9 @@ function Main({row, rowIndex}) {
              <td className="px-4 py-2 border">
                  {row.description}
               </td>
+              <td className="px-4 py-2 border">
+                 {row.status}
+              </td>
               </>
             }
         </tr>

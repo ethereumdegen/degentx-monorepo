@@ -11,7 +11,7 @@ import {
  
   import SimpleButton from '@/views/components/button/SimpleButton'
  
- import PaymentEffectRow from './PaymentEffectRow';
+ import AddPaymentEffectRow from './AddPaymentEffectRow';
 
  import { getBackendServerUrl } from '@/lib/app-helper'
 
@@ -147,7 +147,7 @@ function PaymentEffectsArraySection({ web3Store, onUpdated   }) {
 
       <div>
       {effectRows && Array.isArray(effectRows) &&  effectRows.map((effectRow, index) => (
-           <PaymentEffectRow
+           <AddPaymentEffectRow
               key={index}
               currentRowData={effectRow}
               productOptions={productOptions}

@@ -53,7 +53,7 @@ function PaymentEffectRow({web3Store, paymentEffectData, chainId}) {
             <div className="flex flex-col my-1">
               <div className='font-bold text-md underline'>Product</div>
               <div 
-              className=' ml-16 p-2 bg-green-600 hover:bg-green-500 text-white rounded cursor-pointer'
+              className=' ml-16 p-2 bg-green-500 hover:bg-green-400 text-white rounded cursor-pointer'
               onClick={()=>{navigate(`/dashboard/product/${paymentEffectData.productReferenceId}`)}}         
               
               >
@@ -64,7 +64,7 @@ function PaymentEffectRow({web3Store, paymentEffectData, chainId}) {
             <div className="flex flex-col my-1">
               <div className='font-bold text-md underline' >Account</div>
               <a 
-              className=' ml-16 p-2 bg-blue-600 hover:bg-blue-500 text-white rounded cursor-pointer'
+              className=' ml-16 p-2 bg-blue-500 hover:bg-blue-400 text-white rounded cursor-pointer'
               href={`${getEtherscanAccountLink({publicAddress:paymentEffectData.targetPublicAddress, chainId})}`}
               
               > {paymentEffectData.targetPublicAddress } </a>

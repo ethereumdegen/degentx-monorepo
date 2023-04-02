@@ -83,11 +83,13 @@ function Main(  ) {
   
   const getInvoiceStatus = (invoice) => {
 
-    if(invoice.paymentTransactionHash){
+    /*if(invoice.paymentTransactionHash){
       return "paid"
     }
 
-    return "requested"
+    return "active"*/
+
+    return invoice.status
   }
 
   const hasBeenPaid = (invoice) => {

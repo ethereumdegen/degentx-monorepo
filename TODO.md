@@ -35,15 +35,13 @@ PRODUCT: Advanced Guide - one time payment of $5 of 0xbtc
 
 
 then..
- - 
- -  when creating invoice, allow for selecting network 
+ -  
 -  make the invoice show page look better 
 
 -  make payment effects trigger (alrdy do?)
 
 - make a page for users that shows all of the Effects they have been granted 
-
--show expiration and chain Id on invoice  (fix things when chain id is 0)
+ 
  
 
  ## IMPROVEMENTS LATER 

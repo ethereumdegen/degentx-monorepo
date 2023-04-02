@@ -9,6 +9,8 @@ import { Product } from "../dbextensions/product-extension"
 
 import {getProjectOwnerAddress} from "../modules/project-module"
 import { Project } from "../dbextensions/project-extension"
+import { PaymentEffect } from "../dbextensions/payment-effect-extension"
+import { stringToMongoId } from "../lib/mongo-helper"
  
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
@@ -131,23 +133,6 @@ export default class ProductController {
   }
 
 
-  hasProductAccess: ControllerMethod = async (req: any) => {
-
-    const sanitizeResponse = sanitizeAndValidateInputs(req.fields , [  
-      
-      { key: 'productId', type: ValidationType.string, required: true},
-
-      { key: 'publicAddress', type: ValidationType.publicaddress, required: true },
-     
-    ])
-
-    if(!isAssertionSuccess(sanitizeResponse)) return sanitizeResponse
-
-    const {publicAddress, productId} = sanitizeResponse.data;
- 
-    return {success:false, error:"Not implemented"}
-  }
-
 
   createProduct: ControllerMethod = async (req: any) => {
    
@@ -184,8 +169,36 @@ export default class ProductController {
 
 
   }
- 
   
+
+  hasProductAccess: ControllerMethod = async (req: any) => {
+
+    const sanitizeResponse = sanitizeAndValidateInputs(req.fields , [  
+      
+      { key: 'productId', type: ValidationType.string, required: true},
+
+      { key: 'publicAddress', type: ValidationType.publicaddress, required: true },
+     
+    ])
+
+    if(!isAssertionSuccess(sanitizeResponse)) return sanitizeResponse
+
+    const {publicAddress, productId} = sanitizeResponse.data;
+
+
+
+    const paymentEffect = await PaymentEffect.findOne({
+      effectType:"product_access_for_account",
+      productReferenceId: stringToMongoId(productId),
+      targetPublicAddress: publicAddress
+    })
+
+    if(paymentEffect){
+      return {success:true, data: paymentEffect}
+    }
+ 
+    return {success:false, error:"Not implemented"}
+  }
 
 
 }

@@ -13,7 +13,7 @@ This is used for adding new effects to an invoice
 
 */
 
-function PaymentEffectRow({  currentRowData, productOptions , onUpdatedProductReferenceId, onUpdatedTargetPublicAddress, onRemoveRow   }) {
+function AddPaymentEffectRow({  currentRowData, productOptions , onUpdatedProductReferenceId, onUpdatedTargetPublicAddress, onRemoveRow   }) {
   const [formData, setFormData] = useState({});
 
   {/*
@@ -77,4 +77,4 @@ function PaymentEffectRow({  currentRowData, productOptions , onUpdatedProductRe
 
 
 
-export default observer(PaymentEffectRow);
+export default observer(AddPaymentEffectRow);

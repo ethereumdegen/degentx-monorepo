@@ -10,6 +10,7 @@ import { Product } from '../dbextensions/product-extension'
 import { mongoIdToString } from '../lib/mongo-helper'
 
 import {stubProject} from "../modules/project-module"
+import { PaymentEffect } from '../dbextensions/payment-effect-extension'
 
 let productController = new ProductController()
 
@@ -65,6 +66,84 @@ describe('Product Controller', () => {
         expect(created.data).to.exist
     })
 
+
+
+
+
+    it('should have product access', async () => {
+
+
+        let wallet = Wallet.createRandom()
+       
+  
+ 
+         //compute uuid using payspec.js on the frontend 
+        let invoiceUUID = "0x000000"
+ 
+        
+        let createdProduct = await Product.create({
+            name: 'test_product',
+            projectId: "test_project_id",
+        })
+
+
+        let createdEffect = await PaymentEffect.create({
+
+            invoiceUUID,
+            productReferenceId: createdProduct._id,
+            targetPublicAddress: wallet.address,
+            effectType: "product_access_for_account"
+
+        })
+
+
+        let hasAccess = await productController.hasProductAccess({
+            fields: {
+                productId: createdProduct._id,
+                publicAddress: wallet.address
+
+            }
+
+        })
+
+        expect(hasAccess.success).to.eql(true)
+
+        
+
+    })
+
+    it('should not have product access', async () => {
+
+
+        let wallet = Wallet.createRandom()
+       
+  
+ 
+         //compute uuid using payspec.js on the frontend 
+        let invoiceUUID = "0x000000"
+ 
+        
+        let createdProduct = await Product.create({
+            name: 'test_product-2',
+            projectId: "test_project_id",
+        })
+
+ 
+
+        let hasAccess = await productController.hasProductAccess({
+            fields: {
+                productId: createdProduct._id,
+                publicAddress: wallet.address
+
+            }
+
+        })
+
+        expect(hasAccess.success).to.eql(false)
+
+        
+
+    })
 
 
    /*  const ownerAddress = ethers.constants.AddressZero

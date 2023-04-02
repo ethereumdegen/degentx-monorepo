@@ -70,7 +70,8 @@ function Main(  ) {
 
    const tableHeaders = [
       { displayName: 'Invoice UUID', key: 'invoiceUUID' },
-      { displayName: 'Description', key: 'description' }
+      { displayName: 'Description', key: 'description' },
+      { displayName: 'Status', key: 'status' }
     ];
 
 
