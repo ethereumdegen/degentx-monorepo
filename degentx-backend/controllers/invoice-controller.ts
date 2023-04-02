@@ -26,8 +26,7 @@ export default class InvoiceController {
  
     const sanitizeResponse = sanitizeAndValidateInputs(req.query , [
       { key: 'uuid', type: ValidationType.string,  required: true },
-    //  { key: 'publicAddress', type: ValidationType.publicaddress,  required: true },
-    //  { key: 'authToken', type: ValidationType.string, required: true },  
+    
     ])
 
    
@@ -36,32 +35,21 @@ export default class InvoiceController {
      
     const { uuid } = sanitizeResponse.data;
 
-    //check the auth token !! 
- //   let authTokenValidationResponse = await validateAuthToken({publicAddress, authToken})
- //   if(!isAssertionSuccess(authTokenValidationResponse)) return authTokenValidationResponse;
-
    
-    const invoice:any = await PayspecInvoice.findOne({invoiceUUID:uuid })
+   //use lean exec to get a plain object instead of a mongoose document
+    const invoice:any = await PayspecInvoice.findOne({invoiceUUID:uuid }).lean().exec();
 
     if(!invoice){
       return {success:false, error:"Could not find matching invoice"}
     }
 
-    /*if(!result || !result.projectId){
-      return {success:false, error:"Could not find matching product"}
-    }
-
-    let projectOwnerAddress = await getProjectOwnerAddress(result.projectId)
-    if( projectOwnerAddress != publicAddress ){
-      return {success: false, error:"Not the owner of this product"}
-    }*/
-
+    
     const paymentEffects = await PaymentEffect.find({
       invoiceUUID: uuid
-    })
+    }).lean().exec();
 
     let productReferenceIds = paymentEffects.map((effect) => effect.productReferenceId)
-    let matchingProducts = await Product.find({_id: {$in: productReferenceIds}})
+    let matchingProducts = await Product.find({_id: {$in: productReferenceIds}}).lean().exec();
 
     let productReferenceLookup = {}
     matchingProducts.forEach((product) => {
@@ -70,19 +58,16 @@ export default class InvoiceController {
     
     let modifiedPaymentEffects:any[] = paymentEffects.map((effect:any) => {
       
-      //effect.productName = productReferenceLookup[ mongoIdToString(effect.productReferenceId ) ]
-      const effectDoc = effect._doc
-      return  Object.assign(effectDoc, {
+      
+      return  Object.assign(effect, {
         productName: productReferenceLookup[ mongoIdToString(effect.productReferenceId ) ]
       })
     
     })
 
-    
-    const invoiceDoc = invoice._doc
-
+     
  
-    let invoiceModified:any = Object.assign(invoiceDoc, {paymentEffects: modifiedPaymentEffects})
+    let invoiceModified:any = Object.assign(invoice, {paymentEffects: modifiedPaymentEffects})
 
      
     return {success:true, data: invoiceModified}
