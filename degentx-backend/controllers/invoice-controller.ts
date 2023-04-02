@@ -10,6 +10,8 @@ import {validateInvoice} from "payspec-js"
  
 import {PayspecInvoice} from "../dbextensions/payspec-extension"
 import { PaymentEffect } from "../dbextensions/payment-effect-extension"
+import { Product } from "../dbextensions/product-extension"
+import { mongoIdToString } from "../lib/mongo-helper"
  
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export default class InvoiceController {
@@ -58,11 +60,34 @@ export default class InvoiceController {
       invoiceUUID: uuid
     })
 
-    console.log("paymentEffects", paymentEffects)
+    let productReferenceIds = paymentEffects.map((effect) => effect.productReferenceId)
+    let matchingProducts = await Product.find({_id: {$in: productReferenceIds}})
 
+    let productReferenceLookup = {}
+    matchingProducts.forEach((product) => {
+      productReferenceLookup[mongoIdToString(product._id)] = product.name
+    })
+   
+    //WHY DOESNT THIS WORK 
+
+    let modifiedPaymentEffects:any[] = paymentEffects.map((effect:any) => {
+      
+      //effect.productName = productReferenceLookup[ mongoIdToString(effect.productReferenceId ) ]
+     
+      return Object.assign(effect, {
+        productName: productReferenceLookup[ mongoIdToString(effect.productReferenceId ) ]
+      })
+    
+    })
+
+    console.log({modifiedPaymentEffects})
+
+
+    //WHY DOESNT THIS WORK 
+    let invoiceModified:any = Object.assign(invoice, {paymentEffects: modifiedPaymentEffects})
     
 
-    return {success:true, data: {invoice, paymentEffects}}
+    return {success:true, data: invoiceModified}
 
 
   }

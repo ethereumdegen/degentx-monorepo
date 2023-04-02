@@ -21,6 +21,7 @@ import { getBackendServerUrl } from '@/lib/app-helper'
 import { payInvoiceUsingProvider } from '@/lib/invoice-lib'
 
 import InvoicesList from "@/views/components/invoice/invoices-list/Main"
+import PaymentEffectRow from "@/views/components/payment-effect/payment-effect-row/Main"
 
 import {getEtherscanTransactionLink} from "@/utils/frontend-helper"
 
@@ -64,15 +65,15 @@ function Main(  ) {
     if(!response || !response.data ) return undefined 
 
     //console.log({response})
-    let invoiceResult = response.data.data
+    let invoice = response.data 
 
-    let invoice = invoiceResult.invoice
+    /*let invoice = invoiceResult.invoice
     let paymentEffects = invoiceResult.paymentEffects
 
     console.log({paymentEffects})
 
     invoice.paymentEffects = paymentEffects
-
+*/
     console.log({invoice})
 
     return invoice 
@@ -229,11 +230,12 @@ function Main(  ) {
                 title={"Payment Effects"}> 
                  
                   {invoice.paymentEffects.map((paymentEffect, index)=>{
-                    return <div 
+                    
+                    return <PaymentEffectRow 
                     key={index}
-                    >
-                      {paymentEffect.productReferenceId}
-                    </div>
+                    paymentEffectData={paymentEffect}
+                    />
+                      
                   } )}
 
                 </InvoiceSection>
