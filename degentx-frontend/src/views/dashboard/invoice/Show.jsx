@@ -23,7 +23,7 @@ import { payInvoiceUsingProvider } from '@/lib/invoice-lib'
 import InvoicesList from "@/views/components/invoice/invoices-list/Main"
 import PaymentEffectRow from "@/views/components/payment-effect/payment-effect-row/Main"
 
-import {getEtherscanTransactionLink} from "@/utils/frontend-helper"
+import {getEtherscanTransactionLink , getNetworkName, getDateFormatted} from "@/utils/frontend-helper"
 
 import defaultProductImage from "@/assets/images/default_product_image.png"
 
@@ -90,14 +90,21 @@ function Main(  ) {
     return "requested"
   }
 
+  const hasBeenPaid = (invoice) => {
+
+    return !!invoice.paymentTransactionHash
+
+
+  }
+
 
   const TokenDictionary = buildTokenDictionary()
 
   const getTotalAmountDueFormatted = (invoice) => {
 
-    const currentChainId = web3Store.chainId ? web3Store.chainId : 1 //default to mainnet
+    const currentChainId = web3Store.chainId ? web3Store.chainId : 0 //default to mainnet
 
-    let chainId = invoice.chainId == currentChainId ? 1 : invoice.chainId
+    let chainId = invoice.chainId == 0 ? currentChainId : invoice.chainId
  
     let paymentElements = getPaymentElementsFromInvoice(invoice)
     let totalAmountRaw = getTotalAmountDueFromPaymentElementsArray(paymentElements)
@@ -286,8 +293,19 @@ function Main(  ) {
               title={"Description"}> 
               {invoice.description}
               </InvoiceSection> 
-            
 
+              {!hasBeenPaid(invoice) && 
+              <InvoiceSection
+              title={"Expiration"}> 
+              {getDateFormatted({seconds:invoice.expiresAt})}
+              </InvoiceSection> 
+              }
+
+              <InvoiceSection
+              title={"Network Name"}> 
+              {getNetworkName({chainId:invoice.chainId})}
+              </InvoiceSection> 
+            
 
               <InvoiceSection
               title={"Total Amount Due"}> 
@@ -298,18 +316,15 @@ function Main(  ) {
               <div
               className="p-2 container box my-4 "
 
-              >
-                
-                
-             
+              > 
 
-                      {!web3Store.account && !invoice.paymentTransactionHash &&
+                      {!web3Store.account && !hasBeenPaid(invoice) &&
                         <div>
                           Connect to web3 to pay this invoice.
                         </div>
                       }
 
-                      {web3Store.account && !invoice.paymentTransactionHash &&
+                      {web3Store.account && !hasBeenPaid(invoice) &&
                       <div className="inline">
 
                       <SimpleButton
@@ -322,7 +337,7 @@ function Main(  ) {
                       </div>
                       }
 
-                      { invoice.paymentTransactionHash && 
+                      { hasBeenPaid(invoice)  && 
                       <div className="p-2 my-4 ">
 
                       This invoice has been paid.  <a className={"text-blue-500"} href={getEtherscanTransactionLink(

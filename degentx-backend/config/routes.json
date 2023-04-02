@@ -4,9 +4,11 @@
     {"type":"post","uri":"/generateChallenge","method":"generateChallenge","controller":"session"},
     {"type":"post","uri":"/generateUserSession","method":"generateUserSession","controller":"session"},
     
+    {"type":"post","uri":"/generateApiKey","method":"generateApiKey","controller":"apikey"},
+    {"type":"post","uri":"/deleteApiKey","method":"deleteApiKey","controller":"apikey"},
+    
+
     {"type":"get","uri":"/server/status","method":"getServerStatus","controller":"status"},
-
-
 
     {"type":"get","uri":"/account","method":"getAccount","controller":"account"},
 

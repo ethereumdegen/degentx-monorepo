@@ -24,9 +24,7 @@ export const ChallengeTokenSchema = new Schema(
 ) 
  
 
-
-
-//NOT USED 
+ //requires a challenge token and signature to get one 
 export const AuthenticationTokenSchema = new Schema(
     {
       token: { type: String, required:true  },
@@ -39,6 +37,16 @@ export const AuthenticationTokenSchema = new Schema(
   ) 
 
   
+//requires an auth token to get one 
+export const ApiKeySchema = new Schema( 
+  {
+    key: { type: String, required:true  },
+    publicAddress: { type: String, required:true  }, //owner   
+  },
+  {
+    pluginTags: ['withTimestamps'],
+  }
+)
 
  
 mongoose.pluralize(null);
@@ -61,3 +69,12 @@ export type IAuthenticationTokenWithoutTimestamp = Require_id<
 export type IAuthenticationToken = ModelWithTimestamps<IAuthenticationTokenWithoutTimestamp>
 
 export const AuthenticationToken = dbConnection.model<IAuthenticationToken, Model<IAuthenticationToken>>('authenticationtokens', AuthenticationTokenSchema)
+
+
+
+export type IApiKeyWithoutTimestamp = Require_id<
+  InferSchemaType<typeof ApiKeySchema>
+>
+export type IApiKey= ModelWithTimestamps<IApiKeyWithoutTimestamp>
+
+export const ApiKey = dbConnection.model<IApiKey, Model<IApiKey>>('apikeys', ApiKeySchema)

@@ -8,6 +8,10 @@ import {
  
  
  
+/*
+This is used for adding new effects to an invoice 
+
+*/
 
 function PaymentEffectRow({  currentRowData, productOptions , onUpdatedProductReferenceId, onUpdatedTargetPublicAddress, onRemoveRow   }) {
   const [formData, setFormData] = useState({});

@@ -8,8 +8,8 @@ import {getDatabaseConnectURI,getAppName,getEnvironmentName} from '../lib/app-he
  
 import FileHelper from '../lib/file-helper'
 import WebServer from '../lib/web-server'
+ 
 
-import APIController from '../controllers/api-controller'
 import SessionController from '../controllers/session-controller'
  
 import StatusController from '../controllers/status-controller';
@@ -17,6 +17,8 @@ import ProjectController from '../controllers/project-controller';
 import ProductController from '../controllers/product-controller';
 import InvoiceController from '../controllers/invoice-controller';
 import PaymentEffectController from '../controllers/payment-effect-controller';
+import ApiKeyController from '../controllers/apikey-controller';
+import GenericController from '../controllers/generic-controller';
 
 const APP_NAME = getAppName()
 
@@ -42,15 +44,15 @@ async function start(){
   Each controller class has methods which are defined and bound in routes.json, callable by hitting the uri on the webserver.
   The 'name' field is very important as it must match exactly the 'controller' field of all routes for this controller defined in routes.json
   */
-  let apiControllers: Array<APIController>  = [
+  let apiControllers: Array<GenericController>  = [
      new StatusController(),
      new SessionController(),
+     new ApiKeyController(),
      
      new ProjectController(),
      new ProductController(),
      new InvoiceController(),
-     new PaymentEffectController()
-    
+     new PaymentEffectController()    
   ]
 
   //@ts-ignore

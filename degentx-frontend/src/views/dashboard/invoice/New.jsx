@@ -22,7 +22,7 @@ import InvoiceForm from '@/views/components/invoice/invoice-form/Main.jsx'
 import {addInvoice} from "@/lib/invoice-lib"
 import {getCurrencyTokenAddress} from 'payspec-js'
 
- 
+import AlertBanner from "@/views/components/alert-banner/Main";
 
 
 function Main(  ) {
@@ -32,6 +32,8 @@ function Main(  ) {
  
  
     const [product, productSet] = useState(null) 
+
+    const [errorMessage, errorMessageSet] = useState(null)
 
 
     const { productId } = useParams();
@@ -48,10 +50,17 @@ function Main(  ) {
   });
    
 
+
+  const renderError = (msg) => {   
+    errorMessageSet(msg);
+  }
+
  //load  on mount 
  useEffect(()=>{
   
 }, []) // <-- empty dependency array
+
+
 
  
 /*
@@ -144,8 +153,7 @@ function Main(  ) {
                 const tokenAddress = getCurrencyTokenAddress({
                   tokenName: formData.tokenName,
                   chainId
-                })
- 
+                }) 
 
           
                 //build me !!  from formdata 
@@ -153,6 +161,10 @@ function Main(  ) {
           
                 console.log({paymentsArray})
 
+                if(!paymentsArray  || !Array.isArray(paymentsArray)){
+                  renderError('Must add at least one payment.')
+                  throw new Error('Must add at least one payment.')
+               }
 
                 //build me !! from formdata 
                 const paymentEffects = formData.effectRowsData
@@ -160,12 +172,12 @@ function Main(  ) {
                 console.log({paymentEffects})
 
                 if(!paymentEffects  || !Array.isArray(paymentEffects)){
-                  console.log({formData})
-                    throw new Error('paymentEffects is not an array')
+                  renderError('Must add at least one payment effect.')
+                  throw new Error('Must add at least one payment effect.')
                 }
 
 
-                let created = await addInvoice( {
+                let creationResponse = await addInvoice( {
 
                   chainId,
                   description,
@@ -178,18 +190,30 @@ function Main(  ) {
                   ownerAddress: web3Store.account,
                   authToken: web3Store.authToken ,
 
-                  onFinished: (invoiceUUID) => {
+                  /*onFinished: (invoiceUUID) => {
                     navigate(`/dashboard/invoice/${invoiceUUID}`)
-                  } 
+                  } */
 
                 } ) 
 
 
-                console.log({created})
+                console.log({creationResponse})
+
+                if(creationResponse.success){
+                  navigate(`/dashboard/invoice/${invoiceUUID}`)
+                }else{
+                  renderError(creationResponse.error)
+                  throw new Error(creationResponse.error)
+                }
 
 
               }
             }
+            />
+
+
+            <AlertBanner
+              message={errorMessage}
             />
 
             </div>

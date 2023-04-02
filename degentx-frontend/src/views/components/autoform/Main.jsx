@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { observer } from "mobx-react";
 
@@ -30,6 +30,23 @@ import {
 function AutoForm({ architecture, web3Store, onSubmit }) {
   const [formData, setFormData] = useState({});
 
+
+
+  const initializeFormData = () => {
+    const initialFormData = {};
+  
+    architecture.fields.forEach((field) => {
+      if (field.type === 'select') {
+        initialFormData[field.name] = field.options[0].value;
+      } else {
+        initialFormData[field.name] = '';
+      }
+    });
+  
+    setFormData(initialFormData);
+    console.log('set initial form data' , initialFormData)
+  }
+
   /*
   this updates our formdata from simple components like <input>
   */
@@ -58,6 +75,13 @@ function AutoForm({ architecture, web3Store, onSubmit }) {
     event.preventDefault();
     onSubmit(formData);
   };
+
+
+  useEffect(() => {
+    initializeFormData()
+  }, [architecture]);
+
+
 
   return (
     <form onSubmit={handleSubmit}>

@@ -21,6 +21,7 @@ import {
      
     generatePayspecInvoiceSimple
 } from 'payspec-js'
+import { AssertionResult } from "../interfaces/types";
 
  
 
@@ -77,7 +78,7 @@ export async function addInvoice({
     ownerAddress,
     authToken,
     
-    onFinished
+   /// onFinished
 }:{
     chainId: number,
     description: string,
@@ -89,8 +90,8 @@ export async function addInvoice({
     ownerAddress: string, 
     authToken:string, 
 
-    onFinished: ( invoiceUUID:string|undefined ) => any
-}){
+   // onFinished: ( result:AssertionResult<string|undefined> ) => any
+}) : Promise<AssertionResult<string|undefined> >{
 
     const invoice:PayspecInvoice = generatePayspecInvoiceSimple(
         {
@@ -112,11 +113,17 @@ export async function addInvoice({
       
     }) 
 
-    if(!response || !response.data ) return undefined 
-
     console.log({response})
+ 
 
-    onFinished(invoice.invoiceUUID) 
+    if(!response || !response.data) return {success:false,error:"Invalid response from API"} 
+
+    if(!response.data.success){
+        return {success:false, error:response.data.error}
+        
+    }
+ 
+    return {success:true, data:invoice.invoiceUUID} 
 
 }
 

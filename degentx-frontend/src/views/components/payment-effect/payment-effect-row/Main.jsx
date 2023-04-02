@@ -9,6 +9,11 @@ import SimpleButton from '@/views/components/button/SimpleButton'
 
 import { observer } from "mobx-react";
 
+/*
+This is used for rendering on the invoice 
+
+*/
+
 
 
 function PaymentEffectRow({web3Store, paymentEffectData}) {

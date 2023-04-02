@@ -1,12 +1,13 @@
 import { ControllerMethod } from "degen-route-loader"
-import { createNewAuthenticatedUserSession, findActiveChallengeForAccount, upsertNewChallengeForAccount, validatePersonalSignature } from "../lib/session-lib"
+import { createNewAuthenticatedUserSession, findActiveChallengeForAccount, generateNewRandomBytes, upsertNewChallengeForAccount, validatePersonalSignature } from "../lib/session-lib"
 import { sanitizeAndValidateInputs, sanitizeInput, ValidationType } from "../lib/sanitize-lib"
-import APIController from "./api-controller"
+import APIController from "./apikey-controller"
 import { isAssertionSuccess } from "../lib/assertion-helper"
 import { getAppName } from "../lib/app-helper"
-
+ 
  
 const SERVICE_NAME = getAppName()
+
 export default class SessionController extends APIController {
  
 
@@ -18,7 +19,7 @@ export default class SessionController extends APIController {
    
 
     generateChallenge: ControllerMethod = async (req: any) => {
-        console.log('gen challenge')
+       
         const sanitizeResponse = sanitizeAndValidateInputs(req.fields , [
           
             { key: 'publicAddress', type: ValidationType.publicaddress, required: true },
@@ -30,7 +31,7 @@ export default class SessionController extends APIController {
 
         const {publicAddress} = sanitizeResponse.data 
 
-        console.log({publicAddress})
+      
         
         //make sure public address is a valid address 
   
@@ -48,7 +49,7 @@ export default class SessionController extends APIController {
     }
 
     
-
+    //generates an Auth Token by verifying signnature w challenge
     generateUserSession: ControllerMethod = async (req: any) => {
 
        
@@ -63,7 +64,8 @@ export default class SessionController extends APIController {
 
         const {publicAddress, challenge, signature} = sanitizeResponse.data 
 
-        /*if(!challenge){
+        /*
+        if(!challenge){
             let challengeRecordResponse = await findActiveChallengeForAccount(publicAddress)
               
             if(isAssertionSuccess(challengeRecordResponse)){
@@ -76,7 +78,7 @@ export default class SessionController extends APIController {
             return {success:false, error:'no active challenge found for user'} 
           }
 
-          */
+        */
 
         //validate signature
           //should read the date out of the challenge !! otherwise expiration is useless and the same challenge can be replayed 
@@ -97,6 +99,6 @@ export default class SessionController extends APIController {
         return  {success:true, data: {publicAddress, sessionToken} }
     }
 
-    
+   
 
 }

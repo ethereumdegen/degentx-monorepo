@@ -5,7 +5,7 @@ import crypto from 'crypto'
 import {bufferToHex, toBuffer, hashPersonalMessage, fromRpcSig, ecrecover, pubToAddress} from 'ethereumjs-util'
  
 import {getDatabaseConnectURI,getAppName,getEnvironmentName} from './app-helper';
-import { AuthenticationToken, ChallengeToken } from '../dbextensions/session-extension';
+import { ApiKey, AuthenticationToken, ChallengeToken } from '../dbextensions/session-extension';
 import { User, UserSession } from '../dbextensions/user-extension';
 import { IChallengeToken } from '../dbextensions/session-extension'
 import { mongoIdToString } from './mongo-helper';
@@ -140,7 +140,9 @@ import { isAssertionSuccess } from './assertion-helper';
     }
 
 
-
+    /*
+      Checks for either an auth token or an api key for the account.
+    */
 
     export async function validateAuthenticationTokenForAccount(
     
@@ -162,8 +164,32 @@ import { isAssertionSuccess } from './assertion-helper';
         token: authToken,
         createdAt: { $gt: Date.now() - ONE_DAY },
       })
+
+
+      if(existingAuthToken){
+
+        return {success:true, data:existingAuthToken} 
+
+      }else{
+
+       
+        const existingApiKey = await ApiKey.findOne({
+          publicAddress: formattedPublicAddress,
+          key: authToken,
+        })
+
+        if(existingApiKey){
+
+          return {success:true, data:existingApiKey} 
+        
+        }else{
+          return {success:false, error:'no active authentication token found'}
+
+        }
+        
+      }
       
-      return {success:true, data:existingAuthToken} 
+    //  return {success:false, error:existingAuthToken} 
     }
     
 
@@ -270,7 +296,7 @@ import { isAssertionSuccess } from './assertion-helper';
         let matchingUserResponse = await User.findOne( {publicAddress} )
 
         if(!matchingUserResponse ){
-            //create a new user 
+            //create a new udser 
 
             let createdUserResponse = await insertNewUser( { publicAddress } )
             if(!isAssertionSuccess(createdUserResponse)) return createdUserResponse
@@ -323,7 +349,7 @@ import { isAssertionSuccess } from './assertion-helper';
 
     export async function  insertUserSession(user:any): Promise<AssertionResult<any>> {
 
-        let sessionToken = generateNewAuthToken()
+        let sessionToken = generateNewRandomBytes()
 
         if(!user || !user._id){
           return {success:false, error:'Could not create session for undefined user'}
@@ -347,8 +373,8 @@ import { isAssertionSuccess } from './assertion-helper';
 
         return {success:true, data: {sessionToken, userId: parentUserId}}
     }
+ 
 
-
-    export function generateNewAuthToken(){
-        return crypto.randomBytes(24).toString('hex');
+    export function generateNewRandomBytes(){
+      return crypto.randomBytes(24).toString('hex');
     }

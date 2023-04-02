@@ -31,22 +31,29 @@ PRODUCT: Advanced Guide - one time payment of $5 of 0xbtc
 
  -build an INVOICES tab and a PRODUCTS tab (get all products of address)  (cap out accounts on a max of 5 projects) and 25 products in each . 
   
-- finish 'hasProductAccess' 
+- finish 'hasProductAccess' -> payment effects 
 
 
 then..
  - 
- -  
+ -  when creating invoice, allow for selecting network 
 -  make the invoice show page look better 
 
-- make payment effects trigger 
-- show payment effects on invoice
+-  make payment effects trigger (alrdy do?)
+
+- make a page for users that shows all of the Effects they have been granted 
+
+-show expiration and chain Id on invoice  (fix things when chain id is 0)
+ 
 
  ## IMPROVEMENTS LATER 
+ 1. add pagination and sorting to tables 
+
  1. make it easier to make invoices for a specific product.. form is way simpler of course .. also auto only includes a single payment effect instead of array component 
  2. make an invoice show that isnt in the dashboard layout 
  3. invoice w no payment elements ? error warning
-
+4. allow a product image to be chosen from a few templates 
+5. fix default values for select [ai]
 
 
 ## IDEA 

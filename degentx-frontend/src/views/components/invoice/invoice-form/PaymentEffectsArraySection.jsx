@@ -68,23 +68,22 @@ function PaymentEffectsArraySection({ web3Store, onUpdated   }) {
    }
 
 
-
-
-
-
-
+ 
   
   const addEffectRow = () => {
 
 
+    const initialProductReferenceId = productOptions[0].value ? productOptions[0].value : undefined 
+
+
     let newEffectRows = [...effectRows]
     newEffectRows.push({
-        productReferenceId: '0',
+        productReferenceId: initialProductReferenceId,
         targetPublicAddress: '0x...'
     })
 
     setEffectRows(newEffectRows)
-   onUpdated('effectRowsData',[...newEffectRows])
+    onUpdated('effectRowsData',[...newEffectRows])
 
   }
 
