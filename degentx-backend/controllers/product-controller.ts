@@ -130,6 +130,25 @@ export default class ProductController {
 
   }
 
+
+  hasProductAccess: ControllerMethod = async (req: any) => {
+
+    const sanitizeResponse = sanitizeAndValidateInputs(req.fields , [  
+      
+      { key: 'productId', type: ValidationType.string, required: true},
+
+      { key: 'publicAddress', type: ValidationType.publicaddress, required: true },
+     
+    ])
+
+    if(!isAssertionSuccess(sanitizeResponse)) return sanitizeResponse
+
+    const {publicAddress, productId} = sanitizeResponse.data;
+ 
+    return {success:false, error:"Not implemented"}
+  }
+
+
   createProduct: ControllerMethod = async (req: any) => {
    
     const sanitizeResponse = sanitizeAndValidateInputs(req.fields , [  

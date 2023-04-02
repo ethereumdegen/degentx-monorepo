@@ -9,6 +9,8 @@ import SimpleButton from '@/views/components/button/SimpleButton'
 
 import { observer } from "mobx-react";
 
+
+
 function PaymentEffectRow({web3Store, paymentEffectData}) {
 
   let navigate = useNavigate();
@@ -17,46 +19,58 @@ function PaymentEffectRow({web3Store, paymentEffectData}) {
   console.log({paymentEffectData})
 
 
+  const getEffectTypeFormatted = (effectType) => {  
+
+    switch(effectType){
+      case 'product_access_for_account': return 'Grant Product Access'
+      default: return 'Unknown Effect Type'
+    }
+
+  }
  
 
   return (
-    <div className="border-slate-200 border-2 rounded p-4 my-4 w-full">
+    <div className="border-slate-200 border-2 rounded my-1 w-full">
      
     <div className="flex flex-col">
-    <div className="flex flex-row w-full">  
+        
+          <div className="p-2 bg-slate-800 text-white rounded text-md mb-2">
+            {getEffectTypeFormatted(paymentEffectData.effectType)}
+          </div>
+    
 
-    {paymentEffectData.effectType}
+        <div className=" p-2 ">
+          {paymentEffectData && 
+           <div className="flex flex-col">
 
-        <div className="flex flex-grow flex-col ">
-         {paymentEffectData && <div className="flex flex-row my-2">
-            <div className='font-bold  '> {paymentEffectData.productName } </div>
+            <div className="flex flex-col my-1">
+              <div className='font-bold text-md underline'>Product</div>
+              <div className='  p-2 bg-green-600 text-white rounded'> {paymentEffectData.productName } </div>
+            </div>
+
+            <div className="flex flex-col my-1">
+              <div className='font-bold text-md underline' >Account</div>
+              <div className='  p-2 bg-blue-600 text-white rounded '> {paymentEffectData.targetPublicAddress } </div>
+            </div>
+           
+            
+
+          </div>
           
-          </div> }
+          
+          }
+
+
+
+
 
         
           
        </div>
 
+ 
 
-       <div className="flex flex-row"> 
-        <div> 
-          {paymentEffectData && <div 
-          className={`mx-4 p-2 capitalize font-bold bg-slate-200 border-2 border-gray-400 cursor-pointer`}
-          
-          > 
-          {paymentEffectData.targetPublicAddress}
-          </div>}
-         </div>
-        
-         </div> 
-      
-    </div>
-
-    <div className="flex flex-row w-full flex-grow"> 
-
-      <div className="flex flex-grow"></div>
-     
-    </div>
+   
 
     </div>
     

@@ -31,15 +31,11 @@ PRODUCT: Advanced Guide - one time payment of $5 of 0xbtc
 
  -build an INVOICES tab and a PRODUCTS tab (get all products of address)  (cap out accounts on a max of 5 projects) and 25 products in each . 
   
-- build a service that applies payments to invoices services (use the adapter binding code from ens api repo)
-- on invoice show, show the status and if it is PAID then hide the PAY INVOICE button . 
-
--on invoice show, render the payment effects.  Also render an image from the payment effects if possible. Generic image if not. 
-
+- finish 'hasProductAccess' 
 
 
 then..
- - build api endpoint that shows if an invoice is PAID     (vibegraph req)
+ - 
  -  
 -  make the invoice show page look better 
 
@@ -50,6 +46,8 @@ then..
  1. make it easier to make invoices for a specific product.. form is way simpler of course .. also auto only includes a single payment effect instead of array component 
  2. make an invoice show that isnt in the dashboard layout 
  3. invoice w no payment elements ? error warning
+
+
 
 ## IDEA 
 Make an endpoint that links an endpoint to a product (must own product to call) and also optionally accepts a 'ClientPublicAddress' which is an account which is somehow 'rewarded' by the fact that the invoice [uuid] gets PAID 

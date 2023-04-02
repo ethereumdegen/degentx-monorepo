@@ -34,7 +34,7 @@ function ProductInvoicesList({web3Store, productId, onInvoicesChanged}) {
 
   const fetchInvoices = async () => {
     console.log('start fetch invoices')
-    const backendApiUri = `${getBackendServerUrl()}/v1/invoices`
+    const backendApiUri = `${getBackendServerUrl()}/v1/invoices_by_product`
     let response = await axios.get(backendApiUri,{
       params:{
         productId: productId,

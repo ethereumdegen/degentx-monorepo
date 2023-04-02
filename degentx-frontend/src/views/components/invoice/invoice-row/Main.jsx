@@ -26,7 +26,7 @@ function InvoiceRow({web3Store, invoiceData}) {
 
         <div className="flex flex-grow flex-col ">
          {invoiceData && <div className="flex flex-row my-2">
-            <div className='font-bold  '> {invoiceData.uuid } </div>
+            <div className='font-bold  '> {invoiceData.invoiceUUID } </div>
           
           </div> }
 
@@ -39,7 +39,7 @@ function InvoiceRow({web3Store, invoiceData}) {
         <div> 
           {invoiceData && <div 
           className={`mx-4 p-2 capitalize font-bold bg-slate-200 border-2 border-gray-400 cursor-pointer`}
-          onClick={()=>{navigate(`/dashboard/invoice/${invoiceData.uuid}`)}}
+          onClick={()=>{navigate(`/dashboard/invoice/${invoiceData.invoiceUUID}`)}}
           > 
             View
           </div>}

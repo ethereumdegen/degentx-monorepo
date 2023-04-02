@@ -72,14 +72,16 @@ const projectFormArchitecture = {
         {projects && projects.map((item,index)=>{ 
 
         return (
-            <div className="my-8">
+            
             <ProjectRow
+            
             key={item._id}
+            className="my-8"
             web3Store ={web3Store}
             projectData = {item}  
             ></ProjectRow>  
 
-            </div>
+           
         )
 
         })}

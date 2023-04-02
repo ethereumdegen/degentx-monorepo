@@ -17,6 +17,7 @@ import ErrorPage from "../views/error-page/Main";
   
 //import ProductIndex from "../views/dashboard/product/Index"
 import ProductShow from "../views/dashboard/product/Show"
+import ProductIndex from "../views/dashboard/product/Index"
 
   
 import ProjectIndex from "../views/dashboard/project/Index"
@@ -79,6 +80,19 @@ function Router() {
         {
           path: "/dashboard/product/:productId",
           element: <ProductShow />,
+        },
+
+
+        //make this a special custom new invoice form for a product
+        {
+          path: "/dashboard/product/:productId/invoice/new",
+          element: <InvoiceNew />,
+        },
+
+         
+        {
+          path: "/dashboard/products",
+          element: <ProductIndex />,
         },
 
 

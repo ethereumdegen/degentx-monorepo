@@ -28,14 +28,16 @@ function InvoicesList({web3Store, invoices, onInvoicesChanged}) {
         {invoices && invoices.map((item,index)=>{ 
 
         return (
-            <div className="my-8">
+           
+           
             <InvoiceRow
-            key={item._id}
+            className="my-8"
+            key={index}
             web3Store ={web3Store}
             invoiceData = {item} 
                     
             />  
-            </div>
+            
         )
 
         })} 

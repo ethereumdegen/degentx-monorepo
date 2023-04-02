@@ -40,6 +40,13 @@ const config = {
               
             },
 
+            {
+              icon: "MessageSquare",
+              title: "Products",
+              pathname: "/dashboard/products",             
+              
+            },
+
 
             {
               icon: "MessageSquare",

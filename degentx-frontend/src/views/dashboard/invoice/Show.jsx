@@ -254,6 +254,8 @@ function Main(  ) {
                 <div className="p-2">
                     
                     <img 
+                    className={"mx-auto"}
+                    style={{maxHeight:"400px"}}
                       src={defaultProductImage}
                     />
 
@@ -293,6 +295,52 @@ function Main(  ) {
               </InvoiceSection>
 
 
+              <div
+              className="p-2 container box my-4 "
+
+              >
+                
+                
+             
+
+                      {!web3Store.account && !invoice.paymentTransactionHash &&
+                        <div>
+                          Connect to web3 to pay this invoice.
+                        </div>
+                      }
+
+                      {web3Store.account && !invoice.paymentTransactionHash &&
+                      <div className="inline">
+
+                      <SimpleButton
+                        customClass="bg-blue-500 hover:bg-blue-400 text-white"
+                        clicked={()=>{payInvoice()}}
+                      >
+                        Pay Invoice
+                      </SimpleButton>
+
+                      </div>
+                      }
+
+                      { invoice.paymentTransactionHash && 
+                      <div className="p-2 my-4 ">
+
+                      This invoice has been paid.  <a className={"text-blue-500"} href={getEtherscanTransactionLink(
+                        {
+                          transactionHash: invoice.paymentTransactionHash,
+                          chainId: invoice.paymentChainId
+                        }
+                        )}>View Transaction</a>
+
+                      </div>
+                      }
+
+                    
+
+
+              </div>
+
+
             </div>
 
            
@@ -300,42 +348,7 @@ function Main(  ) {
 
             </div>
 
-              <div className="my-4">
-
-
-              {!web3Store.account && !invoice.paymentTransactionHash &&
-                <div>
-                  Connect to web3 to pay invoice.
-                </div>
-              }
-
-              {web3Store.account && !invoice.paymentTransactionHash &&
-              <div className="inline">
-
-              <SimpleButton
-                customClass="bg-blue-500 hover:bg-blue-400 text-white"
-                clicked={()=>{payInvoice()}}
-              >
-                Pay Invoice
-              </SimpleButton>
-
-              </div>
-              }
-
-            { invoice.paymentTransactionHash && 
-              <div className="p-2 my-4 ">
-
-              This invoice has been paid.  <a className={"text-blue-500"} href={getEtherscanTransactionLink(
-                {
-                  transactionHash: invoice.paymentTransactionHash,
-                  chainId: invoice.paymentChainId
-                }
-                )}>View Transaction</a>
-
-              </div>
-              }
-
-              </div>
+            
   
 
            

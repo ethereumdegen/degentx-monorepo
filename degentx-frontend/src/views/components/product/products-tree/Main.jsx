@@ -53,17 +53,17 @@ const projectFormArchitecture = {
         {products && products.map((item,index)=>{ 
 
         return (
-            <div className="my-8">
+            
             <ProductRow
             key={item._id}
+            className="my-8"
             web3Store ={web3Store}
             productData = {item}
 
                     
             ></ProductRow> 
         
-
-            </div>
+ 
         )
 
         })}

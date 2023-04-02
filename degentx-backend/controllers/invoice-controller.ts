@@ -109,7 +109,7 @@ export default class InvoiceController {
 
   }
 
- /* getInvoicesByProduct: ControllerMethod = async (req: any) => {
+  getInvoicesByProduct: ControllerMethod = async (req: any) => {
  
     const sanitizeResponse = sanitizeAndValidateInputs(req.query , [
       { key: 'productId', type: ValidationType.string,  required: true },
@@ -127,26 +127,32 @@ export default class InvoiceController {
     if(!isAssertionSuccess(authTokenValidationResponse)) return authTokenValidationResponse;
 
 
-   
+   /*
     let productOwnerAddress = await getProductOwnerAddress(productId.projectId)
     if( productOwnerAddress != publicAddress ){
       return {success: false, error:"Not the owner of this product"}
-    } 
+    } */
 
 
+    const paymentEffects = await PaymentEffect.find({
+      productReferenceId: productId
+
+    }).lean().exec()
+
+    const invoiceUUIDs = paymentEffects.map((effect) => effect.invoiceUUID)
 
     //find linkages via payment effects !? 
    
-    const invoice = await PayspecInvoice.find({
-      projectId: projectId, 
+    const invoices = await PayspecInvoice.find({
+       invoiceUUID: {$in:invoiceUUIDs}
     })
 
         
 
-    return {success:true, data : invoice}
+    return {success:true, data : invoices}
 
 
-  }*/
+  }
 
   addInvoice: ControllerMethod = async (req: any) => {
      
