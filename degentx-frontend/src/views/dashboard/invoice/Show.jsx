@@ -27,6 +27,13 @@ import {getEtherscanTransactionLink} from "@/utils/frontend-helper"
 
 import defaultProductImage from "@/assets/images/default_product_image.png"
 
+
+ 
+import {
+  getPaymentElementsFromInvoice,
+  getTotalAmountDueFromPaymentElementsArray
+} from 'payspec-js'
+
 const InvoiceSection = ({ title, children }) => {
   return <div className="container box flex flex-col mb-4">
     <div className="font-bold text-md p-2 bg-black text-white ">{title}</div>
@@ -79,6 +86,22 @@ function Main(  ) {
     }
 
     return "requested"
+  }
+
+  const getTotalAmountDueFormatted = (invoice) => {
+
+    let chainId = invoice.chainId == 0 ? 1 : invoice.chainId
+ 
+    let paymentElements = getPaymentElementsFromInvoice(invoice)
+    let totalAmountRaw = getTotalAmountDueFromPaymentElementsArray(paymentElements)
+
+    let tokenCurrency = invoice.token
+    let decimals = 18 //get decimals 
+
+    let tokenName = '??'
+    let totalAmountFormatted = ethers.utils.formatUnits(totalAmountRaw, decimals)
+
+    return `${totalAmountFormatted} ${tokenName}`
   }
 
    const loadInvoice = async ( ) => {
@@ -248,7 +271,7 @@ function Main(  ) {
 
               <InvoiceSection
               title={"Total Amount Due"}> 
-              {invoice.totalAmountDue}
+              {getTotalAmountDueFormatted(invoice)}
               </InvoiceSection>
 
 
