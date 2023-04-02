@@ -27,11 +27,13 @@ import {getEtherscanTransactionLink} from "@/utils/frontend-helper"
 
 import defaultProductImage from "@/assets/images/default_product_image.png"
 
-
  
 import {
   getPaymentElementsFromInvoice,
-  getTotalAmountDueFromPaymentElementsArray
+  getTotalAmountDueFromPaymentElementsArray,
+  
+  buildTokenDictionary,
+  getTokenDataFromTokenDictionary
 } from 'payspec-js'
 
 const InvoiceSection = ({ title, children }) => {
@@ -88,18 +90,34 @@ function Main(  ) {
     return "requested"
   }
 
+
+  const TokenDictionary = buildTokenDictionary()
+
   const getTotalAmountDueFormatted = (invoice) => {
 
-    let chainId = invoice.chainId == 0 ? 1 : invoice.chainId
+    const currentChainId = web3Store.chainId ? web3Store.chainId : 1 //default to mainnet
+
+    let chainId = invoice.chainId == currentChainId ? 1 : invoice.chainId
  
     let paymentElements = getPaymentElementsFromInvoice(invoice)
     let totalAmountRaw = getTotalAmountDueFromPaymentElementsArray(paymentElements)
 
     let tokenCurrency = invoice.token
-    let decimals = 18 //get decimals 
 
-    let tokenName = '??'
+    let {decimals,tokenName} = getTokenDataFromTokenDictionary(TokenDictionary,tokenCurrency,chainId)
+
+   // let decimals = getDecimalsOfToken(TokenDictionary,tokenCurrency,chainId) //get decimals 
+
+    if(!decimals){
+      return `Error: Unknown decimals for token`
+    }
+
+   // let tokenName = getNameOfToken(TokenDictionary,tokenCurrency,chainId)
     let totalAmountFormatted = ethers.utils.formatUnits(totalAmountRaw, decimals)
+
+    if(!tokenName){
+      return `Error: Unknown token name`
+    }
 
     return `${totalAmountFormatted} ${tokenName}`
   }
