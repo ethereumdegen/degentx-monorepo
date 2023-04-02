@@ -41,7 +41,7 @@ export default class InvoiceController {
  //   if(!isAssertionSuccess(authTokenValidationResponse)) return authTokenValidationResponse;
 
    
-    const invoice = await PayspecInvoice.findOne({invoiceUUID:uuid })
+    const invoice:any = await PayspecInvoice.findOne({invoiceUUID:uuid })
 
     if(!invoice){
       return {success:false, error:"Could not find matching invoice"}
@@ -67,26 +67,24 @@ export default class InvoiceController {
     matchingProducts.forEach((product) => {
       productReferenceLookup[mongoIdToString(product._id)] = product.name
     })
-   
-    //WHY DOESNT THIS WORK 
-
+    
     let modifiedPaymentEffects:any[] = paymentEffects.map((effect:any) => {
       
       //effect.productName = productReferenceLookup[ mongoIdToString(effect.productReferenceId ) ]
-     
-      return Object.assign(effect, {
+      const effectDoc = effect._doc
+      return  Object.assign(effectDoc, {
         productName: productReferenceLookup[ mongoIdToString(effect.productReferenceId ) ]
       })
     
     })
 
-    console.log({modifiedPaymentEffects})
-
-
-    //WHY DOESNT THIS WORK 
-    let invoiceModified:any = Object.assign(invoice, {paymentEffects: modifiedPaymentEffects})
     
+    const invoiceDoc = invoice._doc
 
+ 
+    let invoiceModified:any = Object.assign(invoiceDoc, {paymentEffects: modifiedPaymentEffects})
+
+     
     return {success:true, data: invoiceModified}
 
 

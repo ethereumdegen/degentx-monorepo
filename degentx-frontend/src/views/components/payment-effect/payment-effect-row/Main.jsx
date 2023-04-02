@@ -24,11 +24,12 @@ function PaymentEffectRow({web3Store, paymentEffectData}) {
      
     <div className="flex flex-col">
     <div className="flex flex-row w-full">  
-         
+
+    {paymentEffectData.effectType}
 
         <div className="flex flex-grow flex-col ">
          {paymentEffectData && <div className="flex flex-row my-2">
-            <div className='font-bold  '> {paymentEffectData.productReferenceId } </div>
+            <div className='font-bold  '> {paymentEffectData.productName } </div>
           
           </div> }
 
@@ -43,7 +44,7 @@ function PaymentEffectRow({web3Store, paymentEffectData}) {
           className={`mx-4 p-2 capitalize font-bold bg-slate-200 border-2 border-gray-400 cursor-pointer`}
           
           > 
-            View
+          {paymentEffectData.targetPublicAddress}
           </div>}
          </div>
         

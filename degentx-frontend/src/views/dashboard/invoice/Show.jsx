@@ -64,18 +64,11 @@ function Main(  ) {
 
     if(!response || !response.data ) return undefined 
 
-    //console.log({response})
-    let invoice = response.data 
+    console.log({response})
+    let invoice = response.data.data
+ 
 
-    /*let invoice = invoiceResult.invoice
-    let paymentEffects = invoiceResult.paymentEffects
-
-    console.log({paymentEffects})
-
-    invoice.paymentEffects = paymentEffects
-*/
-    console.log({invoice})
-
+    
     return invoice 
   }
   
@@ -107,7 +100,7 @@ function Main(  ) {
       const networkName = "goerli"
 
 
-      let prov =  new ethers.providers.Web3Provider(window.ethereum, "any");
+     // let prov =  new ethers.providers.Web3Provider(window.ethereum, "any");
 
  
       let paid = await payInvoiceUsingProvider(
