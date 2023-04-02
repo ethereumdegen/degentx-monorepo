@@ -200,6 +200,9 @@ function Main(  ) {
                 console.log({creationResponse})
 
                 if(creationResponse.success){
+                  
+                  let invoiceUUID = creationResponse.data 
+
                   navigate(`/dashboard/invoice/${invoiceUUID}`)
                 }else{
                   renderError(creationResponse.error)

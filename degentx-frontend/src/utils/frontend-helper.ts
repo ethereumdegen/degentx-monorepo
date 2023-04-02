@@ -1,5 +1,12 @@
 
 
+export function getEtherscanAccountLink(
+    {publicAddress,chainId}
+    :{publicAddress:string,chainId:number}
+    ) : string {
+        return `${getEtherscanBaseUrl({chainId})}/account/${publicAddress}`
+    }
+
 export function getEtherscanTransactionLink(
     {transactionHash,chainId}
     :{transactionHash:string,chainId:number}

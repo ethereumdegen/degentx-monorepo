@@ -93,14 +93,21 @@ export async function addInvoice({
    // onFinished: ( result:AssertionResult<string|undefined> ) => any
 }) : Promise<AssertionResult<string|undefined> >{
 
-    const invoice:PayspecInvoice = generatePayspecInvoiceSimple(
+
+    let invoice:PayspecInvoice
+
+    try{
+    invoice = generatePayspecInvoiceSimple(
         {
             chainId,
             description,
             tokenAddress,
             paymentsArray
         }
-    )   
+    ) 
+    }catch(err:any){
+        return {success:false, error: err.toString()}
+    }
 
     const backendApiUri = `${getBackendServerUrl()}/v1/invoice`
     let response = await axios.post(backendApiUri,{

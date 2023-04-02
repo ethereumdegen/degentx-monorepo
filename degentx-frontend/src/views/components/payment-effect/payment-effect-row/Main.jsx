@@ -9,6 +9,8 @@ import SimpleButton from '@/views/components/button/SimpleButton'
 
 import { observer } from "mobx-react";
 
+import {getEtherscanAccountLink} from "@/utils/frontend-helper"
+
 /*
 This is used for rendering on the invoice 
 
@@ -16,7 +18,7 @@ This is used for rendering on the invoice
 
 
 
-function PaymentEffectRow({web3Store, paymentEffectData}) {
+function PaymentEffectRow({web3Store, paymentEffectData, chainId}) {
 
   let navigate = useNavigate();
 
@@ -50,12 +52,22 @@ function PaymentEffectRow({web3Store, paymentEffectData}) {
 
             <div className="flex flex-col my-1">
               <div className='font-bold text-md underline'>Product</div>
-              <div className='  p-2 bg-green-600 text-white rounded'> {paymentEffectData.productName } </div>
+              <div 
+              className=' ml-16 p-2 bg-green-600 hover:bg-green-500 text-white rounded cursor-pointer'
+              onClick={()=>{navigate(`/dashboard/product/${paymentEffectData.productReferenceId}`)}}         
+              
+              >
+                 {paymentEffectData.productName }
+              </div>
             </div>
 
             <div className="flex flex-col my-1">
               <div className='font-bold text-md underline' >Account</div>
-              <div className='  p-2 bg-blue-600 text-white rounded '> {paymentEffectData.targetPublicAddress } </div>
+              <a 
+              className=' ml-16 p-2 bg-blue-600 hover:bg-blue-500 text-white rounded cursor-pointer'
+              href={`${getEtherscanAccountLink({publicAddress:paymentEffectData.targetPublicAddress, chainId})}`}
+              
+              > {paymentEffectData.targetPublicAddress } </a>
             </div>
            
             

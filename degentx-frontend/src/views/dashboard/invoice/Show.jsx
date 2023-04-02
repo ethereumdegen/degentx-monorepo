@@ -277,6 +277,7 @@ function Main(  ) {
                     return <PaymentEffectRow 
                     key={index}
                     paymentEffectData={paymentEffect}
+                    chainId={invoice.chainId}
                     />
                       
                   } )}
