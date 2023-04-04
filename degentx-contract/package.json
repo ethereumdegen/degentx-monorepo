@@ -14,15 +14,16 @@
     "hardhat-gas-reporter": "^1.0.4"
   },
   "dependencies": {
-    "@eth-optimism/hardhat-ovm": "^0.2.2",
+    "@eth-optimism/hardhat-ovm": "^0.2.4",
     "@mangrovedao/hardhat-test-solidity": "^0.0.16",
     "@nomiclabs/hardhat-ethers": "^2.0.5",
-    "@nomiclabs/hardhat-etherscan": "^2.1.5",
+    "@nomiclabs/hardhat-etherscan": "^3.1.2",
     "@nomiclabs/hardhat-waffle": "^2.0.0",
     "@openzeppelin/contracts": "^4.3.0",
     "@openzeppelin/contracts-upgradeable": "^4.3.0",
     "@tenderly/hardhat-tenderly": "^1.0.10",
-   
+    "@typechain/ethers-v5": "^10.2.0",
+    "@typechain/hardhat": "^6.1.5",
     "@types/chai": "^4.2.14",
     "@types/chai-as-promised": "^7.1.3",
     "@types/dotenv": "^8.2.0",
@@ -44,16 +45,14 @@
     "ethers": "^5.4.4",
     "glob": "^9.3.1",
     "hardhat": "^2.13.0",
-    "hardhat-deploy": "0.9.3",
+    "hardhat-deploy": "0.11.25",
     "mocha": "^7.1.0",
     "moment": "^2.29.1",
     "node-watch": "^0.7.0",
-    "payspec-js":"^0.28.0",
+    "payspec-js": "^0.28.0",
     "ramda": "^0.27.1",
     "ts-node": "^10.3.0",
     "typechain": "^8.1.1",
-    "@typechain/ethers-v5": "^10.2.0",
-    "@typechain/hardhat": "^6.1.5",
     "typescript": "^4.1.3"
   },
   "scripts": {

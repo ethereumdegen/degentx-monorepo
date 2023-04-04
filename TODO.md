@@ -11,37 +11,23 @@
  1. set up vibegraph as a service a moleculer  -DONE-
  2. create DB models similar to stripe so users can define a Project which has Products and then Invoices - DONE - 
 
-
  3. write unit tests to prove that project+product can be created/get  on the backend api 
 
 
 PROJECT: Degen Network
 PRODUCT: Advanced Guide - one time payment of $5 of 0xbtc 
-
-
-4.  build an API endpoint that will let us know if ACCOUNT_X has access to PRODUCT_Y  (bc of a paid invoice that exists) 
  
-
 
 
 
  ### IMMEDIATE TODO 
   
 
-
- -build an INVOICES tab and a PRODUCTS tab (get all products of address)  (cap out accounts on a max of 5 projects) and 25 products in each . 
   
-- finish 'hasProductAccess' -> payment effects 
-
-
-then..
- -  
--  make the invoice show page look better 
-
--  make payment effects trigger (alrdy do?)
-
-- make a page for users that shows all of the Effects they have been granted 
  
+- make payment effects trigger (alrdy do?)
+
+- make a page for users that shows all of the Effects they have been granted  
  
 
  ## IMPROVEMENTS LATER 
@@ -51,7 +37,8 @@ then..
  2. make an invoice show that isnt in the dashboard layout 
  3. invoice w no payment elements ? error warning
 4. allow a product image to be chosen from a few templates 
-5. fix default values for select [ai]
+ 
+ 5. deploy contract to optimism and test that out 
 
 
 ## IDEA 

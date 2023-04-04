@@ -13,10 +13,7 @@ import WebServer from '../lib/web-server'
 import SessionController from '../controllers/session-controller'
  
 import StatusController from '../controllers/status-controller';
-import ProjectController from '../controllers/project-controller';
-import ProductController from '../controllers/product-controller';
-import InvoiceController from '../controllers/invoice-controller';
-import PaymentEffectController from '../controllers/payment-effect-controller';
+ import InvoiceController from '../controllers/invoice-controller'; 
 import ApiKeyController from '../controllers/apikey-controller';
 import GenericController from '../controllers/generic-controller';
 
@@ -48,11 +45,8 @@ async function start(){
      new StatusController(),
      new SessionController(),
      new ApiKeyController(),
-     
-     new ProjectController(),
-     new ProductController(),
-     new InvoiceController(),
-     new PaymentEffectController()    
+      
+     new InvoiceController()  
   ]
 
   //@ts-ignore

@@ -1,17 +1,19 @@
 
 import { ControllerMethod } from "degen-route-loader"   
 import { isAssertionSuccess } from "../lib/assertion-helper"
-import { sanitizeAndValidateInputs, ValidationType } from "../lib/sanitize-lib"
+import { sanitizeAndValidateInputs, unescapeString, ValidationType } from "../lib/sanitize-lib"
 import { validateAuthToken } from '../lib/auth-helper'
  
 import { BigNumber, ethers } from "ethers"
-import { Product } from "../dbextensions/product-extension"
+import { IProduct, Product } from "../dbextensions/product-extension"
 
 import {getProjectOwnerAddress} from "../modules/project-module"
 import { Project } from "../dbextensions/project-extension"
 import { PaymentEffect } from "../dbextensions/payment-effect-extension"
 import { stringToMongoId } from "../lib/mongo-helper"
  
+
+const MAX_PRODUCTS = 50
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export default class ProductController {
@@ -52,7 +54,7 @@ export default class ProductController {
       return {success: false, error:"Not the owner of this product"}
     }
 
-    return {success:true, data: result}
+    return {success:true, data: renderProduct(result)}
 
 
   }
@@ -85,13 +87,15 @@ export default class ProductController {
 
     let projectIds = projects.map((project) => project._id)
    
-    const product = await Product.find({
+    const products = await Product.find({
       projectId: projectIds, 
       status: 'active'
     })
+
+    const productsFormatted = products.map( (p) => renderProduct(p))
         
 
-    return {success:true, data : product}
+    return {success:true, data : productsFormatted}
 
 
   }
@@ -121,13 +125,16 @@ export default class ProductController {
     }
 
    
-    const product = await Product.find({
+    const products = await Product.find({
       projectId: projectId, 
-        status: 'active'})
+        status: 'active'
+      })
 
+    
+    const productsFormatted = products.map( (p) => renderProduct(p))
         
 
-    return {success:true, data : product}
+    return {success:true, data : productsFormatted}
 
 
   }
@@ -158,7 +165,13 @@ export default class ProductController {
       return {success: false, error:"Not the owner of this project"}
     }
 
-    console.log({projectOwnerAddress})
+   
+    
+    const productCount = await Product.count({ownerAddress:publicAddress, status:'active'})
+    if(productCount >= MAX_PRODUCTS) return {success:false, error:"Reached limit for maximum active products"}
+
+
+
     const result = await Product.create({
       ownerAddress:publicAddress,
       name: name ,
@@ -200,5 +213,24 @@ export default class ProductController {
     return {success:false, error:"Not implemented"}
   }
 
+
+/* no new invoices can be made for disabled products */
+
+  disableProduct: ControllerMethod = async (req: any) => {
+    return {success:false, error:"not implemented"}
+  }
+ 
+
+
+}
+
+export function renderProduct(product:IProduct) : any{
+
+  return {
+    _id: product._id,
+    name: unescapeString(product.name),
+    projectId: product.projectId,
+    status: product.status
+  }
 
 }

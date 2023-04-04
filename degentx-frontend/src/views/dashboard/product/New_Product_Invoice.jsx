@@ -12,6 +12,7 @@ import {observe} from 'mobx'
  
 import SignInRequiredWarning from "@/views/components/sign-in-required-warning/Main"
 
+import { getBackendServerUrl } from '@/lib/app-helper'
 
 import InvoicesList from "@/views/components/invoice/invoices-list/Main"
 
@@ -26,18 +27,57 @@ import AlertBanner from "@/views/components/alert-banner/Main";
 
 
 function Main(  ) {
+    
  
      
     const [web3Store] = useOutletContext(); // <-- access context value
  
  
-    //const [product, productSet] = useState(null) 
+    const [product, productSet] = useState(null) 
 
     const [errorMessage, errorMessageSet] = useState(null)
 
- 
+
+    const { productId } = useParams();
   
   const navigate = useNavigate();
+
+
+
+  const fetchProduct = async () => {
+   
+    const backendApiUri = `${getBackendServerUrl()}/v1/product`
+    let response = await axios.get(backendApiUri,{
+      params:{
+        productId,
+        publicAddress: web3Store.account,
+        authToken: web3Store.authToken 
+      }
+    }) 
+
+    if(!response || !response.data ) return undefined 
+
+    console.log({response})
+    let product = response.data.data
+
+    return product 
+  }
+  
+
+   const loadProduct = async (newFilter) => {
+    console.log('loading product')
+       
+        try{ 
+          const product = await fetchProduct()
+          console.log({product})
+
+          productSet(product)
+        }catch(e){
+          console.error(e)
+        }
+   }
+
+
    
    observe(web3Store, 'account', function() {
     console.log('acct:', web3Store.account); 
@@ -45,6 +85,7 @@ function Main(  ) {
   
   observe(web3Store, 'authorized', function() {
     console.log('acct:', web3Store.account);
+    loadProduct()
     
   });
    
@@ -56,7 +97,7 @@ function Main(  ) {
 
  //load  on mount 
  useEffect(()=>{
-  
+    loadProduct()  
 }, []) // <-- empty dependency array
 
 
@@ -199,7 +240,7 @@ function Main(  ) {
                 console.log({creationResponse})
 
                 if(creationResponse.success){
-
+                  
                   let invoiceUUID = creationResponse.data 
 
                   navigate(`/dashboard/invoice/${invoiceUUID}`)

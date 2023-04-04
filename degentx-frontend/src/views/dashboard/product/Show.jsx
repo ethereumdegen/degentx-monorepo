@@ -143,7 +143,7 @@ function Main(  ) {
 
             <SimpleButton
               customClass="hover:bg-slate-300 flex flex-row inline-block"
-              clicked={() => navigate('/dashboard/invoice/new')}  
+              clicked={() => navigate(`/dashboard/product/${product._id}/invoice/new`)}  
               >  
               <Lucide icon="PlusCircle" className="w-4 h-4 mr-1" />
                 

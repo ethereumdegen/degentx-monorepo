@@ -31,22 +31,7 @@ const config = {
 
 
             },
-
-
-            {
-              icon: "MessageSquare",
-              title: "Projects",
-              pathname: "/dashboard/projects",             
-              
-            },
-
-            {
-              icon: "MessageSquare",
-              title: "Products",
-              pathname: "/dashboard/products",             
-              
-            },
-
+ 
 
             {
               icon: "MessageSquare",

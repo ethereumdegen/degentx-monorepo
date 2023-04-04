@@ -8,6 +8,14 @@ import 'hardhat-gas-reporter'
 import '@nomiclabs/hardhat-ethers'
 import '@typechain/hardhat'
  
+ 
+/*
+optimism 
+https://github.com/ethereum-optimism/optimism-tutorial/tree/main/getting-started/hardhat
+
+
+*/
+
 
 import fs from 'fs'
 import path from 'path'
@@ -104,6 +112,7 @@ const networkUrls: { [network: string]: string } = {
   polygon: process.env.POLYGON_RPC_URL ?? '',
   mumbai: process.env.MUMBAI_RPC_URL ?? '',
   goerli: process.env.GOERLI_RPC_URL ?? '',
+  optimism: process.env.OPTIMISM_RPC_URL ?? '',
  
 }
 
@@ -145,13 +154,22 @@ const networkConfig = (config: NetworkUserConfig): NetworkUserConfig => ({
 
 const mainnetGwei = 21
 
+
+console.log(process.env.ETHERSCAN_API_KEY);
+
 // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
 export default <HardhatUserConfig>{
   defaultNetwork,
 
+
   etherscan: {
-    apiKey: '{see `updateEtherscanConfig` function in utils/hre-extensions.ts}',
+   // apiKey: process.env.ETHERSCAN_API_KEY!,
+   apiKey:{
+        mainnet:process.env.ETHERSCAN_API_KEY!,
+        optimisticEthereum: process.env.OPTIMISM_ETHERSCAN_API_KEY!,
+   }
   },
+ 
 
   tenderly: {
     username: 'soltel',
@@ -212,7 +230,7 @@ export default <HardhatUserConfig>{
  
 
   ovm: {
-    solcVersion: '0.8.4',
+    solcVersion: '0.8.13',
   },
 
   contractSizer: {
@@ -298,6 +316,20 @@ export default <HardhatUserConfig>{
       gasPrice: 2100000000, // @lazycoder - deserves another Sherlock badge
       chainId: 80001,
     }),
+
+    optimism: networkConfig({
+      url: networkUrls.optimism,
+    //  gasPrice: 2100000000, // @lazycoder - deserves another Sherlock badge
+      chainId: 10,
+      ovm: true,
+
+      verify: {
+        etherscan: {
+          apiUrl: 'https://api-optimistic.etherscan.io'
+        }
+      }
+    }),
+    
     
     
   },

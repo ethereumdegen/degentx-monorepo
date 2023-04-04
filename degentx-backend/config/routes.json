@@ -11,24 +11,13 @@
     {"type":"get","uri":"/server/status","method":"getServerStatus","controller":"status"},
 
     {"type":"get","uri":"/account","method":"getAccount","controller":"account"},
-
-    {"type":"post","uri":"/v1/product","method":"createProduct","controller":"product"},
-    {"type":"get","uri":"/v1/products_by_owner","method":"getProductsByOwner","controller":"product"},
-    {"type":"get","uri":"/v1/products_by_project","method":"getProductsByProject","controller":"product"},
-    {"type":"get","uri":"/v1/product","method":"getProduct","controller":"product"},
-
-
-    {"type":"post","uri":"/v1/project","method":"createProject","controller":"project"},
-    {"type":"get","uri":"/v1/projects","method":"getProjects","controller":"project"},
-    {"type":"get","uri":"/v1/project","method":"getProject","controller":"project"},
-
+ 
 
     {"type":"post","uri":"/v1/invoice","method":"addInvoice","controller":"invoice"},
     {"type":"get","uri":"/v1/invoices_by_owner","method":"getInvoicesByOwner","controller":"invoice"},
     {"type":"get","uri":"/v1/invoices_by_product","method":"getInvoicesByProduct","controller":"invoice"},
-    {"type":"get","uri":"/v1/invoice","method":"getInvoice","controller":"invoice"},
+    {"type":"get","uri":"/v1/invoice","method":"getInvoice","controller":"invoice"}
 
-    {"type":"post","uri":"/v1/paymenteffect","method":"addPaymentEffect","controller":"paymenteffect"}
-    
+     
 
 ]
