@@ -10,13 +10,13 @@ import {observe} from 'mobx'
 
  
 import SignInRequiredWarning from "@/views/components/sign-in-required-warning/Main"
-
+import SimpleButton from "@/views/components/button/SimpleButton"
  
 import InvoiceForm from '@/views/components/invoice/invoice-form/Main.jsx'
  
 
 import {addInvoice} from "@/lib/invoice-lib"
-import {applyProtocolFeeToPaymentElements, generatePayspecInvoiceSimple, getCurrencyTokenAddress, PayspecPaymentElement} from 'payspec-js'
+import {applyProtocolFeeToPaymentElements, generatePayspecInvoiceSimple,  getCurrencyTokenAddress, PayspecPaymentElement, userPayInvoice} from 'payspec-js'
 
 import AlertBanner from "@/views/components/alert-banner/Main";
 
@@ -44,12 +44,12 @@ function Main(  ) {
     let tokenAddress = searchParams.get("tokenAddress")
     let payTo = searchParams.get("payTo")
     let payAmount = searchParams.get("payAmount")
-    let chainId = searchParams.get("chainId") || 1
+    let chainId = parseInt(searchParams.get("chainId"))|| 1
     let description = searchParams.get("description") || ""
-    let duration = searchParams.get("duration") || 60 * 60 * 24 * 30 // 30 days
+    let duration = parseInt(searchParams.get("duration")) || 60 * 60 * 24 * 30 // 30 days
 
     console.log(payTo,payAmount)
-
+ 
     //PayspecPaymentElement[]
     const paymentsArrayBasic = [
       {
@@ -169,14 +169,31 @@ function Main(  ) {
               }
 
               {generatedInvoice && 
-         
+              <>
+              {generatedInvoice.tokenAddress}
          
 
               <SimpleButton
+
+                clicked={async () => {
+
+                    console.log('paying ', generatedInvoice)
+
+                    let tx = await userPayInvoice({
+                      from: web3Store.account,
+                      invoiceData: generatedInvoice,
+                      provider: web3Store.provider,
+                    
+
+
+                    })
+
+                }}
               >
 
                 Pay
               </SimpleButton>
+              </>
               }
 
 
