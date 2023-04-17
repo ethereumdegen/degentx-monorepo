@@ -16,9 +16,15 @@ import InvoiceForm from '@/views/components/invoice/invoice-form/Main.jsx'
  
 
 import {addInvoice} from "@/lib/invoice-lib"
-import {applyProtocolFeeToPaymentElements, generatePayspecInvoiceSimple,  getCurrencyTokenAddress, PayspecPaymentElement, userPayInvoice} from 'payspec-js'
+import {applyProtocolFeeToPaymentElements, 
+  generatePayspecInvoiceSimple,  
+  getCurrencyTokenAddress,
+   PayspecPaymentElement,
+   getPaymentElementsFromInvoice,
+    userPayInvoice} from 'payspec-js'
 
 import AlertBanner from "@/views/components/alert-banner/Main";
+import tw from "tailwind-styled-components"
 
 /*
 
@@ -37,6 +43,7 @@ function Main(  ) {
  
 
     let generatedInvoice 
+    let paymentElements = []
 
     try{
     
@@ -68,11 +75,16 @@ function Main(  ) {
 
     })
 
+    paymentElements = getPaymentElementsFromInvoice(generatedInvoice)
+  
+
   }catch(e){
     console.error(e)
   }
  
-  
+
+
+
   const navigate = useNavigate();
    
    observe(web3Store, 'account', function() {
@@ -112,6 +124,45 @@ function Main(  ) {
 
 
 */
+
+
+// Define a styled component using Tailwind CSS classes
+const Container = tw.div`
+  mx-auto
+  max-w-2xl
+  pb-8
+`;
+
+const Header = tw.h1`
+  text-2xl
+  font-bold
+  mb-4
+`;
+
+const FlexContainer = tw.div`
+  flex
+  flex-col
+ 
+  border
+  rounded-md
+  overflow-hidden
+`;
+
+const FlexItem = tw.div`
+  p-4
+  flex-1
+  border-r
+`;
+
+const Label = tw.div`
+  font-bold
+  mb-2
+`;
+
+const Value = tw.div`
+  text-sm
+`;
+
  
 
   return (
@@ -131,7 +182,7 @@ function Main(  ) {
          
         <div className=" mt-2 mb-5 ">
           <div className="text-xl   my-2 ">
-           Invoice
+         
           </div>
           
         
@@ -149,7 +200,7 @@ function Main(  ) {
         <div className="flex flex-col">
 
          
-            <div className="px-4 mb-16 text-lg font-bold">
+            <div className="px-4 mb-4 text-lg font-bold">
                
             </div>
              
@@ -171,28 +222,91 @@ function Main(  ) {
               {generatedInvoice && 
               <>
               {generatedInvoice.tokenAddress}
+
+
+
+              <div>
+
+
+              <Container>
+                <Header>Invoice Details</Header>
+                <FlexContainer>
+                  <FlexItem>
+                    <Label>Description:</Label>
+                    <Value>{generatedInvoice.description}</Value>
+                  </FlexItem>
+                  <FlexItem>
+                    <Label>Token:</Label>
+                    <Value>{generatedInvoice.token}</Value>
+                  </FlexItem>
+                  <FlexItem>
+                    <Label>Pay To:</Label>
+                    <Value>{paymentElements[0].payTo}</Value>
+                  </FlexItem>
+                  <FlexItem>
+                    <Label>Amount Due:</Label>
+                    <Value>{paymentElements[0].amountDue}</Value>
+                  </FlexItem>
+                  <FlexItem>
+                    <Label>Nonce:</Label>
+                    <Value>{generatedInvoice.nonce}</Value>
+                  </FlexItem>
+                
+                  <FlexItem>
+                    <Label>Chain ID:</Label>
+                    <Value>{generatedInvoice.chainId}</Value>
+                  </FlexItem>
+                  <FlexItem>
+                    <Label>Expires At:</Label>
+                    <Value>{generatedInvoice.expiresAt}</Value>
+                  </FlexItem>
+                  {generatedInvoice.invoiceUUID && (
+                    <FlexItem>
+                      <Label>Invoice UUID:</Label>
+                      <Value>{generatedInvoice.invoiceUUID}</Value>
+                    </FlexItem>
+                  )}
+
+
+                  <div>
+
+
+                  <SimpleButton
+                    customClass="py-2 my-4 text-center bg-slate-800 hover:bg-blue-400 text-white "
+                    clicked={async () => {
+
+                        console.log('paying ', generatedInvoice)
+
+                        let tx = await userPayInvoice({
+                          from: web3Store.account,
+                          invoiceData: generatedInvoice,
+                          provider: web3Store.provider,
+                        
+
+
+                        })
+
+                    }}
+                    >
+
+                  Pay
+                  </SimpleButton>
+
+                  </div>
+
+                </FlexContainer>
+
+                
+
+              </Container>
+
+
+
+
+              </div>
          
 
-              <SimpleButton
-
-                clicked={async () => {
-
-                    console.log('paying ', generatedInvoice)
-
-                    let tx = await userPayInvoice({
-                      from: web3Store.account,
-                      invoiceData: generatedInvoice,
-                      provider: web3Store.provider,
-                    
-
-
-                    })
-
-                }}
-              >
-
-                Pay
-              </SimpleButton>
+            
               </>
               }
 

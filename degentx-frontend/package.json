@@ -52,6 +52,7 @@
     "simplebar": "^5.3.6",
     "tabulator-tables": "^4.9.3",
     "tailwind-merge": "^1.6.0",
+    "tailwind-styled-components": "^2.2.0",
     "tiny-slider": "^2.9.3",
     "tippy.js": "^6.2.7",
     "toastify-js": "^1.9.3",
