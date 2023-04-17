@@ -14,7 +14,7 @@ import DegenTxSol from '../views/pages/degentxsol.md'
  
 import ErrorPage from "../views/error-page/Main";
 
-import Checkout from "../views/dashboard/invoice/Checkout"
+import Checkout from "../views/invoice/Checkout" 
    
 import InvoiceIndex from "../views/dashboard/invoice/Index"
 import InvoiceShow from "../views/dashboard/invoice/Show"
