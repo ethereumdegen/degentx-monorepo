@@ -90,7 +90,7 @@ contract Payspec is Ownable, ReentrancyGuard {
   }
 
    function _createInvoice(  string memory description, uint256 nonce, address token, uint256 chainId, address[] memory payTo, uint[] memory amountsDue, uint256 ethBlockExpiresAt, bytes32 expecteduuid ) 
-    private 
+    internal 
     returns (bytes32 uuid) { 
 
 
@@ -101,7 +101,7 @@ contract Payspec is Ownable, ReentrancyGuard {
       require( invoices[newuuid].uuid == 0 );  //make sure you do not overwrite invoices
       require(payTo.length == amountsDue.length, "Invalid number of amounts due");
 
-      require(ethBlockExpiresAt == 0 || block.number < ethBlockExpiresAt);
+      //require(ethBlockExpiresAt == 0 || block.number < ethBlockExpiresAt);
 
       invoices[newuuid] = Invoice({
        uuid:newuuid,
@@ -126,7 +126,7 @@ contract Payspec is Ownable, ReentrancyGuard {
        return newuuid;
    }
 
-   function _payInvoice( bytes32 invoiceUUID ) private returns (bool) {
+   function _payInvoice( bytes32 invoiceUUID ) internal returns (bool) {
 
        address from = msg.sender;
 
@@ -135,6 +135,9 @@ contract Payspec is Ownable, ReentrancyGuard {
        require( invoiceWasPaid(invoiceUUID) == false ); 
 
        require( invoices[invoiceUUID].chainId == 0 || invoices[invoiceUUID].chainId == block.chainid, "Invalid chain id");
+
+       
+       require(invoices[invoiceUUID].ethBlockExpiresAt == 0 || block.number < invoices[invoiceUUID].ethBlockExpiresAt);
 
 
        uint256 amountsDueSum = 0;

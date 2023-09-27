@@ -45,7 +45,7 @@ const DEPOLOYER_PRIVATE_KEY = process.env.PRIVATE_KEY!
 require('@mangrovedao/hardhat-test-solidity');
 
 
-const NODE_VERSION = 'v16.14.2'
+const NODE_VERSION = 'v16.20.1'
 if (!semver.satisfies(process.version, NODE_VERSION))
   throw new Error(
     `Incorrect NodeJS version being used (${process.version}). Expected: ${NODE_VERSION}`
