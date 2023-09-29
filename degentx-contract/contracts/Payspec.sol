@@ -12,13 +12,7 @@ import "lib/openzeppelin-contracts/contracts/access/Ownable.sol";
 import "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol";
 import "lib/openzeppelin-contracts/contracts/security/ReentrancyGuard.sol";
 
-
-/*
-
-
-
-*/
-  
+ 
 contract Payspec is Ownable, ReentrancyGuard {
 
   uint256 public immutable contractVersion  = 100;
@@ -29,6 +23,7 @@ contract Payspec is Ownable, ReentrancyGuard {
   bool lockedByOwner = false; 
 
   event CreatedInvoice(bytes32 uuid); 
+  event PaymentMade(bytes32 uuid,  address token, address from, address to, address amt );
   event PaidInvoice(bytes32 uuid, address from);
 
 
@@ -130,33 +125,31 @@ contract Payspec is Ownable, ReentrancyGuard {
 
        address from = msg.sender;
 
-       require(!lockedByOwner);
+       require( !lockedByOwner );
        require( invoices[invoiceUUID].uuid == invoiceUUID ); //make sure invoice exists
        require( invoiceWasPaid(invoiceUUID) == false ); 
 
        require( invoices[invoiceUUID].chainId == 0 || invoices[invoiceUUID].chainId == block.chainid, "Invalid chain id");
 
        
-       require(invoices[invoiceUUID].ethBlockExpiresAt == 0 || block.number < invoices[invoiceUUID].ethBlockExpiresAt);
+       require( invoices[invoiceUUID].ethBlockExpiresAt == 0 || block.number < invoices[invoiceUUID].ethBlockExpiresAt);
 
-
-       uint256 amountsDueSum = 0;
+ 
 
 
        for(uint i=0;i<invoices[invoiceUUID].payTo.length;i++){
-              uint amtDue = invoices[invoiceUUID].amountsDue[i];
-              amountsDueSum += amtDue; 
+              uint amtDue = invoices[invoiceUUID].amountsDue[i]; 
 
               //transfer each fee to fee recipient
-              require(  _payTokenAmount(invoices[invoiceUUID].token , from , invoices[invoiceUUID].payTo[i], amtDue ) , "Unable to pay amount due." );
+              require(  _payTokenAmount(invoices[invoiceUUID].token, from, invoices[invoiceUUID].payTo[i], amtDue ) , "Unable to pay amount due." );
+              
+              emit PaymentMade(invoiceUUID, invoices[invoiceUUID].token, from, invoices[invoiceUUID].payTo[i], amtDue );
        } 
 
         
        invoices[invoiceUUID].paidBy = from;
 
-       invoices[invoiceUUID].ethBlockPaidAt = block.number;
- 
-
+       invoices[invoiceUUID].ethBlockPaidAt = block.number; 
 
        emit PaidInvoice(invoiceUUID, from);
 
