@@ -48,31 +48,38 @@ function Main(  ) {
     try{
     
     const [searchParams, ] = useSearchParams();
+    let payspecAddress = searchParams.get("payspecAddress") 
     let tokenAddress = searchParams.get("tokenAddress")
     let payTo = searchParams.get("payTo")
     let payAmount = searchParams.get("payAmount")
     let chainId = parseInt(searchParams.get("chainId"))|| 1
     let description = searchParams.get("description") || ""
     let duration = parseInt(searchParams.get("duration")) || 60 * 60 * 24 * 30 // 30 days
-
-    console.log(payTo,payAmount)
+   
+    let nonce = searchParams.get("nonce")  
+    let expiration = searchParams.get("expiration") 
  
-    //PayspecPaymentElement[]
-    const paymentsArrayBasic = [
-      {
-        payTo: payTo,
-        amountDue: payAmount,
-      }
-    ]
 
-    generatedInvoice = generatePayspecInvoiceSimple({
+    let paymentsArray = [] 
+    let payToArray = JSON.parse(payTo)
+    let payAmountArray = JSON.parse(payAmount)
 
+    for(let i=0;i<payToArray.length;i++){
+      paymentsArray.push(({
+        payTo: payToArray[i]
+        amountDue: payAmountArray[i]
+      }))
+    }
+  
+
+    generatedInvoice = generatePayspecInvoice({
+      payspecAddress,
       tokenAddress,
       chainId,
-      paymentsArray : applyProtocolFeeToPaymentElements(paymentsArrayBasic),
+      paymentsArray,
       description,
-      durationSeconds: duration
-
+      nonce,
+      expiration
     })
 
     paymentElements = getPaymentElementsFromInvoice(generatedInvoice)
