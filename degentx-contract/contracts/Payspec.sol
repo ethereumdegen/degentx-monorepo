@@ -23,9 +23,9 @@ contract Payspec is Ownable, ReentrancyGuard {
   bool lockedByOwner = false; 
 
   event CreatedInvoice(bytes32 uuid); 
-  event PaymentMade(bytes32 uuid,  address token, address from, address to, address amt );
-  event PaidInvoice(bytes32 uuid, address from);
-
+  event PaymentMade(bytes32 uuid,  address token, address from, address to, uint256 amt );
+  event PaidInvoice(bytes32 uuid, address from, uint256 totalPaidAmt); 
+      
 
   struct Invoice {
     bytes32 uuid;
@@ -135,10 +135,11 @@ contract Payspec is Ownable, ReentrancyGuard {
        require( invoices[invoiceUUID].ethBlockExpiresAt == 0 || block.number < invoices[invoiceUUID].ethBlockExpiresAt);
 
  
-
+       uint256 totalPaidAmt = 0;
 
        for(uint i=0;i<invoices[invoiceUUID].payTo.length;i++){
               uint amtDue = invoices[invoiceUUID].amountsDue[i]; 
+              totalPaidAmt += amtDue;
 
               //transfer each fee to fee recipient
               require(  _payTokenAmount(invoices[invoiceUUID].token, from, invoices[invoiceUUID].payTo[i], amtDue ) , "Unable to pay amount due." );
@@ -151,7 +152,7 @@ contract Payspec is Ownable, ReentrancyGuard {
 
        invoices[invoiceUUID].ethBlockPaidAt = block.number; 
 
-       emit PaidInvoice(invoiceUUID, from);
+       emit PaidInvoice(invoiceUUID, from, totalPaidAmt);
 
        return true;
 
