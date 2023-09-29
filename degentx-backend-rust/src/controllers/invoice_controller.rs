@@ -61,6 +61,11 @@ pub struct Invoice {}
     
       let invoices:Vec<Invoice> = Vec::new();
       
+      
+      //fetch from sql 
+      
+      
+      
       Some(Json( invoices ))
   }
   
