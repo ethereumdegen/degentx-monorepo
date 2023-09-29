@@ -12,13 +12,7 @@ import "lib/openzeppelin-contracts/contracts/access/Ownable.sol";
 import "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol";
 import "lib/openzeppelin-contracts/contracts/security/ReentrancyGuard.sol";
 
-
-/*
-
-
-
-*/
-  
+ 
 contract Payspec is Ownable, ReentrancyGuard {
 
   uint256 public immutable contractVersion  = 100;
@@ -29,8 +23,9 @@ contract Payspec is Ownable, ReentrancyGuard {
   bool lockedByOwner = false; 
 
   event CreatedInvoice(bytes32 uuid); 
-  event PaidInvoice(bytes32 uuid, address from);
-
+  event PaymentMade(bytes32 uuid,  address token, address from, address to, uint256 amt );
+  event PaidInvoice(bytes32 uuid, address from, uint256 totalPaidAmt); 
+      
 
   struct Invoice {
     bytes32 uuid;
@@ -90,7 +85,7 @@ contract Payspec is Ownable, ReentrancyGuard {
   }
 
    function _createInvoice(  string memory description, uint256 nonce, address token, uint256 chainId, address[] memory payTo, uint[] memory amountsDue, uint256 ethBlockExpiresAt, bytes32 expecteduuid ) 
-    private 
+    internal 
     returns (bytes32 uuid) { 
 
 
@@ -101,7 +96,7 @@ contract Payspec is Ownable, ReentrancyGuard {
       require( invoices[newuuid].uuid == 0 );  //make sure you do not overwrite invoices
       require(payTo.length == amountsDue.length, "Invalid number of amounts due");
 
-      require(ethBlockExpiresAt == 0 || block.number < ethBlockExpiresAt);
+      //require(ethBlockExpiresAt == 0 || block.number < ethBlockExpiresAt);
 
       invoices[newuuid] = Invoice({
        uuid:newuuid,
@@ -126,36 +121,38 @@ contract Payspec is Ownable, ReentrancyGuard {
        return newuuid;
    }
 
-   function _payInvoice( bytes32 invoiceUUID ) private returns (bool) {
+   function _payInvoice( bytes32 invoiceUUID ) internal returns (bool) {
 
        address from = msg.sender;
 
-       require(!lockedByOwner);
+       require( !lockedByOwner );
        require( invoices[invoiceUUID].uuid == invoiceUUID ); //make sure invoice exists
        require( invoiceWasPaid(invoiceUUID) == false ); 
 
        require( invoices[invoiceUUID].chainId == 0 || invoices[invoiceUUID].chainId == block.chainid, "Invalid chain id");
 
+       
+       require( invoices[invoiceUUID].ethBlockExpiresAt == 0 || block.number < invoices[invoiceUUID].ethBlockExpiresAt);
 
-       uint256 amountsDueSum = 0;
-
+ 
+       uint256 totalPaidAmt = 0;
 
        for(uint i=0;i<invoices[invoiceUUID].payTo.length;i++){
-              uint amtDue = invoices[invoiceUUID].amountsDue[i];
-              amountsDueSum += amtDue; 
+              uint amtDue = invoices[invoiceUUID].amountsDue[i]; 
+              totalPaidAmt += amtDue;
 
               //transfer each fee to fee recipient
-              require(  _payTokenAmount(invoices[invoiceUUID].token , from , invoices[invoiceUUID].payTo[i], amtDue ) , "Unable to pay amount due." );
+              require(  _payTokenAmount(invoices[invoiceUUID].token, from, invoices[invoiceUUID].payTo[i], amtDue ) , "Unable to pay amount due." );
+              
+              emit PaymentMade(invoiceUUID, invoices[invoiceUUID].token, from, invoices[invoiceUUID].payTo[i], amtDue );
        } 
 
         
        invoices[invoiceUUID].paidBy = from;
 
-       invoices[invoiceUUID].ethBlockPaidAt = block.number;
- 
+       invoices[invoiceUUID].ethBlockPaidAt = block.number; 
 
-
-       emit PaidInvoice(invoiceUUID, from);
+       emit PaidInvoice(invoiceUUID, from, totalPaidAmt);
 
        return true;
 

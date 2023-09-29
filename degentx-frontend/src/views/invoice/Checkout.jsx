@@ -28,7 +28,9 @@ import tw from "tailwind-styled-components"
 
 /*
 
-http://localhost:8081/checkout?tokenAddress=0xb6ed7644c69416d67b522e20bc294a9a9b405b31&payTo=0xb6ed7644c69416d67b522e20bc294a9a9b405b31&payAmount=5000&chainId=2
+This is the smart invoice ! 
+
+http://localhost:8081/checkout?tokenAddress=0xb6ed7644c69416d67b522e20bc294a9a9b405b31&payTo=0xb6ed7644c69416d67b522e20bc294a9a9b405b31&payAmount=5000&chainId=5
 
 */
 
@@ -44,14 +46,21 @@ function Main(  ) {
 
     let generatedInvoice 
     let paymentElements = []
+    let paymentsArrayBasic = []
 
     try{
+
+    //  const searchParams = new URLSearchParams(window.location.search);
+
+// Using the getAll() method, you can retrieve all values for a specific parameter as an array.
+
     
     const [searchParams, ] = useSearchParams();
     let payspecAddress = searchParams.get("payspecAddress") 
     let tokenAddress = searchParams.get("tokenAddress")
-    let payTo = searchParams.get("payTo")
-    let payAmount = searchParams.get("payAmount")
+    const payTos = searchParams.getAll('payTo');
+    const payAmounts = searchParams.getAll('payAmount');
+ 
     let chainId = parseInt(searchParams.get("chainId"))|| 1
     let description = searchParams.get("description") || ""
     let duration = parseInt(searchParams.get("duration")) || 60 * 60 * 24 * 30 // 30 days
@@ -59,6 +68,26 @@ function Main(  ) {
     let nonce = searchParams.get("nonce")  
     let expiration = searchParams.get("expiration") 
  
+
+    console.log(payTos,payAmounts)
+ 
+   
+
+    for (let i in payTos) {
+
+      paymentsArrayBasic.push( 
+
+        {
+          payTo: payTos[i],
+          amountDue: payAmounts[i],
+        }
+
+      )
+
+    }
+
+    console.log({paymentsArrayBasic})
+
 
     let paymentsArray = [] 
     let payToArray = JSON.parse(payTo)
@@ -84,7 +113,7 @@ function Main(  ) {
 
     paymentElements = getPaymentElementsFromInvoice(generatedInvoice)
   
-
+    console.log({paymentElements})
   }catch(e){
     console.error(e)
   }
@@ -246,14 +275,22 @@ const Value = tw.div`
                     <Label>Token:</Label>
                     <Value>{generatedInvoice.token}</Value>
                   </FlexItem>
-                  <FlexItem>
-                    <Label>Pay To:</Label>
-                    <Value>{paymentElements[0].payTo}</Value>
-                  </FlexItem>
-                  <FlexItem>
-                    <Label>Amount Due:</Label>
-                    <Value>{paymentElements[0].amountDue}</Value>
-                  </FlexItem>
+
+                  {paymentsArrayBasic.map((payment, index) => (
+                      <>
+                          <FlexItem key={`payTo-${index}`}>
+                              <Label>Pay To:</Label>
+                              <Value>{payment.payTo}</Value>
+                          </FlexItem>
+                          <FlexItem key={`amountDue-${index}`}>
+                              <Label>Amount Due:</Label>
+                              <Value>{payment.amountDue}</Value>
+                          </FlexItem>
+                      </>
+                  ))}
+
+
+                 
                   <FlexItem>
                     <Label>Nonce:</Label>
                     <Value>{generatedInvoice.nonce}</Value>

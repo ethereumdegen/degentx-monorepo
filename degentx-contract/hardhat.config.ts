@@ -45,7 +45,7 @@ const DEPOLOYER_PRIVATE_KEY = process.env.PRIVATE_KEY!
 require('@mangrovedao/hardhat-test-solidity');
 
 
-const NODE_VERSION = 'v16.14.2'
+const NODE_VERSION = 'v16.20.1'
 if (!semver.satisfies(process.version, NODE_VERSION))
   throw new Error(
     `Incorrect NodeJS version being used (${process.version}). Expected: ${NODE_VERSION}`
@@ -106,6 +106,7 @@ const accounts: HardhatNetworkHDAccountsUserConfig = {
  
 const networkUrls: { [network: string]: string } = {
   mainnet: process.env.MAINNET_RPC_URL ?? '',
+  sepolia: process.env.SEPOLIA_RPC_URL ?? '',
   kovan: process.env.KOVAN_RPC_URL ?? '',
   rinkeby: process.env.RINKEBY_RPC_URL ?? '',
   ropsten: process.env.ROPSTEN_RPC_URL ?? '',
@@ -155,7 +156,7 @@ const networkConfig = (config: NetworkUserConfig): NetworkUserConfig => ({
 const mainnetGwei = 21
 
 
-console.log(process.env.ETHERSCAN_API_KEY);
+ 
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
 export default <HardhatUserConfig>{
@@ -300,6 +301,12 @@ export default <HardhatUserConfig>{
       
     }),
     
+    sepolia: networkConfig({
+      url: networkUrls.sepolia,
+ 
+      // chainId: ,
+    }),
+
     goerli: networkConfig({
       url: networkUrls.goerli,
  

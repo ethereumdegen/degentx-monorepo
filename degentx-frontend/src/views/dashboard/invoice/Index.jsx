@@ -139,17 +139,17 @@ function Main(  ) {
 
  
 
-       {!web3Store.authorized  && 
+       {!web3Store.account  && 
       
          <div className="px-4 py-16 text-lg font-bold">
 
-           Sign in to view your invoices
+           Connect to view your invoices
          
          </div>
 
          }
         
-        {web3Store.authorized && true &&
+        {web3Store.account   &&
       
         <div className="flex flex-col">
 

@@ -41,12 +41,7 @@ const config = {
             },
  
       
-            {
-              icon: "MessageSquare",
-              title: "Documentation",
-              pathname: "/docs",             
-              
-            }
+            
     ]
       
 
