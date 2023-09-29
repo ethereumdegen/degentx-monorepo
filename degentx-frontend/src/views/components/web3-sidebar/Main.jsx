@@ -16,7 +16,7 @@ import { copyToClipboard } from '../../../utils/clipboard';
 
 
 //disabled for now as there is no associated backend server to provide challenges
-const showSigninButton = true 
+const showSigninButton = false 
 
 
 
