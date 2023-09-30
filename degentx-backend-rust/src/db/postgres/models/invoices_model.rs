@@ -53,7 +53,7 @@ impl ImagesModel {
                    // This just gets the first column value from the first row, adjust as needed
                    Ok(row.get(0))
                } else {
-                   Err(PostgresModelError::   ) // Replace with an appropriate error variant
+                   Err(PostgresModelError::RowDidNotExist   ) // Replace with an appropriate error variant
                }
            }
            Err(e) => {

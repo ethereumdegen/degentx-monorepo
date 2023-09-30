@@ -7,11 +7,21 @@ pub trait Model {}
 
 
 
-#[derive(Debug)]
+
+#[derive(thiserror::Error, Debug)]
 pub enum PostgresModelError {
-    Postgres(PostgresError),
-    SerdeJson(SerdeJsonError),
+    #[error(transparent)]
+    Postgres(#[from] PostgresError),
+    
+    #[error(transparent)]
+    SerdeJson(#[from] SerdeJsonError),
+    
+    #[error("The row did not exist in the database.")]
+    RowDidNotExist,
 }
+
+
+/*
 
 // Implement the standard Error trait
 impl std::error::Error for PostgresModelError {}
@@ -22,6 +32,7 @@ impl fmt::Display for PostgresModelError {
         match *self {
             PostgresModelError::Postgres(ref err) => write!(f, "PostgresError: {}", err),
             PostgresModelError::SerdeJson(ref err) => write!(f, "SerdeJsonError: {}", err),
+            RowDidNotExist
         }
     }
 }
@@ -39,4 +50,4 @@ impl From<SerdeJsonError> for PostgresModelError {
         PostgresModelError::SerdeJson(error)
     }
 }
- 
+ */
