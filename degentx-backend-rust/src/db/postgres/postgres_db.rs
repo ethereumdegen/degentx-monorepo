@@ -92,7 +92,7 @@ impl Database {
 
         /*let (client, connection) = tokio_postgres::connect(
             &format!("host={} user={} password={} dbname={}", db_host, db_user, db_password, db_name), NoTls).await?;
-*/
+        */
 
 
         println!("conn 2");
@@ -222,9 +222,6 @@ impl Database {
     }
 
 
-
-
-
     
     async fn atomic_transaction(&mut self, steps: Vec<PostgresInput<'_>>) -> Result<(), PostgresError> {
 
@@ -249,15 +246,15 @@ impl Database {
         transaction.commit().await?;
         //return ok
         Ok(())
-  
+    
+        }
     }
-}
-
-
-
-pub fn try_get_option<'a, T: tokio_postgres::types::FromSql<'a>>(row: &'a tokio_postgres::Row, column: &str) -> Option<T> {
-    match row.try_get::<&str, T>(column) {
-        Ok(value) => Some(value),
-        Err(_) => None,
+    
+    
+    
+    pub fn try_get_option<'a, T: tokio_postgres::types::FromSql<'a>>(row: &'a tokio_postgres::Row, column: &str) -> Option<T> {
+        match row.try_get::<&str, T>(column) {
+            Ok(value) => Some(value),
+            Err(_) => None,
+        }
     }
-}
