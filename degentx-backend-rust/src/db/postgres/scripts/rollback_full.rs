@@ -2,7 +2,7 @@
 use inquire::Confirm;
 
 
-use indiefuture_backend::db::postgres::postgres_db::Database;
+use degentx_backend::db::postgres::postgres_db::Database;
 
 
 
