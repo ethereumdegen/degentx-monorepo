@@ -22,8 +22,8 @@ contract Payspec is Ownable, ReentrancyGuard {
 
   bool lockedByOwner = false; 
 
-  event CreatedInvoice(bytes32 uuid); 
-  event PaymentMade(bytes32 uuid,  address token, address from, address to, uint256 amt );
+  event CreatedInvoice(bytes32 uuid, bytes32 metadataHash ); 
+  event PaymentMade(bytes32 uuid,  address token, address from, address to, uint256 amt);
   event PaidInvoice(bytes32 uuid, address from, uint256 totalPaidAmt); 
       
 
@@ -119,7 +119,7 @@ contract Payspec is Ownable, ReentrancyGuard {
       });
 
 
-       emit CreatedInvoice(newuuid);
+       emit CreatedInvoice(newuuid, metadataHash);
 
        return newuuid;
    }
