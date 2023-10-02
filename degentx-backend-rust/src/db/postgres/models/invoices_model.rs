@@ -17,7 +17,7 @@ pub struct Invoice {
     pub from_address: Address,
 
     pub total_amount: U256,
-    pub invoice_uuid: Vec<u8>,
+    pub invoice_uuid: String,
 
     pub transaction_hash: Option<H256>,
     pub block_number: Option<U64>,
@@ -39,7 +39,7 @@ impl Invoice {
                         .map_err(|_e| PostgresModelError::AddressParseError)?,
             from_address: Address::from_str(from_address)
                         .map_err(|_e| PostgresModelError::AddressParseError)?,
-            total_amount: U256::from_str( &row.get::<_, String>("total_amount") )
+            total_amount: U256::from_dec_str( &row.get::<_, String>("total_amount") )
                                  .map_err(|_e| PostgresModelError::HexParseError)?,
             invoice_uuid: row.get("invoice_uuid"),
             transaction_hash: serde_json::from_str(
@@ -78,8 +78,19 @@ impl InvoicesModel {
      ) -> Result<  Vec< Invoice >   , PostgresModelError> {
         
            
-            let uuids: Vec<String> = invoice_uuids.iter().map(|s| s.to_string()).collect();
-       println!("get invoices 2");
+            let uuids: Vec<String> = invoice_uuids.iter().map(|uuid| 
+                
+                if uuid.starts_with("0x") {
+                    uuid[2..].to_string() // Skips the first 2 characters if starts with "0x"
+                } else {
+                    uuid.to_string()
+                }        
+        
+          ).collect();
+            
+            
+            
+            println!("get invoices 2");
            
            let insert_result = psql_db.query("
             SELECT 

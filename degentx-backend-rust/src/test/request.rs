@@ -51,23 +51,25 @@ async fn send_get_invoice_request() -> Result<(), reqwest::Error> {
           
     let client = reqwest::Client::new(); 
     
-    
-    let invoice_uuid = "2e3d8c3b6af1043e6e5391ebef96f8afb9e3fe50706d02ee04d5eeab31cd342e";
-    
-    
-    // Define the payload (based on the structure you want to send)
-    let mut map = HashMap::new();
-    map.insert("invoice_uuid", invoice_uuid);
+
+
+             
+    let mut invoice_uuids:Vec<String> = Vec::new();
+    invoice_uuids.push("0x2e3d8c3b6af1043e6e5391ebef96f8afb9e3fe50706d02ee04d5eeab31cd342e".into());
 
     // Make the POST request
     let response = client.post("http://localhost:8000/api/invoices")
-        .json(&map)
+        .json(&invoice_uuids)
         .send()
         .await?;
 
     // Optionally, print the response (or handle it as needed)
     let response_text = response.text().await?;
     println!("Received: {}", response_text);
+    
+
+
+ 
     
      Ok(())
 }

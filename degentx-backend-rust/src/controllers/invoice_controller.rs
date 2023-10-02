@@ -45,14 +45,10 @@ impl WebController for InvoiceController {
         );
     }
 }
-
  
- 
- 
-   
   
  
- pub async fn get_invoices(    
+ async fn get_invoices(    
       invoice_uuids: Json< Vec< String > > ,
       app_state: Data<AppState>       
         ) -> Option<Json<Vec<Invoice>>> {
