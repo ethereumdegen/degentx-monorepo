@@ -3,21 +3,31 @@ use reqwest;
 use std::collections::HashMap;
 use inquire::Select;
 
+
+
+
+     /*
+     
+     2e3d8c3b6af1043e6e5391ebef96f8afb9e3fe50706d02ee04d5eeab31cd342e
+     
+     */
+     
+     
 #[tokio::main]
 async fn main() -> Result<(), reqwest::Error> {
     
     loop {
         
             
-            let request_type_options = vec!["challenge", "other_option"];
+            let request_type_options = vec!["get_invoice", "other_option"];
             let selection = Select::new("Which type of request do you want to do?",  request_type_options)          
             .prompt().unwrap() ;
                 
             match selection  {
-                "challenge" => {
+                "get_invoice" => {
                     // This block handles the "challenge" option
         
-                    let result = send_challenge_request().await;
+                    let result = send_get_invoice_request().await;
                     
                     if let Err(e) = result {
                         eprintln!("{}",e)
@@ -36,15 +46,18 @@ async fn main() -> Result<(), reqwest::Error> {
 }
 
 
-async fn send_challenge_request() -> Result<(), reqwest::Error> {
+async fn send_get_invoice_request() -> Result<(), reqwest::Error> {
     
           
     let client = reqwest::Client::new(); 
     
     
+    let invoice_uuid = "2e3d8c3b6af1043e6e5391ebef96f8afb9e3fe50706d02ee04d5eeab31cd342e";
+    
+    
     // Define the payload (based on the structure you want to send)
     let mut map = HashMap::new();
-    map.insert("public_address", "0x4283A1B1a622f8117a72B54a83B9cB99DAF74c86");
+    map.insert("invoice_uuid", "0x4283A1B1a622f8117a72B54a83B9cB99DAF74c86");
 
     // Make the POST request
     let response = client.post("http://localhost:8000/api/session/generate_challenge")

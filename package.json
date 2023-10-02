@@ -14,6 +14,8 @@
          "degentx-backend",
          "services"
       ]
-   } 
-   
+   },
+   "dependencies": {
+      "yarn": "^1.22.19"
+   }
 }
