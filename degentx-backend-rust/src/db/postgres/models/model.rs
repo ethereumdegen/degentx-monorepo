@@ -18,6 +18,13 @@ pub enum PostgresModelError {
     
     #[error("The row did not exist in the database.")]
     RowDidNotExist,
+    
+    #[error("Error converting address from hex")]
+    AddressParseError,
+    
+    #[error("Error converting uint from hex")]
+    HexParseError,
 }
 
  
+   

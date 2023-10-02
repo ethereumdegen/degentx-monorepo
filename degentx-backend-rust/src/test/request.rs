@@ -57,11 +57,11 @@ async fn send_get_invoice_request() -> Result<(), reqwest::Error> {
     
     // Define the payload (based on the structure you want to send)
     let mut map = HashMap::new();
-    map.insert("invoice_uuid", "0x4283A1B1a622f8117a72B54a83B9cB99DAF74c86");
+    map.insert("invoice_uuid", invoice_uuid);
 
     // Make the POST request
-    let response = client.post("http://localhost:8000/api/session/generate_challenge")
-        .json(&map)
+    let response = client.get("http://localhost:8000/api/invoice")
+        .query(&map)
         .send()
         .await?;
 
