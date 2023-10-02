@@ -46,10 +46,10 @@ contract Payspec is Ownable, ReentrancyGuard {
     uint256 nonce; 
 
     address paidBy;
-    uint256 ethBlockPaidAt;
 
 
-    uint256 ethBlockExpiresAt;
+    uint256 paidAt; 
+    uint256 expiresAt;
 
   }
 
@@ -68,7 +68,7 @@ contract Payspec is Ownable, ReentrancyGuard {
    
 
 
-  function createAndPayInvoice( address token, address[] memory payTo, uint[] memory amountsDue,   uint256 nonce,   uint256 chainId, bytes32 metadataHash,uint256 ethBlockExpiresAt, bytes32 expecteduuid  ) 
+  function createAndPayInvoice( address token, address[] memory payTo, uint[] memory amountsDue,   uint256 nonce,   uint256 chainId, bytes32 metadataHash,uint256 expiresAt, bytes32 expecteduuid  ) 
     public 
     payable 
     nonReentrant
@@ -82,24 +82,24 @@ contract Payspec is Ownable, ReentrancyGuard {
        require(msg.value == 0, "Transaction sent ETH for an ERC20 invoice.");
      }
      
-     bytes32 newuuid = _createInvoice(token,payTo,amountsDue, nonce, chainId, metadataHash, ethBlockExpiresAt,expecteduuid);
+     bytes32 newuuid = _createInvoice(token,payTo,amountsDue, nonce, chainId, metadataHash, expiresAt,expecteduuid);
     
      return _payInvoice(newuuid);
   }
 
-   function _createInvoice(  address token, address[] memory payTo, uint[] memory amountsDue, uint256 nonce, uint256 chainId, bytes32 metadataHash,  uint256 ethBlockExpiresAt, bytes32 expecteduuid ) 
+   function _createInvoice(  address token, address[] memory payTo, uint[] memory amountsDue, uint256 nonce, uint256 chainId, bytes32 metadataHash,  uint256 expiresAt, bytes32 expecteduuid ) 
     internal 
     returns (bytes32 uuid) { 
 
 
-      bytes32 newuuid = getInvoiceUUID(token, payTo, amountsDue, nonce,  chainId, metadataHash, ethBlockExpiresAt ) ;
+      bytes32 newuuid = getInvoiceUUID(token, payTo, amountsDue, nonce,  chainId, metadataHash, expiresAt ) ;
 
       require(!lockedByOwner);
       require( newuuid == expecteduuid , "Invalid invoice uuid");
       require( invoices[newuuid].uuid == 0 );  //make sure you do not overwrite invoices
       require(payTo.length == amountsDue.length, "Invalid number of amounts due");
 
-      //require(ethBlockExpiresAt == 0 || block.number < ethBlockExpiresAt);
+      //require(ethBlockExpiresAt == 0 || block.number < expiresAt);
 
       invoices[newuuid] = Invoice({
        uuid:newuuid,
@@ -114,8 +114,8 @@ contract Payspec is Ownable, ReentrancyGuard {
        
        paidBy: address(0),
         
-       ethBlockPaidAt: 0,
-       ethBlockExpiresAt: ethBlockExpiresAt 
+       paidAt: 0,
+       expiresAt: expiresAt 
       });
 
 
@@ -135,7 +135,7 @@ contract Payspec is Ownable, ReentrancyGuard {
        require( invoices[invoiceUUID].chainId == 0 || invoices[invoiceUUID].chainId == block.chainid, "Invalid chain id");
 
        
-       require( invoices[invoiceUUID].ethBlockExpiresAt == 0 || block.number < invoices[invoiceUUID].ethBlockExpiresAt);
+       require( invoices[invoiceUUID].expiresAt == 0 || block.timestamp < invoices[invoiceUUID].expiresAt);
 
  
        uint256 totalPaidAmt = 0;
@@ -153,7 +153,7 @@ contract Payspec is Ownable, ReentrancyGuard {
         
        invoices[invoiceUUID].paidBy = from;
 
-       invoices[invoiceUUID].ethBlockPaidAt = block.number; 
+       invoices[invoiceUUID].paidAt = block.timestamp; 
 
        emit PaidInvoice(invoiceUUID, from, totalPaidAmt);
 
@@ -201,7 +201,7 @@ contract Payspec is Ownable, ReentrancyGuard {
 
    function invoiceWasPaid( bytes32 invoiceUUID ) public view returns (bool){
 
-       return invoices[invoiceUUID].ethBlockPaidAt > 0 ;
+       return invoices[invoiceUUID].paidAt > 0 ;
    }
 
 
@@ -221,9 +221,9 @@ contract Payspec is Ownable, ReentrancyGuard {
        return invoices[invoiceUUID].paidBy;
    }
 
-   function getInvoiceEthBlockPaidAt( bytes32 invoiceUUID ) public view returns (uint){
+   function getInvoicePaidAt( bytes32 invoiceUUID ) public view returns (uint){
 
-       return invoices[invoiceUUID].ethBlockPaidAt;
+       return invoices[invoiceUUID].paidAt;
    }
 
  

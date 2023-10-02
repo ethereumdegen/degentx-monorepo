@@ -1,30 +1,37 @@
- 
- 
-import { useState, useEffect } from 'react';
- 
-import { useOutletContext, useParams, useSearchParams,  useNavigate} from 'react-router-dom';
+import { useState, useEffect } from "react";
+
+import {
+  useOutletContext,
+  useParams,
+  useSearchParams,
+  useNavigate,
+} from "react-router-dom";
 
 import { observer } from "mobx-react";
-import {observe} from 'mobx'
+import { observe } from "mobx";
 
+import SignInRequiredWarning from "@/views/components/sign-in-required-warning/Main";
+import SimpleButton from "@/views/components/button/SimpleButton";
 
- 
-import SignInRequiredWarning from "@/views/components/sign-in-required-warning/Main"
-import SimpleButton from "@/views/components/button/SimpleButton"
- 
-import InvoiceForm from '@/views/components/invoice/invoice-form/Main.jsx'
- 
+import InvoiceForm from "@/views/components/invoice/invoice-form/Main.jsx";
 
-import {addInvoice} from "@/lib/invoice-lib"
-import {applyProtocolFeeToPaymentElements, 
-  generatePayspecInvoiceSimple,  
+import { addInvoice } from "@/lib/invoice-lib";
+import {
+  applyProtocolFeeToPaymentElements,
+  generatePayspecInvoiceSimple,
   getCurrencyTokenAddress,
-   PayspecPaymentElement,
-   getPaymentElementsFromInvoice,
-    userPayInvoice} from 'payspec-js'
+  PayspecPaymentElement,
+  getNetworkNameFromChainId,
+  getPayspecRandomNonce,
+  generatePayspecInvoice,
+  getPayspecContractAddress,
+  getMetadataHash,
+  getPaymentElementsFromInvoice,
+  userPayInvoice,
+} from "payspec-js";
 
 import AlertBanner from "@/views/components/alert-banner/Main";
-import tw from "tailwind-styled-components"
+import tw from "tailwind-styled-components";
 
 /*
 
@@ -34,119 +41,103 @@ http://localhost:8081/checkout?tokenAddress=0xb6ed7644c69416d67b522e20bc294a9a9b
 
 */
 
-function Main(  ) {
- 
-     
-    const [web3Store] = useOutletContext(); // <-- access context value
- 
-  
+function Main() {
+  const [web3Store] = useOutletContext(); // <-- access context value
 
-    const [errorMessage, errorMessageSet] = useState(null)
- 
+  const [errorMessage, errorMessageSet] = useState(null);
 
-    let generatedInvoice 
-    let paymentElements = []
-    let paymentsArrayBasic = []
+  let generatedInvoice;
+  let paymentElements = [];
+  let paymentsArrayBasic = [];
 
-    try{
-
+  try {
     //  const searchParams = new URLSearchParams(window.location.search);
 
-// Using the getAll() method, you can retrieve all values for a specific parameter as an array.
+    // Using the getAll() method, you can retrieve all values for a specific parameter as an array.
 
-    
-    const [searchParams, ] = useSearchParams();
-    let payspecAddress = searchParams.get("payspecAddress") 
-    let tokenAddress = searchParams.get("tokenAddress")
-    const payTos = searchParams.getAll('payTo');
-    const payAmounts = searchParams.getAll('payAmount');
- 
-    let chainId = parseInt(searchParams.get("chainId"))|| 1
-    let description = searchParams.get("description") || ""
-    let duration = parseInt(searchParams.get("duration")) || 60 * 60 * 24 * 30 // 30 days
-   
-    let nonce = searchParams.get("nonce")  
-    let expiration = searchParams.get("expiration") 
- 
+    const [searchParams] = useSearchParams();
 
-    console.log(payTos,payAmounts)
- 
-   
+    let tokenAddress = searchParams.get("tokenAddress");
+    const payTos = searchParams.getAll("payTo");
+    const payAmounts = searchParams.getAll("payAmount");
+
+    let chainId = parseInt(searchParams.get("chainId")) || 1;
+
+    let duration = parseInt(searchParams.get("duration")) || 60 * 60 * 24 * 30; // 30 days
+
+    let nonce = searchParams.get("nonce") || getPayspecRandomNonce();
+    let expiration =
+      searchParams.get("expiration") ||
+      Math.floor(Date.now() / 1000) + duration;
+
+    let networkName = getNetworkNameFromChainId(chainId);
+
+    let payspecAddress = getPayspecContractAddress(networkName);
+
+    let description = searchParams.get("description") || "";
+
+    //Metadata Params
+    let metadata = {
+      description,
+    };
+
+    let metadataHash = getMetadataHash(metadata);
+
+    console.log(payTos, payAmounts);
 
     for (let i in payTos) {
-
-      paymentsArrayBasic.push( 
-
-        {
-          payTo: payTos[i],
-          amountDue: payAmounts[i],
-        }
-
-      )
-
+      paymentsArrayBasic.push({
+        payTo: payTos[i],
+        amountDue: payAmounts[i],
+      });
     }
 
-    console.log({paymentsArrayBasic})
+    console.log({ paymentsArrayBasic });
 
+    let paymentsArray = [];
 
-    let paymentsArray = [] 
-    let payToArray = JSON.parse(payTo)
-    let payAmountArray = JSON.parse(payAmount)
-
-    for(let i=0;i<payToArray.length;i++){
-      paymentsArray.push(({
-        payTo: payToArray[i]
-        amountDue: payAmountArray[i]
-      }))
+    for (let i in payTos) {
+      paymentsArray.push({
+        payTo: payTos[i],
+        amountDue: payAmounts[i],
+      });
     }
-  
 
     generatedInvoice = generatePayspecInvoice({
-      payspecAddress,
+      payspecContractAddress: payspecAddress,
       tokenAddress,
       chainId,
       paymentsArray,
-      description,
+      metadataHash,
       nonce,
-      expiration
-    })
+      expiration,
+    });
 
-    paymentElements = getPaymentElementsFromInvoice(generatedInvoice)
-  
-    console.log({paymentElements})
-  }catch(e){
-    console.error(e)
+    paymentElements = getPaymentElementsFromInvoice(generatedInvoice);
+
+    console.log({ paymentElements });
+  } catch (e) {
+    console.error(e);
   }
- 
-
-
 
   const navigate = useNavigate();
-   
-   observe(web3Store, 'account', function() {
-    console.log('acct:', web3Store.account); 
-  });
-  
-  observe(web3Store, 'authorized', function() {
-    console.log('acct:', web3Store.account);
-    
-  });
-   
 
+  observe(web3Store, "account", function () {
+    console.log("acct:", web3Store.account);
+  });
 
-  const renderError = (msg) => {   
+  observe(web3Store, "authorized", function () {
+    console.log("acct:", web3Store.account);
+  });
+
+  const renderError = (msg) => {
     errorMessageSet(msg);
-  }
+  };
 
- //load  on mount 
- useEffect(()=>{
-  
-}, []) // <-- empty dependency array
+  //load  on mount
+  useEffect(() => {}, []); // <-- empty dependency array
 
-
-
- 
-/*
+  /*
 
 
  payspecContractAddress: '0x...',   -- AUTOGENERATED 
@@ -161,21 +152,20 @@ function Main(  ) {
 
 */
 
-
-// Define a styled component using Tailwind CSS classes
-const Container = tw.div`
+  // Define a styled component using Tailwind CSS classes
+  const Container = tw.div`
   mx-auto
   max-w-2xl
   pb-8
 `;
 
-const Header = tw.h1`
+  const Header = tw.h1`
   text-2xl
   font-bold
   mb-4
 `;
 
-const FlexContainer = tw.div`
+  const FlexContainer = tw.div`
   flex
   flex-col
  
@@ -184,210 +174,130 @@ const FlexContainer = tw.div`
   overflow-hidden
 `;
 
-const FlexItem = tw.div`
+  const FlexItem = tw.div`
   p-4
   flex-1
   border-r
 `;
 
-const Label = tw.div`
+  const Label = tw.div`
   font-bold
   mb-2
 `;
 
-const Value = tw.div`
+  const Value = tw.div`
   text-sm
 `;
 
- 
-
   return (
     <>
-      <div className="intro-y flex flex-col sm:flex-row items-center mt-2">
-       
-      </div>
+      <div className="intro-y flex flex-col sm:flex-row items-center mt-2"></div>
       <div className="intro-y box pt-4 px-5 pb-4 mt-2 flex flex-col items-center">
-      
-     
- 
-
         <div className="pt-4 px-2 pb-16 w-full">
-      
-      
-        {/* BEGIN:   Title */}
-         
-        <div className=" mt-2 mb-5 ">
-          <div className="text-xl   my-2 ">
-         
+          {/* BEGIN:   Title */}
+
+          <div className=" mt-2 mb-5 ">
+            <div className="text-xl   my-2 "></div>
           </div>
-          
-        
-        </div>
-       
-        {/* END: Tx Title */}
-        {/* BEGIN: Tx Content */}
 
-        <div className="w-full">
+          {/* END: Tx Title */}
+          {/* BEGIN: Tx Content */}
 
- 
-    
-       
-      
-        <div className="flex flex-col">
+          <div className="w-full">
+            <div className="flex flex-col">
+              <div className="px-4 mb-4 text-lg font-bold"></div>
 
-         
-            <div className="px-4 mb-4 text-lg font-bold">
-               
-            </div>
-             
-
-            <div>
-
-
-              { /*  
+              <div>
+                {/*  
               
               */}
 
-              {!generatedInvoice && 
-              
-                <div> 
-                  Unable to generate invoice
-                </div>
-              }
+                {!generatedInvoice && <div>Unable to generate invoice</div>}
 
-              {generatedInvoice && 
-              <>
-              {generatedInvoice.tokenAddress}
+                {generatedInvoice && (
+                  <>
+                    {generatedInvoice.tokenAddress}
 
-
-
-              <div>
-
-
-              <Container>
-                <Header>Invoice Details</Header>
-                <FlexContainer>
-                  <FlexItem>
-                    <Label>Description:</Label>
-                    <Value>{generatedInvoice.description}</Value>
-                  </FlexItem>
-                  <FlexItem>
-                    <Label>Token:</Label>
-                    <Value>{generatedInvoice.token}</Value>
-                  </FlexItem>
-
-                  {paymentsArrayBasic.map((payment, index) => (
-                      <>
-                          <FlexItem key={`payTo-${index}`}>
-                              <Label>Pay To:</Label>
-                              <Value>{payment.payTo}</Value>
+                    <div>
+                      <Container>
+                        <Header>Invoice Details</Header>
+                        <FlexContainer>
+                          <FlexItem>
+                            <Label>Description:</Label>
+                            <Value>{generatedInvoice.description}</Value>
                           </FlexItem>
-                          <FlexItem key={`amountDue-${index}`}>
-                              <Label>Amount Due:</Label>
-                              <Value>{payment.amountDue}</Value>
+                          <FlexItem>
+                            <Label>Token:</Label>
+                            <Value>{generatedInvoice.token}</Value>
                           </FlexItem>
-                      </>
-                  ))}
 
+                          {paymentsArrayBasic.map((payment, index) => (
+                            <>
+                              <FlexItem key={`payTo-${index}`}>
+                                <Label>Pay To:</Label>
+                                <Value>{payment.payTo}</Value>
+                              </FlexItem>
+                              <FlexItem key={`amountDue-${index}`}>
+                                <Label>Amount Due:</Label>
+                                <Value>{payment.amountDue}</Value>
+                              </FlexItem>
+                            </>
+                          ))}
 
-                 
-                  <FlexItem>
-                    <Label>Nonce:</Label>
-                    <Value>{generatedInvoice.nonce}</Value>
-                  </FlexItem>
-                
-                  <FlexItem>
-                    <Label>Chain ID:</Label>
-                    <Value>{generatedInvoice.chainId}</Value>
-                  </FlexItem>
-                  <FlexItem>
-                    <Label>Expires At:</Label>
-                    <Value>{generatedInvoice.expiresAt}</Value>
-                  </FlexItem>
-                  {generatedInvoice.invoiceUUID && (
-                    <FlexItem>
-                      <Label>Invoice UUID:</Label>
-                      <Value>{generatedInvoice.invoiceUUID}</Value>
-                    </FlexItem>
-                  )}
+                          <FlexItem>
+                            <Label>Nonce:</Label>
+                            <Value>{generatedInvoice.nonce}</Value>
+                          </FlexItem>
 
+                          <FlexItem>
+                            <Label>Chain ID:</Label>
+                            <Value>{generatedInvoice.chainId}</Value>
+                          </FlexItem>
+                          <FlexItem>
+                            <Label>Expires At:</Label>
+                            <Value>{generatedInvoice.expiresAt}</Value>
+                          </FlexItem>
+                          {generatedInvoice.invoiceUUID && (
+                            <FlexItem>
+                              <Label>Invoice UUID:</Label>
+                              <Value>{generatedInvoice.invoiceUUID}</Value>
+                            </FlexItem>
+                          )}
 
-                  <div>
+                          <div>
+                            <SimpleButton
+                              customClass="py-2 my-4 text-center bg-slate-800 hover:bg-blue-400 text-white "
+                              clicked={async () => {
+                                console.log("paying ", generatedInvoice);
 
+                                let tx = await userPayInvoice({
+                                  from: web3Store.account,
+                                  invoiceData: generatedInvoice,
+                                  provider: web3Store.provider,
+                                });
+                              }}
+                            >
+                              Pay
+                            </SimpleButton>
+                          </div>
+                        </FlexContainer>
+                      </Container>
+                    </div>
+                  </>
+                )}
 
-                  <SimpleButton
-                    customClass="py-2 my-4 text-center bg-slate-800 hover:bg-blue-400 text-white "
-                    clicked={async () => {
+                <div></div>
 
-                        console.log('paying ', generatedInvoice)
-
-                        let tx = await userPayInvoice({
-                          from: web3Store.account,
-                          invoiceData: generatedInvoice,
-                          provider: web3Store.provider,
-                        
-
-
-                        })
-
-                    }}
-                    >
-
-                  Pay
-                  </SimpleButton>
-
-                  </div>
-
-                </FlexContainer>
-
-                
-
-              </Container>
-
-
-
-
+                <AlertBanner message={errorMessage} />
               </div>
-         
-
-            
-              </>
-              }
-
-
-              <div>
-
-
-
-
-              </div>
-
-
-
-
-            <AlertBanner
-              message={errorMessage}
-            />
-
             </div>
-         
-         </div>
-          
-          
+          </div>
 
-          
+          {/* END: Tx Content */}
         </div>
-            
-    
-        {/* END: Tx Content */}
       </div>
-      </div>
-
     </>
   );
 }
 
 export default observer(Main);
-
-
- 

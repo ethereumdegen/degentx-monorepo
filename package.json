@@ -1,21 +1,19 @@
 {
-   "name": "degentx-monorepo",
-   "private": true,
-   "scripts": {
-      "contracts": "yarn workspace degentx-contract",
-      "frontend": "yarn workspace degentx-frontend",
-      "backend": "yarn workspace degentx-backend",
-      "services": "yarn workspace services"
-   },
-   "workspaces": {
-      "packages": [
-         "degentx-contract",
-         "degentx-frontend",
-         "degentx-backend",
-         "services"
-      ]
-   },
-   "dependencies": {
-      "yarn": "^1.22.19"
-   }
+  "name": "degentx-monorepo",
+  "private": true,
+  "scripts": {
+    "contracts": "yarn workspace degentx-contract",
+    "frontend": "yarn workspace degentx-frontend",
+    "services": "yarn workspace services"
+  },
+  "workspaces": {
+    "packages": [
+      "degentx-contract",
+      "degentx-frontend",
+      "services"
+    ]
+  },
+  "dependencies": {
+    "yarn": "^1.22.19"
+  }
 }
