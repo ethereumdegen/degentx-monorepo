@@ -147,7 +147,7 @@ function Main(  ) {
    const payInvoice = async() => {
       console.log('paying invoice',JSON.stringify(invoice))
 
-      const networkName = "goerli"
+      const networkName = "sepolia"
 
 
      // let prov =  new ethers.providers.Web3Provider(window.ethereum, "any");

@@ -261,6 +261,8 @@ export function getNetworkNameFromChainId(chainId){
     case 1: return 'mainnet'
     case 4: return 'rinkeby'
     case 5: return 'goerli'
+    case 8453: return 'base'
+    case 11155111: return 'sepolia'
     //case 17001: return 'mainnet'
     //case 17005: return 'goerli'
 

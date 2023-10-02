@@ -94,7 +94,7 @@ function Main() {
 
     console.log({ paymentsArrayBasic });
 
-    let paymentsArray = [];
+    /*let paymentsArray = [];
 
     for (let i in payTos) {
       paymentsArray.push({
@@ -111,7 +111,18 @@ function Main() {
       metadataHash,
       nonce,
       expiration,
-    });
+    });*/
+
+    generatedInvoice = generatePayspecInvoiceSimple({
+
+      tokenAddress,
+      chainId,
+      paymentsArray : applyProtocolFeeToPaymentElements(paymentsArrayBasic),
+      metadataHash,
+      durationSeconds: duration
+
+    })
+
 
     paymentElements = getPaymentElementsFromInvoice(generatedInvoice);
 

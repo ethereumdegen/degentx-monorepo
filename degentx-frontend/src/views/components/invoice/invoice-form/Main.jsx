@@ -31,7 +31,7 @@ import {
         required: true ,
         options:[
           {label: 'Ethereum Mainnet', value: 1},
-          {label: 'Ethereum Rinkeby', value: 4},
+          {label: 'Ethereum Sepolia', value: 11155111},
           {label: 'Ethereum Goerli', value: 5},
         ]
       },
