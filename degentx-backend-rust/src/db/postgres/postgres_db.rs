@@ -82,9 +82,9 @@ impl Database {
           // Define the connection URL.
         let conn_url = Database::get_connection_url();
 
-        println!("conn 1");
+      
 
-        println!("{}",conn_url);
+        println!("Connecting to db {}",conn_url);
         
         let (client, connection) =
         tokio_postgres::connect(&conn_url, NoTls).await?;
@@ -95,7 +95,7 @@ impl Database {
         */
 
 
-        println!("conn 2");
+       
 
 
         // The connection object performs the actual communication with the database,

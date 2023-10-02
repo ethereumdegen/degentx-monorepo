@@ -4,12 +4,13 @@ use chrono::{DateTime, Utc};
 use ethers::{types::{Address, U256, H256, U64}, utils::to_checksum};
 use tokio_postgres::Row;
 use std::str::FromStr;
-   
-use crate::db::postgres::postgres_db::Database;
+use serde::{Serialize, Deserialize };
+
+use crate::{db::postgres::postgres_db::Database, types::chronodatetime::ChronoDateTime};
 
 use super::model::PostgresModelError;
  
-   
+#[derive(Serialize)]
 pub struct Invoice {
     pub contract_address: Address,
 
@@ -22,7 +23,7 @@ pub struct Invoice {
     pub block_number: Option<U64>,
     pub block_hash: Option<H256>,
 
-    pub created_at: Option<DateTime<Utc>>,
+    pub created_at: Option<ChronoDateTime>,
 }
 
 impl Invoice {
@@ -51,7 +52,7 @@ impl Invoice {
                             .into(),
             ),
             block_hash: serde_json::from_str(&row.get::<_, String>("block_hash")).unwrap(),
-            created_at:Some((row.get::<_, DateTime<Utc>>("created_at")).into()),
+            created_at:Some(  ChronoDateTime::new(row.get::<_, DateTime<Utc>>("created_at")) ),
         })
          
          
@@ -71,14 +72,14 @@ impl InvoicesModel {
      
      
      pub async fn find_with_invoice_uuid_array ( 
-         invoice_uuids: Vec<&String>, 
+         invoice_uuids: Vec< String>, 
           
          psql_db: &Database
      ) -> Result<  Vec< Invoice >   , PostgresModelError> {
         
            
             let uuids: Vec<String> = invoice_uuids.iter().map(|s| s.to_string()).collect();
-    
+       println!("get invoices 2");
            
            let insert_result = psql_db.query("
             SELECT 
@@ -105,7 +106,7 @@ impl InvoicesModel {
                let mut invoices = Vec::new();
                
                for row in rows {
-                   
+                      println!("get invoices 3" );
                    let invoice_from_row = Invoice::from_row(row);
                    
                    if let Ok(invoice) = invoice_from_row {

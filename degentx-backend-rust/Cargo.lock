@@ -1355,6 +1355,41 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c2e66c9d817f1720209181c316d28635c050fa304f9c79e47a520882661b7308"
 
 [[package]]
+name = "degentx-backend-rust"
+version = "0.1.0"
+dependencies = [
+ "actix-cors",
+ "actix-multipart",
+ "actix-web",
+ "aws-config",
+ "aws-sdk-s3",
+ "chrono",
+ "dotenvy",
+ "env_logger",
+ "ethers",
+ "futures",
+ "futures-util",
+ "include_dir",
+ "inquire",
+ "log",
+ "mime",
+ "parking_lot",
+ "rand",
+ "reqwest",
+ "rocket",
+ "rocket_cors",
+ "serde",
+ "serde_json",
+ "sha2",
+ "siwe",
+ "thiserror",
+ "tokio",
+ "tokio-postgres",
+ "tokio-postgres-migration",
+ "uuid 1.4.1",
+]
+
+[[package]]
 name = "der"
 version = "0.7.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2530,41 +2565,6 @@ checksum = "8adf3ddd720272c6ea8bf59463c04e0f93d0bbf7c5439b691bca2987e0270897"
 dependencies = [
  "equivalent",
  "hashbrown 0.14.1",
-]
-
-[[package]]
-name = "indiefuture-backend-rust"
-version = "0.1.0"
-dependencies = [
- "actix-cors",
- "actix-multipart",
- "actix-web",
- "aws-config",
- "aws-sdk-s3",
- "chrono",
- "dotenvy",
- "env_logger",
- "ethers",
- "futures",
- "futures-util",
- "include_dir",
- "inquire",
- "log",
- "mime",
- "parking_lot",
- "rand",
- "reqwest",
- "rocket",
- "rocket_cors",
- "serde",
- "serde_json",
- "sha2",
- "siwe",
- "thiserror",
- "tokio",
- "tokio-postgres",
- "tokio-postgres-migration",
- "uuid 1.4.1",
 ]
 
 [[package]]

@@ -62,6 +62,8 @@ async fn main() -> io::Result<()> {
     
     //setup and launch the http server 
     HttpServer::new(move || {
+     
+          println!("start!!");
           
       let cors = Cors::default()
             .allowed_origin("http://localhost:3000")
@@ -78,7 +80,7 @@ async fn main() -> io::Result<()> {
      
       App::new()
             .app_data(Data::new(  app_state )) // Clone your db connection or use Arc
-            .wrap(cors)
+            //.wrap(cors)
              .wrap(actix_web::middleware::Logger::default()) // Enable logger middleware
              .configure(InvoiceController::config)
             

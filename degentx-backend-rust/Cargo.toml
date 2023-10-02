@@ -1,5 +1,5 @@
 [package]
-name = "indiefuture-backend-rust"
+name = "degentx-backend-rust"
 version = "0.1.0"
 edition = "2021"
 default-run = "server"
@@ -50,7 +50,7 @@ sha2 = "0.10.8"
 
 
 [lib]
-name = "indiefuture_backend"
+name = "degentx_backend"
 
 # cargo run --bin migrate
 [[bin]]

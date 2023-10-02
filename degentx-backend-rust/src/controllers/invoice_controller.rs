@@ -13,7 +13,7 @@ use actix_multipart::form::{tempfile::TempFile, text::Text, MultipartForm};
 use serde::{Serialize};
  
 
-use crate::db::postgres::models::invoices_model::InvoicesModel;
+use crate::db::postgres::models::invoices_model::{InvoicesModel, Invoice};
 
 use super::web_controller::{WebController  };
   
@@ -49,19 +49,16 @@ impl WebController for InvoiceController {
  
  
  
-  
-#[derive(Serialize)] 
- 
-pub struct Invoice {}
+   
   
  
  pub async fn get_invoices(    
-      invoice_uuids: Json< Vec<&String> > ,
+      invoice_uuids: Json< Vec< String > > ,
       app_state: Data<AppState>       
         ) -> Option<Json<Vec<Invoice>>> {
     
       //let invoices:Vec<Invoice> = Vec::new();
-      
+      println!("get invoices 1");
       
       let uuid_array = invoice_uuids.0; 
       
@@ -72,10 +69,10 @@ pub struct Invoice {}
         uuid_array,
         &db
         
-      ).await;
+      ).await.unwrap();
       
       
-      Some(Json( invoices ))
+      Some(  Json( results )   )
   }
   
    

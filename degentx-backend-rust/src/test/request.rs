@@ -60,8 +60,8 @@ async fn send_get_invoice_request() -> Result<(), reqwest::Error> {
     map.insert("invoice_uuid", invoice_uuid);
 
     // Make the POST request
-    let response = client.get("http://localhost:8000/api/invoice")
-        .query(&map)
+    let response = client.post("http://localhost:8000/api/invoices")
+        .json(&map)
         .send()
         .await?;
 
