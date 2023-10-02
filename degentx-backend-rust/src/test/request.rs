@@ -55,7 +55,7 @@ async fn send_get_invoice_request() -> Result<(), reqwest::Error> {
 
              
     let mut invoice_uuids:Vec<String> = Vec::new();
-    invoice_uuids.push("0x2e3d8c3b6af1043e6e5391ebef96f8afb9e3fe50706d02ee04d5eeab31cd342e".into());
+    invoice_uuids.push("0028dde2b2ca9f9815f39b8647d253239aedc2b2bbc4d258409882831430fabe".into());
 
     // Make the POST request
     let response = client.post("http://localhost:8000/api/invoices")

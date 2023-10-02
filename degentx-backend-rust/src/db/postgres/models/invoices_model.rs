@@ -22,6 +22,8 @@ pub struct Invoice {
     pub transaction_hash: Option<H256>,
     pub block_number: Option<U64>,
     pub block_hash: Option<H256>,
+    
+    pub chain_id: u64,
 
     pub created_at: Option<ChronoDateTime>,
 }
@@ -51,6 +53,7 @@ impl Invoice {
                             .unwrap() 
                             .into(),
             ),
+            chain_id: row.get::<_, i64>("chain_id") as u64,
             block_hash: serde_json::from_str(&row.get::<_, String>("block_hash")).unwrap(),
             created_at:Some(  ChronoDateTime::new(row.get::<_, DateTime<Utc>>("created_at")) ),
         })
@@ -99,7 +102,7 @@ impl InvoicesModel {
             from_address,
             total_amount,
             invoice_uuid,
-            
+            chain_id,
             transaction_hash,
             block_number,
             block_hash,
@@ -117,7 +120,7 @@ impl InvoicesModel {
                let mut invoices = Vec::new();
                
                for row in rows {
-                      println!("get invoices 3" );
+                       
                    let invoice_from_row = Invoice::from_row(row);
                    
                    if let Ok(invoice) = invoice_from_row {
