@@ -85,7 +85,7 @@ async fn main() -> io::Result<()> {
              .configure(InvoiceController::config)
             
            })
-    .bind("127.0.0.1:8443")?
+    .bind("0.0.0.0:8443")?
     .run()
     .await
 

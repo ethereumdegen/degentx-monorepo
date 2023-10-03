@@ -46,6 +46,7 @@ async fn main() -> Result<(), reqwest::Error> {
 }
 
 
+
 async fn send_get_invoice_request() -> Result<(), reqwest::Error> {
     
           
@@ -56,9 +57,11 @@ async fn send_get_invoice_request() -> Result<(), reqwest::Error> {
              
     let mut invoice_uuids:Vec<String> = Vec::new();
     invoice_uuids.push("0028dde2b2ca9f9815f39b8647d253239aedc2b2bbc4d258409882831430fabe".into());
-
+    
+        //"http://localhost:8000/api/invoices"
+        let url = "http://142.93.194.47:8443/api/invoices";
     // Make the POST request
-    let response = client.post("http://localhost:8000/api/invoices")
+    let response = client.post(url)
         .json(&invoice_uuids)
         .send()
         .await?;
@@ -69,7 +72,5 @@ async fn send_get_invoice_request() -> Result<(), reqwest::Error> {
     
 
 
- 
-    
-     Ok(())
+      Ok(())
 }
