@@ -66,8 +66,8 @@ async fn main() -> io::Result<()> {
           println!("start!!");
           
       let cors = Cors::default()
-            .allowed_origin("http://localhost:3000")
-            .allowed_origin("http://localhost:8080")
+          
+            .allow_any_origin()
             .allowed_methods(vec!["GET", "POST"])
             .allowed_headers(vec!["Authorization", "Accept", "Content-Type"])
             .supports_credentials()
@@ -80,12 +80,12 @@ async fn main() -> io::Result<()> {
      
       App::new()
             .app_data(Data::new(  app_state )) // Clone your db connection or use Arc
-            //.wrap(cors)
+            .wrap(cors)
              .wrap(actix_web::middleware::Logger::default()) // Enable logger middleware
              .configure(InvoiceController::config)
             
            })
-    .bind("127.0.0.1:8000")?
+    .bind("127.0.0.1:8443")?
     .run()
     .await
 
