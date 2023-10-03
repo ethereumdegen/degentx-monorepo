@@ -81,11 +81,11 @@ async fn main() -> io::Result<()> {
       App::new()
             .app_data(Data::new(  app_state )) // Clone your db connection or use Arc
             .wrap(cors)
-             .wrap(actix_web::middleware::Logger::default()) // Enable logger middleware
-             .configure(InvoiceController::config)
+            .wrap(actix_web::middleware::Logger::default()) // Enable logger middleware
+            .configure(InvoiceController::config)
             
            })
-    .bind("0.0.0.0:8443")?
+    .bind("0.0.0.0:8000")?
     .run()
     .await
 

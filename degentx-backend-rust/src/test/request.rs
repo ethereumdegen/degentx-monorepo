@@ -59,7 +59,9 @@ async fn send_get_invoice_request() -> Result<(), reqwest::Error> {
     invoice_uuids.push("0028dde2b2ca9f9815f39b8647d253239aedc2b2bbc4d258409882831430fabe".into());
     
         //"http://localhost:8000/api/invoices"
-        let url = "http://142.93.194.47:8443/api/invoices";
+        
+        //end up going to port 80 ..? 
+    let url = "https://api.degentx.com/api/invoices";
     // Make the POST request
     let response = client.post(url)
         .json(&invoice_uuids)
