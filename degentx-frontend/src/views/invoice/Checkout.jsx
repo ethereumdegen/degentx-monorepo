@@ -7,6 +7,8 @@ import {
   useNavigate,
 } from "react-router-dom";
 
+import axios from 'axios'
+
 import { observer } from "mobx-react";
 import { observe } from "mobx";
 
@@ -37,7 +39,7 @@ import tw from "tailwind-styled-components";
 
 This is the smart invoice ! 
 
-http://localhost:8081/checkout?tokenAddress=0xb6ed7644c69416d67b522e20bc294a9a9b405b31&payTo=0xb6ed7644c69416d67b522e20bc294a9a9b405b31&payAmount=5000&chainId=5
+http://localhost:8080/checkout?tokenAddress=0x0000000000000000000000000000000000000010&payTo=0xb6ed7644c69416d67b522e20bc294a9a9b405b31&payAmount=5000&chainId=11155111
 
 */
 
@@ -46,9 +48,58 @@ function Main() {
 
   const [errorMessage, errorMessageSet] = useState(null);
 
+  const [paidInvoiceData, setPaidInvoiceData] = useState(null);
+  const [invoiceUuidToCheck, setInvoiceUuidToCheck] = useState(null);
+
+
+  //poll for the invoice paid status 
+  useEffect(() => {
+    const fetchData = async () => {
+        try { 
+
+            if (invoiceUuidToCheck != null) {
+
+                let invoice_status_endpoint_url = "https://api.degentx.com/api/invoices"
+
+                let postData = [];
+
+                postData.push( invoiceUuidToCheck )
+                        
+
+                let response = await axios.post(invoice_status_endpoint_url, postData);
+
+                if (response.status == 200 && response.data && response.data.length > 0){
+                  //console.log("got invoice result !! ", response.data  )
+
+                  let paidInvoiceData = response.data[0]
+
+                  setPaidInvoiceData(paidInvoiceData)
+                } 
+
+            }  
+             
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+
+    // Fetch data immediately upon mounting
+    fetchData();
+
+    // Set up the interval to fetch data every 5 seconds
+    const interval = setInterval(fetchData, 5000);
+
+    // Cleanup: clear the interval when the component is unmounted
+    return () => clearInterval(interval);
+}, [ invoiceUuidToCheck ]);  // Empty dependency array ensures this effect runs once when the component mounts
+
+
+
+
   let generatedInvoice;
   let paymentElements = [];
   let paymentsArrayBasic = [];
+
 
   try {
     //  const searchParams = new URLSearchParams(window.location.search);
@@ -219,9 +270,7 @@ function Main() {
               <div className="px-4 mb-4 text-lg font-bold"></div>
 
               <div>
-                {/*  
-              
-              */}
+                { paidInvoiceData && <div> Invoice has been paid! </div>  }
 
                 {!generatedInvoice && <div>Unable to generate invoice</div>}
 
@@ -286,6 +335,12 @@ function Main() {
                                   invoiceData: generatedInvoice,
                                   provider: web3Store.provider,
                                 });
+
+                                console.log({tx})
+                                if (tx && tx.success){
+                                  setInvoiceUuidToCheck(generatedInvoice.invoiceUUID)
+                                }
+                                
                               }}
                             >
                               Pay
