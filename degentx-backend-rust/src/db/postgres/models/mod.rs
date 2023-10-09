@@ -1,4 +1,4 @@
 
 pub mod model;
 
-pub mod invoices_model;
+pub mod paid_invoices_model;

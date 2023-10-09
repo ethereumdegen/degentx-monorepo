@@ -13,7 +13,7 @@ use actix_multipart::form::{tempfile::TempFile, text::Text, MultipartForm};
 use serde::{Serialize};
  
 
-use crate::db::postgres::models::invoices_model::{InvoicesModel, Invoice};
+use crate::db::postgres::models::paid_invoices_model::{PaidInvoicesModel, PaidInvoice};
 
 use super::web_controller::{WebController  };
   
@@ -39,7 +39,7 @@ impl InvoiceController { }
 impl WebController for InvoiceController {
     fn config(cfg: &mut ServiceConfig) {
         cfg.service(
-            web::scope("/api/invoices")
+            web::scope("/api/paid_invoices")
                 // Add your routes here, e.g.,
                 .route("", web::post().to(get_invoices))
         );
@@ -51,17 +51,17 @@ impl WebController for InvoiceController {
  async fn get_invoices(    
       invoice_uuids: Json< Vec< String > > ,
       app_state: Data<AppState>       
-        ) -> Option<Json<Vec<Invoice>>> {
+        ) -> Option<Json<Vec<PaidInvoice>>> {
     
       //let invoices:Vec<Invoice> = Vec::new();
-      println!("get invoices 1");
+     
       
       let uuid_array = invoice_uuids.0; 
       
       let db = &app_state.database;
       
       //fetch from sql 
-      let results = InvoicesModel::find_with_invoice_uuid_array(
+      let results = PaidInvoicesModel::find_with_invoice_uuid_array(
         uuid_array,
         &db
         

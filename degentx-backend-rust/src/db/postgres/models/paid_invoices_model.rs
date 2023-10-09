@@ -11,7 +11,7 @@ use crate::{db::postgres::postgres_db::Database, types::chronodatetime::ChronoDa
 use super::model::PostgresModelError;
  
 #[derive(Serialize)]
-pub struct Invoice {
+pub struct PaidInvoice {
     pub contract_address: Address,
 
     pub from_address: Address,
@@ -28,7 +28,7 @@ pub struct Invoice {
     pub created_at: Option<ChronoDateTime>,
 }
 
-impl Invoice {
+impl PaidInvoice {
     
     pub fn from_row(row:Row) -> Result<Self, PostgresModelError> {
         
@@ -63,14 +63,14 @@ impl Invoice {
     
 }
 
-pub struct InvoicesModel {
+pub struct PaidInvoicesModel {
     
     
     
 }
 
 
-impl InvoicesModel { 
+impl PaidInvoicesModel { 
      
      
      
@@ -78,7 +78,7 @@ impl InvoicesModel {
          invoice_uuids: Vec< String>, 
           
          psql_db: &Database
-     ) -> Result<  Vec< Invoice >   , PostgresModelError> {
+     ) -> Result<  Vec< PaidInvoice >   , PostgresModelError> {
         
            
             let uuids: Vec<String> = invoice_uuids.iter().map(|uuid| 
@@ -93,7 +93,7 @@ impl InvoicesModel {
             
             
             
-            println!("get invoices 2");
+            
            
            let insert_result = psql_db.query("
             SELECT 
@@ -107,7 +107,7 @@ impl InvoicesModel {
             block_number,
             block_hash,
             created_at
-             FROM invoices
+             FROM paid_invoices
              WHERE invoice_uuid = ANY ($1)
              ;
             ", 
@@ -121,7 +121,7 @@ impl InvoicesModel {
                
                for row in rows {
                        
-                   let invoice_from_row = Invoice::from_row(row);
+                   let invoice_from_row = PaidInvoice::from_row(row);
                    
                    if let Ok(invoice) = invoice_from_row {
                        invoices.push(invoice);
