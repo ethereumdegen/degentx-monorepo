@@ -66,6 +66,7 @@ function Main() {
     let duration = parseInt(searchParams.get("duration")) || 60 * 60 * 24 * 30; // 30 days
 
     let nonce = searchParams.get("nonce") || getPayspecRandomNonce();
+
     let expiration =
       searchParams.get("expiration") ||
       Math.floor(Date.now() / 1000) + duration;
@@ -113,16 +114,15 @@ function Main() {
       expiration,
     });*/
 
-    generatedInvoice = generatePayspecInvoiceSimple({
-
+    generatedInvoice = generatePayspecInvoice({
+      payspecContractAddress: payspecAddress,
       tokenAddress,
       chainId,
-      paymentsArray : applyProtocolFeeToPaymentElements(paymentsArrayBasic),
+      paymentsArray: applyProtocolFeeToPaymentElements(paymentsArrayBasic),
       metadataHash,
-      durationSeconds: duration
-
-    })
-
+      nonce,
+      expiration,
+    });
 
     paymentElements = getPaymentElementsFromInvoice(generatedInvoice);
 
