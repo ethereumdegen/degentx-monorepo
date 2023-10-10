@@ -30,6 +30,8 @@ import {
   userPayInvoice,
 } from "payspec-js";
 
+import { BigNumber, Contract, ethers, utils } from "ethers";
+
 import AlertBanner from "@/views/components/alert-banner/Main";
 import tw from "tailwind-styled-components";
 
@@ -42,20 +44,163 @@ http://localhost:8081/checkout?tokenAddress=0xb6ed7644c69416d67b522e20bc294a9a9b
 */
 
 function Main() {
-  const [web3Store] = useOutletContext(); // <-- access context value
+  const [web3Store, sidebarStore] = useOutletContext(); // <-- access context value
 
   const [errorMessage, setErrorMessage] = useState(null);
 
-  let generatedInvoice;
-  let paymentElements = [];
-  let paymentsArrayBasic = [];
+  const [paymentAllowedStatus, setPaymentAllowedStatus] = useState({
+    allowed: true,
+  });
 
-  try {
+  const [generatedInvoice, setGeneratedInvoice] = useState(null);
+  const [paymentElements, setPaymentElements] = useState([]);
+  const [paymentsArrayBasic, setPaymentsArrayBasic] = useState([]);
+
+  const [searchParams] = useSearchParams();
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const getMetadataHashCustom = (metadata) => {
+      let sortedEntries = Object.entries(metadata).sort((a, b) =>
+        a[0].localeCompare(b[0])
+      ); // Sorting by key
+
+      let metadata_keys = [];
+      let metadata_values = [];
+
+      console.log({ sortedEntries });
+
+      for (let [key, value] of sortedEntries) {
+        if (typeof key != "undefined" && typeof value != "undefined") {
+          console.log("metadata hash gen {} {} ", key, value);
+
+          metadata_keys.push(key);
+          metadata_values.push(value);
+        }
+      }
+
+      const abi = ethers.utils.defaultAbiCoder;
+      const params = abi.encode(
+        ["string[]", "string[]"],
+        [metadata_keys, metadata_values]
+      ); // array to encode
+
+      const result = ethers.utils.keccak256(params);
+      /*
+      const result = ethers.utils.solidityKeccak256(
+        ["string[]", "string[]"],
+        [metadata_keys, metadata_values]
+      );*/
+
+      console.log("computed metadata hash ", result);
+
+      return result;
+    };
+
+    const getInvoiceUuidTest = (invoiceData) => {
+      // const expiration = Math.floor(parseInt(invoiceData.expiresAt.toString()));
+
+      console.log("test hashing invoice ", invoiceData);
+
+      var payspecContractAddress = {
+        t: "address",
+        v: invoiceData.payspecContractAddress,
+      };
+      var metadataHash = { t: "bytes32", v: invoiceData.metadataHash };
+      var nonce = {
+        t: "uint256",
+        v: BigNumber.from(invoiceData.nonce).toString(),
+      };
+      var token = { t: "address", v: invoiceData.token };
+      var chainId = {
+        t: "uint256",
+        v: BigNumber.from(invoiceData.chainId).toString(),
+      };
+
+      //  let payToArray = JSON.parse(invoiceData.payToArrayStringified);
+      //  let amountsDueArray = JSON.parse(invoiceData.amountsDueArrayStringified);
+
+      var payTo = { t: "address[]", v: invoiceData.payToArray };
+      var amountsDue = { t: "uint[]", v: invoiceData.amountsDueArray };
+      var expiresAt = {
+        t: "uint256",
+        v: BigNumber.from(invoiceData.expiresAt).toString(),
+      };
+
+      const result = ethers.utils.solidityKeccak256(
+        [
+          "address",
+          "address",
+          "address[]",
+          "uint256[]",
+          "uint256",
+          "uint256",
+          "bytes32",
+          "uint256",
+        ],
+        [
+          payspecContractAddress.v,
+          token.v,
+          payTo.v,
+          amountsDue.v,
+          nonce.v,
+          chainId.v,
+          metadataHash.v,
+          expiresAt.v,
+        ]
+      );
+
+      const result_simplified = ethers.utils.solidityKeccak256(
+        [
+          "address",
+          "address",
+          "address[]",
+          "uint256[]",
+          "uint256",
+          "uint256",
+          "bytes32",
+          "uint256",
+        ],
+
+        [
+          payspecContractAddress.v,
+          token.v,
+          payTo.v,
+          amountsDue.v,
+          nonce.v,
+          chainId.v,
+          metadataHash.v,
+          expiresAt.v,
+        ]
+      );
+
+      const result_nonce_only = ethers.utils.solidityKeccak256(
+        ["uint256"],
+
+        [0]
+      );
+      const result_address_only = ethers.utils.solidityKeccak256(
+        ["address"],
+
+        [ethers.constants.AddressZero]
+      );
+
+      console.log("metadata hash in test ", metadataHash);
+      console.log("test invoice uuid hash", result);
+
+      console.log("simplified hash ", result_simplified);
+      console.log("nonce only hash ", result_nonce_only);
+      console.log("address only hash ", result_address_only);
+    };
+
+    //let generatedInvoice;
+    //let paymentElements = [];
+    let paymentsArrayBasic = [];
+
     //  const searchParams = new URLSearchParams(window.location.search);
 
     // Using the getAll() method, you can retrieve all values for a specific parameter as an array.
-
-    const [searchParams] = useSearchParams();
 
     let tokenAddress = searchParams.get("tokenAddress");
     const payTos = searchParams.getAll("payTo");
@@ -75,16 +220,40 @@ function Main() {
 
     let payspecAddress = getPayspecContractAddress(networkName);
 
-    let description = searchParams.get("description") || "";
+    console.log({ payspecAddress });
+
+    let title = searchParams.get("title") || undefined;
+    let description = searchParams.get("description") || undefined;
 
     //Metadata Params
     let metadata = {
+      title,
       description,
     };
 
-    let metadataHash = getMetadataHash(metadata);
+    //for now
+    let metadataHash = getMetadataHashCustom(metadata);
 
-    console.log(payTos, payAmounts);
+    let redirectTo = searchParams.get("redirectTo");
+    let expectedUuid = searchParams.get("expectedUuid");
+
+    if (expectedUuid && !expectedUuid.startsWith("0x")) {
+      expectedUuid = "0x".concat(expectedUuid);
+    }
+
+    let invoiceData = {
+      payspecContractAddress: payspecAddress,
+      metadataHash,
+      nonce,
+      token: tokenAddress,
+      chainId,
+      payToArray: payTos,
+      amountsDueArray: payAmounts,
+      expiresAt: expiration,
+    };
+
+    let testInvoiceUuid = getInvoiceUuidTest(invoiceData); //remove me
+    //this is matching now !!!
 
     for (let i in payTos) {
       paymentsArrayBasic.push({
@@ -93,28 +262,35 @@ function Main() {
       });
     }
 
-    console.log({ paymentsArrayBasic });
+    setPaymentsArrayBasic(paymentsArrayBasic);
 
-    /*let paymentsArray = [];
-
-    for (let i in payTos) {
-      paymentsArray.push({
-        payTo: payTos[i],
-        amountDue: payAmounts[i],
-      });
-    }
-
-    generatedInvoice = generatePayspecInvoice({
+    let generatedInvoiceBeforeFees = generatePayspecInvoice({
       payspecContractAddress: payspecAddress,
       tokenAddress,
       chainId,
-      paymentsArray,
+      paymentsArray: paymentsArrayBasic,
       metadataHash,
       nonce,
       expiration,
-    });*/
+    });
 
-    generatedInvoice = generatePayspecInvoice({
+    if (generatedInvoiceBeforeFees?.invoiceUUID != expectedUuid) {
+      console.log(
+        "WARN: Invoice uuid is not as expected {} {} ",
+        generatedInvoiceBeforeFees?.invoiceUUID,
+        expectedUuid
+      );
+
+      setPaymentAllowedStatus({
+        allowed: false,
+        reason: "Invoice parameters are unexpected",
+      });
+    }
+
+    //need to apply the protocol fee at the level BEFORE This soo uuid doesnt break
+
+    /*
+    let generatedInvoice = generatePayspecInvoice({
       payspecContractAddress: payspecAddress,
       tokenAddress,
       chainId,
@@ -122,16 +298,22 @@ function Main() {
       metadataHash,
       nonce,
       expiration,
-    });
+    });*/
 
-    paymentElements = getPaymentElementsFromInvoice(generatedInvoice);
+    setGeneratedInvoice(generatedInvoiceBeforeFees);
+
+    // let generatedInvoiceUuid = generatedInvoice.invoiceUUID;
+
+    //setPaymentAllowedStatus({ allowed: true });
+
+    let paymentElements = getPaymentElementsFromInvoice(
+      generatedInvoiceBeforeFees
+    );
+
+    setPaymentElements(paymentElements);
 
     console.log({ paymentElements });
-  } catch (e) {
-    console.error(e);
-  }
-
-  const navigate = useNavigate();
+  }, []); // <-- empty dependency array
 
   observe(web3Store, "account", function () {
     console.log("acct:", web3Store.account);
@@ -142,12 +324,15 @@ function Main() {
   });
 
   /*
-  const renderError = (msg) => {
-    setErrorMessage(msg);
+  const allowInvoicePayment = () => {
+    if (generatedInvoiceUuid && generatedInvoiceUuid != expectedUuid) {
+      return false;
+    }
+
+    return true;
   };*/
 
   //load  on mount
-  useEffect(() => {}, []); // <-- empty dependency array
 
   /*
 
@@ -277,28 +462,49 @@ function Main() {
                           )}
 
                           <div>
-                            <SimpleButton
-                              customClass="py-2 my-4 text-center bg-slate-800 hover:bg-blue-400 text-white "
-                              clicked={async () => {
-                                console.log("paying ", generatedInvoice);
+                            {!paymentAllowedStatus?.allowed && (
+                              <div className="p-8 m-4 text-center bg-slate-800 hover:bg-slate-700 text-white ">
+                                Error: {paymentAllowedStatus?.reason}
+                              </div>
+                            )}
 
-                                let tx = await userPayInvoice({
-                                  from: web3Store.account,
-                                  invoiceData: generatedInvoice,
-                                  provider: web3Store.provider,
-                                });
+                            {paymentAllowedStatus?.allowed &&
+                              !web3Store.account && (
+                                <SimpleButton
+                                  customClass="py-2 my-4 text-center bg-slate-800 hover:bg-blue-400 text-white "
+                                  clicked={async () => {
+                                    sidebarStore.setOpen(true);
+                                  }}
+                                >
+                                  Connect
+                                </SimpleButton>
+                              )}
 
-                                if (tx.success) {
-                                  console.log("pop up the modal ! ");
-                                } else {
-                                  // console.log("tx is error ", tx);
+                            {paymentAllowedStatus?.allowed &&
+                              web3Store.account && (
+                                <SimpleButton
+                                  customClass="py-2 my-4 text-center bg-slate-800 hover:bg-blue-400 text-white "
+                                  clicked={async () => {
+                                    console.log("paying ", generatedInvoice);
 
-                                  setErrorMessage(tx.error.toString());
-                                }
-                              }}
-                            >
-                              Pay
-                            </SimpleButton>
+                                    let tx = await userPayInvoice({
+                                      from: web3Store.account,
+                                      invoiceData: generatedInvoice,
+                                      provider: web3Store.provider,
+                                    });
+
+                                    if (tx.success) {
+                                      console.log("pop up the modal ! ");
+                                    } else {
+                                      // console.log("tx is error ", tx);
+
+                                      setErrorMessage(tx.error.toString());
+                                    }
+                                  }}
+                                >
+                                  Pay
+                                </SimpleButton>
+                              )}
                           </div>
                         </FlexContainer>
                       </Container>
