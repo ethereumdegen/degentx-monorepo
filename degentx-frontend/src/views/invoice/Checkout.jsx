@@ -97,7 +97,7 @@ function Main() {
 
       return result;
     };
-
+    /*
     const getInvoiceUuidTest = (invoiceData) => {
       // const expiration = Math.floor(parseInt(invoiceData.expiresAt.toString()));
 
@@ -193,7 +193,7 @@ function Main() {
       console.log("nonce only hash ", result_nonce_only);
       console.log("address only hash ", result_address_only);
     };
-
+  */
     //let generatedInvoice;
     //let paymentElements = [];
     let paymentsArrayBasic = [];
@@ -231,7 +231,7 @@ function Main() {
       description,
     };
 
-    //for now
+    //for now - need to update payspec js w this code!!!
     let metadataHash = getMetadataHashCustom(metadata);
 
     let redirectTo = searchParams.get("redirectTo");
@@ -252,7 +252,7 @@ function Main() {
       expiresAt: expiration,
     };
 
-    let testInvoiceUuid = getInvoiceUuidTest(invoiceData); //remove me
+    // let testInvoiceUuid = getInvoiceUuidTest(invoiceData); //remove me
     //this is matching now !!!
 
     for (let i in payTos) {
