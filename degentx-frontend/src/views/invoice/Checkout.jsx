@@ -44,7 +44,7 @@ http://localhost:8081/checkout?tokenAddress=0xb6ed7644c69416d67b522e20bc294a9a9b
 function Main() {
   const [web3Store] = useOutletContext(); // <-- access context value
 
-  const [errorMessage, errorMessageSet] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   let generatedInvoice;
   let paymentElements = [];
@@ -141,9 +141,10 @@ function Main() {
     console.log("acct:", web3Store.account);
   });
 
+  /*
   const renderError = (msg) => {
-    errorMessageSet(msg);
-  };
+    setErrorMessage(msg);
+  };*/
 
   //load  on mount
   useEffect(() => {}, []); // <-- empty dependency array
@@ -286,6 +287,14 @@ function Main() {
                                   invoiceData: generatedInvoice,
                                   provider: web3Store.provider,
                                 });
+
+                                if (tx.success) {
+                                  console.log("pop up the modal ! ");
+                                } else {
+                                  // console.log("tx is error ", tx);
+
+                                  setErrorMessage(tx.error.toString());
+                                }
                               }}
                             >
                               Pay
@@ -299,7 +308,9 @@ function Main() {
 
                 <div></div>
 
-                <AlertBanner message={errorMessage} />
+                <div className="container my-8 p-2 ">
+                  <AlertBanner message={errorMessage} />
+                </div>
               </div>
             </div>
           </div>
