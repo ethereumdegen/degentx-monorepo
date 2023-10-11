@@ -167,6 +167,7 @@ function Main() {
       expiresAt: expiration,
     };
 
+   
     // let testInvoiceUuid = getInvoiceUuidTest(invoiceData); //remove me
     //this is matching now !!!
 
@@ -217,6 +218,8 @@ function Main() {
 
     setGeneratedInvoice(generatedInvoiceBeforeFees);
 
+    setInvoiceUuidToCheck(generatedInvoiceBeforeFees.invoiceUUID);
+
     // let generatedInvoiceUuid = generatedInvoice.invoiceUUID;
 
     //setPaymentAllowedStatus({ allowed: true });
@@ -250,9 +253,11 @@ function Main() {
     const fetchData = async () => {
         try { 
 
-            if (invoiceUuidToCheck != null) {
+         
 
-                let invoice_status_endpoint_url = "https://api.degentx.com/api/invoices"
+            if (invoiceUuidToCheck != null) {
+              console.log("try fetch for paid invoices ", invoiceUuidToCheck)
+                let invoice_status_endpoint_url = "https://api.degentx.com/api/paid_invoices"
 
                 let postData = [];
 
@@ -262,7 +267,7 @@ function Main() {
                 let response = await axios.post(invoice_status_endpoint_url, postData);
 
                 if (response.status == 200 && response.data && response.data.length > 0){
-                  //console.log("got invoice result !! ", response.data  )
+                  console.log("got paid invoice result !! ", response.data  )
 
                   let paidInvoiceData = response.data[0]
 
@@ -401,21 +406,22 @@ function Main() {
       <div className="relative  ">
         { true  && (
           <Modal
-            isOpen={paymentCompleted}
+            isOpen={paidInvoiceData}
             closeModal={() => {
               //setPurchaseModalOpen(false);
             }}
             title={`Payment Complete`}
           >
             <div className="flex flex-col">
-               <div>
-               Your payment has been completed in full. 
+               <div className=" p-2 m-2  ">
+                This invoice has been paid in full. 
                </div>
-               <div>
+               <div className="my-8">
 
               { redirectToUrl && <a 
-              className="blue-500" 
-              href={redirectToUrl}
+              className="  bg-slate-500 p-2 m-2 text-white text-center rounded " 
+              href={`http://${redirectToUrl}`}
+
               >Return to your order
               </a> }
 
@@ -446,7 +452,7 @@ function Main() {
               <div className="px-4 mb-4 text-lg font-bold"></div>
 
               <div>
-                { paidInvoiceData && <div> Invoice has been paid! </div>  }
+               
 
                 {!generatedInvoice && <div>Unable to generate invoice</div>}
 
