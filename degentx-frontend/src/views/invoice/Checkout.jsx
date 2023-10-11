@@ -101,9 +101,24 @@ function Main() {
   const [payToAddressPrimary,setPayToAddressPrimary] = useState(undefined)
   const [amountDueGrandTotal,setAmountDueGrandTotal] = useState(undefined)
 
-  const [currencyTokenDecimals,setCurrencyTokenDecimals] = useState(undefined)
+  //const [currencyTokenDecimals,setCurrencyTokenDecimals] = useState(undefined)
+  const [paymentTokenData,setPaymentTokenData] = useState(false)
  
- 
+ //do this w config file 
+ function getTokenData(tokenAddress, chainId){
+
+    if(tokenAddress == "0x0000000000000000000000000000000000000010" && chainId == "11155111"){
+
+      return {
+
+        label: "ETH",
+        decimals: 18
+
+      }
+    }
+
+
+ }
 
 
   const [searchParams] = useSearchParams();
@@ -178,12 +193,34 @@ function Main() {
     // let testInvoiceUuid = getInvoiceUuidTest(invoiceData); //remove me
     //this is matching now !!!
 
+
+    let paymentTokenData = getTokenData( tokenAddress, chainId )
+
+    if( paymentTokenData  ){
+      setPaymentTokenData(paymentTokenData)
+    }else{
+      setPaymentTokenData(undefined)
+    }
+
+
+    let paymentsGrandTotal = BigNumber.from(0);
+    let payToAddressPrimary = undefined
+
     for (let i in payTos) {
+      if(!payToAddressPrimary){
+        payToAddressPrimary = payTos[i]
+        
+      }
+
+      paymentsGrandTotal = paymentsGrandTotal.add(payAmounts[i])
+
       paymentsArrayBasic.push({
         payTo: payTos[i],
         amountDue: payAmounts[i],
       });
     }
+    setPayToAddressPrimary(payToAddressPrimary)
+    setAmountDueGrandTotal(paymentsGrandTotal)
 
     setPaymentsArrayBasic(paymentsArrayBasic);
 
@@ -260,7 +297,7 @@ function Main() {
          
 
             if (invoiceUuidToCheck != null) {
-              console.log("try fetch for paid invoices ", invoiceUuidToCheck)
+                   console.log("try fetch for paid invoices ", invoiceUuidToCheck)
                 let invoice_status_endpoint_url = "https://api.degentx.com/api/paid_invoices"
 
                 let postData = [];
@@ -276,7 +313,9 @@ function Main() {
                   let paidInvoiceData = response.data[0]
 
                   setPaidInvoiceData(paidInvoiceData)
-                } 
+                } else{
+                  console.log({response})
+                }
 
             }  
              
@@ -434,9 +473,12 @@ function Main() {
                       <Container>
                         <Header>Invoice Details</Header>
                         <FlexContainer>
-                          {metadata && <>
-                        <FlexItem>
-                            <Label>Title:</Label>
+
+
+
+                          {metadata?.title && <>
+                           <FlexItem>
+                            <Label>Title</Label>
                             <Value>{metadata?.title}</Value>
                           </FlexItem>
                           </> }
@@ -445,19 +487,17 @@ function Main() {
                           
 
                             < FlexItem  >
-                                <Label>Pay To:</Label>
+                                <Label>Pay To</Label>
                                 <Value>{payToAddressPrimary}</Value>
                               </FlexItem>
 
+                            { paymentTokenData && 
                               < FlexItem  >
-                                <Label>Amount Due:</Label>
-                                <Value>{ currency_amount_raw_to_formatted (amountDueGrandTotal, currencyTokenDecimals ) }</Value>
+                                <Label>Amount Due</Label>
+                                <Value>{ currency_amount_raw_to_formatted (amountDueGrandTotal, paymentTokenData?.decimals ) }  {paymentTokenData?.label}  </Value>
                               </FlexItem>
-
-                              <FlexItem>
-                                <Label>Payment Token:</Label>
-                                <Value>{generatedInvoice.token}</Value>
-                              </FlexItem>
+                            }
+                        
 
 
                            
@@ -481,7 +521,7 @@ function Main() {
                                 </SimpleButton>
                               )}
 
-                            {paymentAllowedStatus?.allowed &&
+                            {paymentTokenData && paymentAllowedStatus?.allowed &&
                               web3Store.account && (
                                 <SimpleButton
                                   customClass="py-2 my-4 text-center bg-slate-800 hover:bg-blue-400 text-white "
@@ -531,23 +571,28 @@ function Main() {
                             <div className="text-sm p-4 box rounded overflow-x-auto " >
                                {generatedInvoice.invoiceUUID && (
                                   <FlexItem className="text-xs">
-                                    <Label>Invoice UUID:</Label>
+                                    <Label>Invoice UUID</Label>
                                     <Value>{generatedInvoice.invoiceUUID}</Value>
                                   </FlexItem>
                                 )} 
 
+                              <FlexItem className="text-xs">
+                                <Label>Payment Token Address</Label>
+                                <Value>{generatedInvoice.token}</Value>
+                              </FlexItem>
+
                                 <FlexItem className="text-xs" >
-                                  <Label>Expires At:</Label>
+                                  <Label>Expires At</Label>
                                   <Value>{generatedInvoice.expiresAt}</Value>
                                 </FlexItem> 
                               
                               <FlexItem className="text-xs">
-                                <Label>Nonce:</Label>
+                                <Label>Nonce</Label>
                                 <Value>{generatedInvoice.nonce}</Value>
                               </FlexItem>
 
                               <FlexItem className="text-xs">
-                                <Label>Chain ID:</Label>
+                                <Label>Chain ID</Label>
                                 <Value>{generatedInvoice.chainId}</Value>
                               </FlexItem>
 
