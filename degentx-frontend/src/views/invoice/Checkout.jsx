@@ -56,6 +56,9 @@ function Main() {
   const [paymentElements, setPaymentElements] = useState([]);
   const [paymentsArrayBasic, setPaymentsArrayBasic] = useState([]);
 
+  const [paymentCompleted, setPaymentCompleted] = useState(false);
+  const [transactionBroadcasted, setTransactionBroadcasted] = useState(undefined);
+
   const [searchParams] = useSearchParams();
 
   const navigate = useNavigate();
@@ -97,105 +100,7 @@ function Main() {
 
       return result;
     };
-    /*
-    const getInvoiceUuidTest = (invoiceData) => {
-      // const expiration = Math.floor(parseInt(invoiceData.expiresAt.toString()));
-
-      console.log("test hashing invoice ", invoiceData);
-
-      var payspecContractAddress = {
-        t: "address",
-        v: invoiceData.payspecContractAddress,
-      };
-      var metadataHash = { t: "bytes32", v: invoiceData.metadataHash };
-      var nonce = {
-        t: "uint256",
-        v: BigNumber.from(invoiceData.nonce).toString(),
-      };
-      var token = { t: "address", v: invoiceData.token };
-      var chainId = {
-        t: "uint256",
-        v: BigNumber.from(invoiceData.chainId).toString(),
-      };
-
-      //  let payToArray = JSON.parse(invoiceData.payToArrayStringified);
-      //  let amountsDueArray = JSON.parse(invoiceData.amountsDueArrayStringified);
-
-      var payTo = { t: "address[]", v: invoiceData.payToArray };
-      var amountsDue = { t: "uint[]", v: invoiceData.amountsDueArray };
-      var expiresAt = {
-        t: "uint256",
-        v: BigNumber.from(invoiceData.expiresAt).toString(),
-      };
-
-      const result = ethers.utils.solidityKeccak256(
-        [
-          "address",
-          "address",
-          "address[]",
-          "uint256[]",
-          "uint256",
-          "uint256",
-          "bytes32",
-          "uint256",
-        ],
-        [
-          payspecContractAddress.v,
-          token.v,
-          payTo.v,
-          amountsDue.v,
-          nonce.v,
-          chainId.v,
-          metadataHash.v,
-          expiresAt.v,
-        ]
-      );
-
-      const result_simplified = ethers.utils.solidityKeccak256(
-        [
-          "address",
-          "address",
-          "address[]",
-          "uint256[]",
-          "uint256",
-          "uint256",
-          "bytes32",
-          "uint256",
-        ],
-
-        [
-          payspecContractAddress.v,
-          token.v,
-          payTo.v,
-          amountsDue.v,
-          nonce.v,
-          chainId.v,
-          metadataHash.v,
-          expiresAt.v,
-        ]
-      );
-
-      const result_nonce_only = ethers.utils.solidityKeccak256(
-        ["uint256"],
-
-        [0]
-      );
-      const result_address_only = ethers.utils.solidityKeccak256(
-        ["address"],
-
-        [ethers.constants.AddressZero]
-      );
-
-      console.log("metadata hash in test ", metadataHash);
-      console.log("test invoice uuid hash", result);
-
-      console.log("simplified hash ", result_simplified);
-      console.log("nonce only hash ", result_nonce_only);
-      console.log("address only hash ", result_address_only);
-    };
-  */
-    //let generatedInvoice;
-    //let paymentElements = [];
+     
     let paymentsArrayBasic = [];
 
     //  const searchParams = new URLSearchParams(window.location.search);
@@ -322,6 +227,44 @@ function Main() {
   observe(web3Store, "authorized", function () {
     console.log("acct:", web3Store.account);
   });
+
+
+
+
+  //poll for the payment status 
+
+  useEffect(() => {
+    // This function will be called every 5 seconds
+    const fetchData = async () => {
+      try {
+
+        console.log("polling to check 1")
+          if(transactionBroadcasted && transactionBroadcasted.invoice_uuid){
+
+            console.log("polling to check 2")
+
+          }
+
+
+       // const result = await axios.get('YOUR_API_ENDPOINT');
+       // setData(result.data);
+      } catch (error) {
+        console.error('Error fetching the data', error);
+      }
+    };
+
+    // Call it once immediately
+    fetchData();
+
+    // Set up the interval to fetch data every 5 seconds
+    const intervalId = setInterval(fetchData, 5000); // 5000ms = 5s
+
+    // This is important: Clean up the interval when the component is destroyed
+    return () => clearInterval(intervalId);
+  }, []); // The empty array means this useEffect will run once when the component is mounted
+
+
+
 
   /*
   const allowInvoicePayment = () => {
@@ -495,6 +438,9 @@ function Main() {
 
                                     if (tx.success) {
                                       console.log("pop up the modal ! ");
+
+                                      setTransactionBroadcasted({tx_hash:tx.hash, invoice_uuid:generatedInvoice.invoiceUUID} )
+                                     
                                     } else {
                                       // console.log("tx is error ", tx);
 
