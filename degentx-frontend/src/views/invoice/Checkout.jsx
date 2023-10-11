@@ -10,6 +10,8 @@ import {
 import { observer } from "mobx-react";
 import { observe } from "mobx";
 
+import Modal from "@/views/components/modal/Main";
+
 import SignInRequiredWarning from "@/views/components/sign-in-required-warning/Main";
 import SimpleButton from "@/views/components/button/SimpleButton";
 
@@ -58,6 +60,9 @@ function Main() {
 
   const [paymentCompleted, setPaymentCompleted] = useState(false);
   const [transactionBroadcasted, setTransactionBroadcasted] = useState(undefined);
+  
+  const [redirectToUrl,setRedirectToUrl] = useState(undefined);
+
 
   const [searchParams] = useSearchParams();
 
@@ -141,6 +146,9 @@ function Main() {
 
     let redirectTo = searchParams.get("redirectTo");
     let expectedUuid = searchParams.get("expectedUuid");
+
+    setRedirectToUrl( redirectTo  )
+
 
     if (expectedUuid && !expectedUuid.startsWith("0x")) {
       expectedUuid = "0x".concat(expectedUuid);
@@ -333,6 +341,44 @@ function Main() {
     <>
       <div className="intro-y flex flex-col sm:flex-row items-center mt-2"></div>
       <div className="intro-y box pt-4 px-5 pb-4 mt-2 flex flex-col items-center">
+      
+      
+      
+      
+
+      <div className="relative  ">
+        { true  && (
+          <Modal
+            isOpen={paymentCompleted}
+            closeModal={() => {
+              //setPurchaseModalOpen(false);
+            }}
+            title={`Payment Complete`}
+          >
+            <div className="flex flex-col">
+               <div>
+               Your payment has been completed in full. 
+               </div>
+               <div>
+
+              { redirectToUrl && <a 
+              className="blue-500" 
+              href={redirectToUrl}
+              >Return to your order
+              </a> }
+
+
+              </div>
+            </div>
+ 
+          </Modal>
+        )}
+      </div> 
+
+
+      
+      
+      
         <div className="pt-4 px-2 pb-16 w-full">
           {/* BEGIN:   Title */}
 
