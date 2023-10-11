@@ -7,6 +7,12 @@ import {
   useNavigate,
 } from "react-router-dom";
 
+
+import {
+  Lucide,
+  
+} from "@/base-components";
+
 import axios from 'axios'
 
 import { observer } from "mobx-react";
@@ -47,7 +53,13 @@ http://localhost:8080/checkout?tokenAddress=0x0000000000000000000000000000000000
 
 */
 
+function getExplorerUrlForTransaction(txHash,chainId) {
 
+
+  let baseExplorerUrl = "https://sepolia.etherscan.io/tx/";
+  return baseExplorerUrl.concat(txHash)
+
+}
 
 function currency_amount_raw_to_formatted  (amt_raw =0, decimals = 0)   {
   let amount_raw_bignumber = BigNumber.from(amt_raw);
@@ -95,7 +107,8 @@ function Main() {
 
   const [showAdvancedDetails, setShowAdvancedDetails] = useState(false)
 
- 
+  const [pendingTransaction, setPendingTransaction] = useState(undefined)
+
 
 
   const [payToAddressPrimary,setPayToAddressPrimary] = useState(undefined)
@@ -313,6 +326,7 @@ function Main() {
                   let paidInvoiceData = response.data[0]
 
                   setPaidInvoiceData(paidInvoiceData)
+                  setPendingTransaction(undefined)
                 } else{
                   console.log({response})
                 }
@@ -405,6 +419,37 @@ function Main() {
 
   return (
     <>
+
+
+
+{  pendingTransaction && <div 
+      className="fixed right-0 bottom-0 mr-4 mb-4 p-4 bg-white border-2 border-slate-400 z-50 drop-shadow-md flex flex-col" 
+      style={{minWidth:"250px",minHeight:"60px"}}>
+          <div className="text-center font-bold">
+          Transaction Pending
+          </div>
+          <div className="text-center  ">
+
+            <Lucide icon="Loader" className="w-6 h-6 mx-auto my-2 animate-spin " /> 
+
+
+          </div>
+
+          <div className="text-center my-2 ">
+
+            <a 
+            className="cursor-pointer text-purple-500"
+            href={getExplorerUrlForTransaction(
+               pendingTransaction?.hash,
+                pendingTransaction?.chainId )} 
+                target="_blank"> View on Explorer</a>
+
+
+          </div>
+
+        </div>}
+
+
       <div className="intro-y flex flex-col sm:flex-row items-center mt-2"></div>
       <div className="intro-y box pt-4 px-5 pb-4 mt-2 flex flex-col items-center">
       
@@ -412,7 +457,9 @@ function Main() {
       
       
 
-      <div className="relative  ">
+     
+
+        <div className=" relative   ">
         { true  && (
           <Modal
             isOpen={paidInvoiceData}
@@ -533,10 +580,18 @@ function Main() {
                                       invoiceData: generatedInvoice,
                                       provider: web3Store.provider,
                                     });
+                                    
 
                                     if (tx.success) {
+
+                                      console.log("tx",tx)
                                    
                                       setInvoiceUuidToCheck(generatedInvoice.invoiceUUID)
+
+                                      if(tx?.data?.hash){
+                                        setPendingTransaction({hash: tx?.data?.hash, chainId: generatedInvoice.chainId})
+                                      }
+                                     
                                    //   setTransactionBroadcasted({tx_hash:tx.hash, invoice_uuid:generatedInvoice.invoiceUUID} )
                                      
                                     } else {

@@ -30,7 +30,7 @@ function Main() {
   const [formattedMenu, setFormattedMenu] = useState([]);
 
   return (
-    <div className="bg-white">
+    <div className="bg-white relative">
       {/*  Site header */}
       <Header
         headerStore={headerStore}

@@ -45,7 +45,7 @@ function Dashboard() {
   return (
 
 
-    <div className="flex">
+    <div className="flex  ">
 
 
       <Web3Sidebar 
