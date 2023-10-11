@@ -10098,10 +10098,10 @@ pathval@^1.1.1:
   resolved "https://registry.npmjs.org/pathval/-/pathval-1.1.1.tgz"
   integrity sha512-Dp6zGqpTdETdR63lehJYPeIOqpiNBNtc7BpWSLrOje7UaIsE5aY92r/AunQA7rsXvet3lrJ3JnZX29UPTKXyKQ==
 
-payspec-js@^0.31.3:
-  version "0.31.3"
-  resolved "https://registry.yarnpkg.com/payspec-js/-/payspec-js-0.31.3.tgz#085605813b815af2f57e67fdbc999240191bb4fd"
-  integrity sha512-rmNOj8FnzRPX9NJm2So4tIqSxOe4RreOyMyg3VONVqpr1J8oTnB6PWB/REV0/ocO/ubFroTbAxk9kijj2VYxsw==
+payspec-js@^0.32.1:
+  version "0.32.1"
+  resolved "https://registry.yarnpkg.com/payspec-js/-/payspec-js-0.32.1.tgz#478111ae0e43ae756c27d178ecb60ddb7f6ceba7"
+  integrity sha512-y2uWakxNaEZ6Hvagywnbs3HtctG+iY9+0RGUhVMNWILzYD5G7jVfGhNPpM9345E+IMdYjyeQ8ldbiTa80L1q1w==
   dependencies:
     ethers "^5.6.4"
     ts-node "^10.3.0"
