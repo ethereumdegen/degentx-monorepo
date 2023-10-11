@@ -187,7 +187,7 @@ contract Payspec is Ownable, ReentrancyGuard {
 
          address payspecContractAddress = address(this); //prevent from paying through the wrong contract
 
-         bytes32 newuuid = keccak256( abi.encodePacked(payspecContractAddress, token, payTo, amountsDue,   nonce,  chainId, metadataHash,   expiresAt ) );
+         bytes32 newuuid = keccak256( abi.encode(payspecContractAddress, token, payTo, amountsDue,   nonce,  chainId, metadataHash,   expiresAt ) );
 
          return newuuid;
     }
