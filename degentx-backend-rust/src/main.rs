@@ -66,16 +66,14 @@ async fn main() -> io::Result<()> {
           println!("start!!");
           
       let cors = Cors::default()
-          
             .allow_any_origin()
             .allowed_methods(vec!["GET", "POST"])
             .allowed_headers(vec!["Authorization", "Accept", "Content-Type"])
-            .supports_credentials()
+            .supports_credentials() 
             .max_age(3600);
             
          let app_state = AppState {
-            database:  Arc::clone(&database),
-            
+            database:  Arc::clone(&database),            
         };
      
       App::new()
@@ -83,7 +81,6 @@ async fn main() -> io::Result<()> {
             .wrap(cors)
             .wrap(actix_web::middleware::Logger::default()) // Enable logger middleware
             .configure(InvoiceController::config)
-            
            })
     .bind("0.0.0.0:8000")?
     .run()
