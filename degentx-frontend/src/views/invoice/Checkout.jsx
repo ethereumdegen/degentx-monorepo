@@ -49,7 +49,7 @@ http://localhost:8080/checkout?tokenAddress=0x0000000000000000000000000000000000
 
 
 
-function currency_amount_raw_to_formatted  (amt_raw =0, decimals = 18)   {
+function currency_amount_raw_to_formatted  (amt_raw =0, decimals = 0)   {
   let amount_raw_bignumber = BigNumber.from(amt_raw);
 
   // Convert raw amount into formatted amount by considering decimals
