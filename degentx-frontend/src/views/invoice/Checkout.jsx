@@ -470,7 +470,7 @@ function Main() {
           >
             <div className="flex flex-col">
                <div className=" p-2 m-2  ">
-                This invoice has been paid in full. 
+                This payment has been completed and verified. 
                </div>
                <div className="my-8">
 
@@ -518,7 +518,7 @@ function Main() {
 
                     <div>
                       <Container>
-                        <Header>Invoice Details</Header>
+                        <Header>Payment Details</Header>
                         <FlexContainer>
 
 
