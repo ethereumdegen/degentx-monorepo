@@ -19,7 +19,7 @@ const AlertBanner = ({ type, message }) => {
 
   return (
     <div
-      className={`${
+      className={`overflow-x-auto ${
         type === "warning"
           ? "bg-yellow-100 text-yellow-900"
           : "bg-red-100 text-red-900"

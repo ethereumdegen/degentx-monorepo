@@ -47,6 +47,33 @@ http://localhost:8080/checkout?tokenAddress=0x0000000000000000000000000000000000
 
 */
 
+
+
+function currency_amount_raw_to_formatted  (amt_raw =0, decimals = 18)   {
+  let amount_raw_bignumber = BigNumber.from(amt_raw);
+
+  // Convert raw amount into formatted amount by considering decimals
+  let divisor = BigNumber.from('10').pow(decimals);
+  let amount_formatted_bignumber = amount_raw_bignumber.div(divisor);
+  let remainder = amount_raw_bignumber.mod(divisor);
+
+  // Construct human-readable string with padded remainder
+  let remainder_str = remainder.toString().padStart(decimals, '0');
+  
+  // Remove unnecessary trailing zeros from the remainder
+  remainder_str = remainder_str.replace(/0+$/, '');
+
+  // If remainder_str becomes empty after trimming, just set the final formatted amount to the integer part
+  if (remainder_str === '') {
+    return amount_formatted_bignumber.toString();
+  } else {
+    return `${amount_formatted_bignumber}.${remainder_str}`;
+  }
+}
+
+
+
+
 function Main() {
   const [web3Store, sidebarStore] = useOutletContext(); // <-- access context value
 
@@ -64,6 +91,19 @@ function Main() {
   //const [transactionBroadcasted, setTransactionBroadcasted] = useState(undefined);
   
   const [redirectToUrl,setRedirectToUrl] = useState(undefined);
+  const [metadata,setMetadata] = useState(undefined);
+
+  const [showAdvancedDetails, setShowAdvancedDetails] = useState(false)
+
+ 
+
+
+  const [payToAddressPrimary,setPayToAddressPrimary] = useState(undefined)
+  const [amountDueGrandTotal,setAmountDueGrandTotal] = useState(undefined)
+
+  const [currencyTokenDecimals,setCurrencyTokenDecimals] = useState(undefined)
+ 
+ 
 
 
   const [searchParams] = useSearchParams();
@@ -71,42 +111,7 @@ function Main() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const getMetadataHashCustom = (metadata) => {
-      let sortedEntries = Object.entries(metadata).sort((a, b) =>
-        a[0].localeCompare(b[0])
-      ); // Sorting by key
-
-      let metadata_keys = [];
-      let metadata_values = [];
-
-      console.log({ sortedEntries });
-
-      for (let [key, value] of sortedEntries) {
-        if (typeof key != "undefined" && typeof value != "undefined") {
-          console.log("metadata hash gen {} {} ", key, value);
-
-          metadata_keys.push(key);
-          metadata_values.push(value);
-        }
-      }
-
-      const abi = ethers.utils.defaultAbiCoder;
-      const params = abi.encode(
-        ["string[]", "string[]"],
-        [metadata_keys, metadata_values]
-      ); // array to encode
-
-      const result = ethers.utils.keccak256(params);
-      /*
-      const result = ethers.utils.solidityKeccak256(
-        ["string[]", "string[]"],
-        [metadata_keys, metadata_values]
-      );*/
-
-      console.log("computed metadata hash ", result);
-
-      return result;
-    };
+    
      
     let paymentsArrayBasic = [];
 
@@ -143,8 +148,10 @@ function Main() {
       description,
     };
 
+    setMetadata(metadata)
+
     //for now - need to update payspec js w this code!!!
-    let metadataHash = getMetadataHashCustom(metadata);
+    let metadataHash = getMetadataHash(metadata);
 
     let redirectTo = searchParams.get("redirectTo");
     let expectedUuid = searchParams.get("expectedUuid");
@@ -219,10 +226,7 @@ function Main() {
     setGeneratedInvoice(generatedInvoiceBeforeFees);
 
     setInvoiceUuidToCheck(generatedInvoiceBeforeFees.invoiceUUID);
-
-    // let generatedInvoiceUuid = generatedInvoice.invoiceUUID;
-
-    //setPaymentAllowedStatus({ allowed: true });
+ 
 
     let paymentElements = getPaymentElementsFromInvoice(
       generatedInvoiceBeforeFees
@@ -293,42 +297,7 @@ function Main() {
 
 
 
-
-/*
-
-  //poll for the payment status 
-
-  useEffect(() => {
-    // This function will be called every 5 seconds
-    const fetchData = async () => {
-      try {
-
-        console.log("polling to check 1")
-          if(transactionBroadcasted && transactionBroadcasted.invoice_uuid){
-
-            console.log("polling to check 2")
-
-          }
-
-
-       // const result = await axios.get('YOUR_API_ENDPOINT');
-       // setData(result.data);
-      } catch (error) {
-        console.error('Error fetching the data', error);
-      }
-    };
-
-    // Call it once immediately
-    fetchData();
-
-    // Set up the interval to fetch data every 5 seconds
-    const intervalId = setInterval(fetchData, 5000); // 5000ms = 5s
-
-    // This is important: Clean up the interval when the component is destroyed
-    return () => clearInterval(intervalId);
-  }, []); // The empty array means this useEffect will run once when the component is mounted
-*/
-
+ 
 
 
   /*
@@ -382,16 +351,17 @@ function Main() {
   const FlexItem = tw.div`
   p-4
   flex-1
-  border-r
+  text-sm
 `;
 
   const Label = tw.div`
   font-bold
   mb-2
+  text-md
 `;
 
   const Value = tw.div`
-  text-sm
+   
 `;
 
   return (
@@ -464,47 +434,33 @@ function Main() {
                       <Container>
                         <Header>Invoice Details</Header>
                         <FlexContainer>
-                          <FlexItem>
-                            <Label>Description:</Label>
-                            <Value>{generatedInvoice.description}</Value>
+                          {metadata && <>
+                        <FlexItem>
+                            <Label>Title:</Label>
+                            <Value>{metadata?.title}</Value>
                           </FlexItem>
-                          <FlexItem>
-                            <Label>Token:</Label>
-                            <Value>{generatedInvoice.token}</Value>
-                          </FlexItem>
+                          </> }
+                       
+                        
+                          
 
-                          {paymentsArrayBasic.map((payment, index) => (
-                            <>
-                              <FlexItem key={`payTo-${index}`}>
+                            < FlexItem  >
                                 <Label>Pay To:</Label>
-                                <Value>{payment.payTo}</Value>
+                                <Value>{payToAddressPrimary}</Value>
                               </FlexItem>
-                              <FlexItem key={`amountDue-${index}`}>
+
+                              < FlexItem  >
                                 <Label>Amount Due:</Label>
-                                <Value>{payment.amountDue}</Value>
+                                <Value>{ currency_amount_raw_to_formatted (amountDueGrandTotal, currencyTokenDecimals ) }</Value>
                               </FlexItem>
-                            </>
-                          ))}
 
-                          <FlexItem>
-                            <Label>Nonce:</Label>
-                            <Value>{generatedInvoice.nonce}</Value>
-                          </FlexItem>
+                              <FlexItem>
+                                <Label>Payment Token:</Label>
+                                <Value>{generatedInvoice.token}</Value>
+                              </FlexItem>
 
-                          <FlexItem>
-                            <Label>Chain ID:</Label>
-                            <Value>{generatedInvoice.chainId}</Value>
-                          </FlexItem>
-                          <FlexItem>
-                            <Label>Expires At:</Label>
-                            <Value>{generatedInvoice.expiresAt}</Value>
-                          </FlexItem>
-                          {generatedInvoice.invoiceUUID && (
-                            <FlexItem>
-                              <Label>Invoice UUID:</Label>
-                              <Value>{generatedInvoice.invoiceUUID}</Value>
-                            </FlexItem>
-                          )}
+
+                           
 
                           <div>
                             {!paymentAllowedStatus?.allowed && (
@@ -554,6 +510,68 @@ function Main() {
                                 </SimpleButton>
                               )}
                           </div>
+
+
+
+
+
+
+
+
+                          <FlexItem >
+                              <Label className="cursor-pointer" onClick={ () => { setShowAdvancedDetails( !showAdvancedDetails )  } }>
+                               
+                               {showAdvancedDetails && <> [ hide advanced ]</>}
+                               {!showAdvancedDetails && <> [ show advanced ]</>}
+                                </Label>
+                             
+                            </FlexItem>
+
+                            {showAdvancedDetails && <div className=" p-4     "> 
+                            <div className="text-sm p-4 box rounded overflow-x-auto " >
+                               {generatedInvoice.invoiceUUID && (
+                                  <FlexItem className="text-xs">
+                                    <Label>Invoice UUID:</Label>
+                                    <Value>{generatedInvoice.invoiceUUID}</Value>
+                                  </FlexItem>
+                                )} 
+
+                                <FlexItem className="text-xs" >
+                                  <Label>Expires At:</Label>
+                                  <Value>{generatedInvoice.expiresAt}</Value>
+                                </FlexItem> 
+                              
+                              <FlexItem className="text-xs">
+                                <Label>Nonce:</Label>
+                                <Value>{generatedInvoice.nonce}</Value>
+                              </FlexItem>
+
+                              <FlexItem className="text-xs">
+                                <Label>Chain ID:</Label>
+                                <Value>{generatedInvoice.chainId}</Value>
+                              </FlexItem>
+
+                                <div>
+                                    {paymentsArrayBasic.map((payment, index) => (
+                                  <>
+                                    <FlexItem key={`payTo-${index}`} className="text-xs">
+                                      <Label>Pay To:</Label>
+                                      <Value>{payment.payTo}</Value>
+                                    </FlexItem>
+                                    <FlexItem key={`amountDue-${index}`} className="text-xs">
+                                      <Label>Amount Due:</Label>
+                                      <Value>{payment.amountDue}</Value>
+                                    </FlexItem>
+                                  </>
+                                ))}
+                                </div>
+                                
+                                  </div>
+                              </div>}
+
+
+
+
                         </FlexContainer>
                       </Container>
                     </div>
