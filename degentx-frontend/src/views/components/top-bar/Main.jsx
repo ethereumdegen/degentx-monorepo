@@ -220,8 +220,7 @@ function Main(     ) {
         {/* BEGIN: Account Menu */}
         <div className="flex-grow text-right">
         <LoginHeaderBlock
-           web3Store={web3Store}
-           sidebarStore={sidebarStore}
+           
            ></LoginHeaderBlock>
            </div>
         {/* END: Account Menu */}
