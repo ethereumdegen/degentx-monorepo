@@ -14,31 +14,22 @@ import TopBar from "@/views/components/top-bar/Main";
 import Web3Sidebar from "@/views/components/web3-sidebar/Main.jsx";
  
 import { observer } from "mobx-react";
-
-import { Web3SidebarStore } from '@/stores/web3-side-bar.js';
-import { Web3Store } from '@/stores/web3-store-mobx.js';
-   
-import { SideMenuStore } from '@/stores/side-menu-mobx.js';
-   
-import FrontendConfig from '@/config/frontend-config'
-import DashboardConfig from '@/config/dashboard-config'
  
  import SideMenu from '@/views/components/side-menu/Main.jsx'
  
-
-const sidebarStore = new Web3SidebarStore()
-const web3Store = new Web3Store() 
-const sideMenuStore = new SideMenuStore()
-
-/*
-https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwilo-3H4LP9AhVyElkFHVlID8EQFnoECAwQAQ&url=https%3A%2F%2Fstackoverflow.com%2Fquestions%2F62336340%2Fcannot-update-a-component-while-rendering-a-different-component-warning&usg=AOvVaw0qVeI0E9QBjWxTnsx7CAZG
-*/
-
+ 
+ 
+ import {
+  Web3StoreContext, 
+  SideMenuStoreContext
+} from '@/stores/stores-context';
+ 
 
 function Dashboard() {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const sideMenuStore = useContext(SideMenuStoreContext);
  
  
 
@@ -49,9 +40,7 @@ function Dashboard() {
 
 
       <Web3Sidebar 
-           sidebarStore={sidebarStore}
-           web3Store={web3Store}
-           
+             
            slot={<div> </div>} 
          
          />  
@@ -61,7 +50,7 @@ function Dashboard() {
     
       {sideMenuStore.active &&
           <SideMenu 
-          sideMenuStore={sideMenuStore}
+           
           />
         }
       {/* END: Side Menu */}
@@ -78,11 +67,7 @@ function Dashboard() {
          
         <TopBar
 
-          web3Store={web3Store}
-          sidebarStore={sidebarStore}
-
-          sideMenuStore={sideMenuStore}
-        
+          
         
         />
       </div>
@@ -91,7 +76,7 @@ function Dashboard() {
         <div className="content relative">
           <Outlet 
           
-          context={[web3Store]}
+           
           />
         </div>
       </div>

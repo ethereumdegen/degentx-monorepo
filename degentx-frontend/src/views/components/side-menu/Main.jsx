@@ -18,7 +18,20 @@ import DashboardConfig from '@/config/dashboard-config'
 
 import Transition from "../../utils/Transition";
 
-function SideMenu( {   sideMenuStore }) {
+
+
+ 
+import {
+  Web3StoreContext, 
+  SideMenuStoreContext,
+  SideBarStoreContext
+} from '@/stores/stores-context';
+
+
+function SideMenu( {     }) {
+  
+  const sidebarStore = useContext(SideBarStoreContext);
+ 
   
   const [formattedMenu, setFormattedMenu] = useState([]); 
   const sideMenu = () => nestedMenu($h.toRaw(DashboardConfig.dashboardMenu), location);
