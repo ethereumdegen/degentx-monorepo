@@ -1,6 +1,9 @@
 import { useRoutes } from "react-router-dom";
 import MainLayout from "../layouts/Main";
 
+
+import ContextLayout from "../layouts/Context"
+
 import DashboardLayout from "../layouts/Dashboard";
 import DashboardView from "../views/dashboard/Index";
 
@@ -22,13 +25,41 @@ import InvoiceNew from "../views/dashboard/invoice/New"
     
 function Router() {
   const routes = [
+
     {
+      element:<ContextLayout /> ,
+    children: [
+
+
+      {
       
-      element: <MainLayout />,
-      children:  [ 
+        element: <MainLayout />,
+        children:  [ 
+            {
+              path:"/",
+              element: <Welcome />, 
+            },
+  
+            { 
+              path:"/docs",
+              element: <Docs/>
+             },
+  
+             { 
+              path:"/payspecjs",
+              element: <PayspecJS/>
+             },
+  
+             { 
+              path:"/degentxsol",
+              element: <DegenTxSol/>
+             },
+  
+  
+             //make this a special custom new invoice form that uses GET params
           {
-            path:"/",
-            element: <Welcome />, 
+            path: "/checkout",
+            element: <Checkout />,
           },
 
           { 
@@ -71,6 +102,21 @@ function Router() {
 
 
         
+  
+          {
+            path: "/dashboard/invoices",
+            element: <InvoiceIndex />,
+          },
+  
+          {
+            path: "/dashboard/invoice/new",
+            element: <InvoiceNew />,
+          },
+          {
+            path: "/dashboard/invoice/:invoiceUUID",
+            element: <InvoiceShow />,
+          },
+  
          
       
 
@@ -92,16 +138,20 @@ function Router() {
       ]
     },*/
    
- 
-  
-    {
-      path: "/error-page",
-      element: <ErrorPage />,
-    },
-    {
-      path: "*",
-      element: <ErrorPage />,
-    },
+    
+      {
+        path: "/error-page",
+        element: <ErrorPage />,
+      },
+      {
+        path: "*",
+        element: <ErrorPage />,
+      },
+
+
+    ]
+    }
+    
   ];
 
   return useRoutes(routes);

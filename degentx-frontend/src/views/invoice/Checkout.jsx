@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 
 import {
   useOutletContext,
@@ -39,6 +39,14 @@ import {
   getPaymentElementsFromInvoice,
   userPayInvoice,
 } from "payspec-js";
+
+
+import {
+  Web3StoreContext, 
+  SideMenuStoreContext,
+  SideBarStoreContext
+} from '@/stores/stores-context';
+
 
 import { BigNumber, Contract, ethers, utils } from "ethers";
 
@@ -81,8 +89,12 @@ function currency_amount_raw_to_formatted  (amt_raw =0, decimals = 0)   {
 
 
 function Main() {
-  const [web3Store, sidebarStore] = useOutletContext(); // <-- access context value
+  
 
+  const web3Store = useContext(Web3StoreContext);
+  const sidebarStore = useContext(SideBarStoreContext);
+   
+  
   const [errorMessage, setErrorMessage] = useState(null);
 
   const [paymentAllowedStatus, setPaymentAllowedStatus] = useState({
@@ -630,6 +642,8 @@ function Main() {
                                   customClass="py-2 my-4 text-center bg-slate-800 hover:bg-blue-400 text-white "
                                   clicked={async () => {
                                     console.log("paying ", generatedInvoice);
+                                    
+                                    sidebarStore.setOpen(false)
 
                                     let tx = await userPayInvoice({
                                       from: web3Store.account,

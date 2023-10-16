@@ -20,7 +20,23 @@ import * as $_ from "lodash";
 import classnames from "classnames";
 import PropTypes from "prop-types";
 
-function Main(  {sidebarStore, sideMenuStore, web3Store }  ) {
+import {
+  Web3StoreContext, 
+  SideMenuStoreContext,
+  SideBarStoreContext
+} from '@/stores/stores-context';
+
+
+
+
+function Main(     ) {
+
+  const sidebarStore = useContext(SideBarStoreContext);
+  const sideMenuStore = useContext(SideMenuStoreContext);
+
+  const web3Store = useContext(Web3StoreContext);
+
+
   const [searchResultModal, setSearchResultModal] = useState(false);
   const searchInput = useRef(false);
 
@@ -204,8 +220,7 @@ function Main(  {sidebarStore, sideMenuStore, web3Store }  ) {
         {/* BEGIN: Account Menu */}
         <div className="flex-grow text-right">
         <LoginHeaderBlock
-           web3Store={web3Store}
-           sidebarStore={sidebarStore}
+           
            ></LoginHeaderBlock>
            </div>
         {/* END: Account Menu */}

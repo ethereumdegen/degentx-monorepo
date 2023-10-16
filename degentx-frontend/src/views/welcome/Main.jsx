@@ -1,17 +1,20 @@
-import React from 'react';
+import {useContext} from 'react';
 
 import HeroHome from '../partials/HeroHome';
  
 import { observer } from "mobx-react";
 
-import { useOutletContext } from 'react-router-dom';
+import {
+  Web3StoreContext, 
+  SideMenuStoreContext,
+  SideBarStoreContext
+} from '@/stores/stores-context';
 
+ 
 function Home() {
 
 
-
-  const [web3Store] = useOutletContext()
-
+  const web3Store = useContext(Web3StoreContext);
  
 
 
