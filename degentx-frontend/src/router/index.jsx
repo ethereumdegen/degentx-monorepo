@@ -36,15 +36,15 @@ function Router() {
             element: <Docs/>
            },
 
-           { 
-            path:"/payspecjs",
+          { 
+            path:"/docs/payspecjs",
             element: <PayspecJS/>
            },
 
            { 
-            path:"/degentxsol",
+            path:"/docs/degentxsol",
             element: <DegenTxSol/>
-           },
+           }, 
 
 
            //make this a special custom new invoice form that uses GET params
@@ -59,7 +59,7 @@ function Router() {
         ]
       
     },
-    {
+    /*{
       
       element: <DashboardLayout />,
       children: [
@@ -90,7 +90,7 @@ function Router() {
 
        
       ]
-    },
+    },*/
    
  
   

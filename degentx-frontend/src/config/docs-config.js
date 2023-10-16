@@ -11,9 +11,9 @@ const config = {
          
           { to:'/docs', label:'Documentation' },
     
-          { to:'/degentxsol', label:'DegenTx.sol' },
+          { to:'/docs/degentxsol', label:'DegenTx.sol' },
 
-          { to:'/payspecjs', label:'PayspecJS' },
+          { to:'/docs/payspecjs', label:'PayspecJS' },
     
 
            

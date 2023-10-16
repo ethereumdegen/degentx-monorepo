@@ -17,8 +17,7 @@ const config = {
     },
     items: [
       { to: "/", label: "Home" },
-      { to: "/docs", label: "Docs" },
-      { to: "/dashboard", label: "Dashboard" },
+      { to: "/docs", label: "Docs" } 
     ],
   },
 
@@ -27,11 +26,7 @@ const config = {
       {
         to: "/",
         label: "Home",
-      },
-      {
-        to: "/dashboard",
-        label: "Dashboard",
-      },
+      } 
     ],
   },
 

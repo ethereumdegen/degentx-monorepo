@@ -44,6 +44,7 @@ import { BigNumber, Contract, ethers, utils } from "ethers";
 
 import AlertBanner from "@/views/components/alert-banner/Main";
 import tw from "tailwind-styled-components";
+import { getEtherscanTransactionLink } from "../../utils/frontend-helper";
 
 /*
 
@@ -52,14 +53,7 @@ This is the smart invoice !
 http://localhost:8080/checkout?tokenAddress=0x0000000000000000000000000000000000000010&payTo=0xb6ed7644c69416d67b522e20bc294a9a9b405b31&payAmount=5000&chainId=11155111
 
 */
-
-function getExplorerUrlForTransaction(txHash,chainId) {
-
-
-  let baseExplorerUrl = "https://sepolia.etherscan.io/tx/";
-  return baseExplorerUrl.concat(txHash)
-
-}
+ 
 
 function currency_amount_raw_to_formatted  (amt_raw =0, decimals = 0)   {
   let amount_raw_bignumber = BigNumber.from(amt_raw);
@@ -116,6 +110,10 @@ function Main() {
 
   //const [currencyTokenDecimals,setCurrencyTokenDecimals] = useState(undefined)
   const [paymentTokenData,setPaymentTokenData] = useState(false)
+
+  const [timeRemainingFormatted,setTimeRemainingFormatted] = useState(getTimeRemainingFormatted())
+  const [invoiceHasExpired,setInvoiceHasExpired] = useState(false)
+  
  
  //do this w config file 
  function getTokenData(tokenAddress, chainId){
@@ -137,6 +135,58 @@ function Main() {
   const [searchParams] = useSearchParams();
 
   const navigate = useNavigate();
+
+
+
+
+  useEffect(( ) => {
+    const interval = setInterval(() => {
+      const newTimeLeft = getTimeRemainingFormatted(generatedInvoice);
+
+      
+      setTimeRemainingFormatted(newTimeLeft);
+      
+      if (newTimeLeft <= 0) {
+        clearInterval(interval);  // stop the timer if the time left is zero or negative
+      }
+    }, 1000);  // update every second
+
+    // Cleanup effect when component is unmounted
+    return () => clearInterval(interval);
+  }, [generatedInvoice]);
+
+  function getTimeRemainingFormatted(generatedInvoice) {
+
+    
+    console.log({generatedInvoice})
+
+    let futureTimestamp = generatedInvoice?.expiresAt 
+
+
+    if(!futureTimestamp) return 
+
+    const now = Date.now() / 1000;
+    const timeDifference = futureTimestamp - now; // difference in milliseconds
+
+    if (timeDifference < 0 ) {
+      setInvoiceHasExpired(true)
+      return `Invoice expired.`
+    }
+
+    const seconds = Math.floor(timeDifference  ) % 60;
+    const minutes = Math.floor(timeDifference   / 60) % 60;
+    const hours = Math.floor(timeDifference / 60 / 60) % 24;
+    const days = Math.floor(timeDifference / 60 / 60 / 24);
+
+    
+    setInvoiceHasExpired(false)
+    return `${hours}:${minutes}:${seconds}`;
+  }
+
+
+
+
+
 
   useEffect(() => {
     
@@ -439,9 +489,11 @@ function Main() {
 
             <a 
             className="cursor-pointer text-purple-500"
-            href={getExplorerUrlForTransaction(
-               pendingTransaction?.hash,
-                pendingTransaction?.chainId )} 
+            href={
+              getEtherscanTransactionLink(
+                {transactionHash:pendingTransaction?.hash,
+                  chainId:pendingTransaction?.chainId } )
+                }  
                 target="_blank"> View on Explorer</a>
 
 
@@ -612,15 +664,24 @@ function Main() {
 
 
 
-
-                          <FlexItem >
+                          <div className="flex flex-row px-2">
+                           <div className="flex flex-grow p-2">
                               <Label className="cursor-pointer" onClick={ () => { setShowAdvancedDetails( !showAdvancedDetails )  } }>
                                
                                {showAdvancedDetails && <> [ hide advanced ]</>}
                                {!showAdvancedDetails && <> [ show advanced ]</>}
                                 </Label>
                              
-                            </FlexItem>
+                            </div>
+
+                            <div className="flex flex-grow p-2 text-right">
+
+                              { timeRemainingFormatted && 
+                                <span className="w-full text-right font-bold">  {timeRemainingFormatted}  </span>
+                              }
+                           
+                            </div>
+                            </div>
 
                             {showAdvancedDetails && <div className=" p-4     "> 
                             <div className="text-sm p-4 box rounded overflow-x-auto " >
