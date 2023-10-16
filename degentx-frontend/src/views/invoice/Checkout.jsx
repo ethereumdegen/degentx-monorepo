@@ -180,7 +180,11 @@ function Main() {
 
     
     setInvoiceHasExpired(false)
-    return `${hours}:${minutes}:${seconds}`;
+
+    if(hours && hours > 0){
+      return `${hours}:${minutes}:${seconds}`;
+    }
+    return `${minutes}:${seconds}`;
   }
 
 
