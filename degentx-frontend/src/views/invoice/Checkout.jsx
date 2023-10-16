@@ -182,9 +182,9 @@ function Main() {
     setInvoiceHasExpired(false)
 
     if(hours && hours > 0){
-      return `${hours}:${minutes}:${seconds}`;
+      return `${hours.toString()}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     }
-    return `${minutes}:${seconds}`;
+    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
   }
 
 
