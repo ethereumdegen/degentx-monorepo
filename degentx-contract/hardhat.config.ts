@@ -257,7 +257,7 @@ export default <HardhatUserConfig>{
 
   namedAccounts: {
     deployer: {
-      default: 0, // here this will by default take the first account as deployer
+      default:  DEPOLOYER_PRIVATE_KEY, //0, // here this will by default take the first account as deployer
     },
     funder: 1,
     miner: 2 
