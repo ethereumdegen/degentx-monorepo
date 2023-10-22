@@ -1,5 +1,5 @@
  
-import {useContext} from 'react';
+import {useContext,useEffect} from 'react';
 
 import AccountDropdownMenu from "@/views/components/account-dropdown-menu/Main.jsx";
 
@@ -25,6 +25,15 @@ function Main(  ) {
 
 
   const requireSignIn = false 
+
+
+
+
+  useEffect( () => {
+
+    web3Store.soft_reconnect()
+
+  }, [] )
 
 
   return (

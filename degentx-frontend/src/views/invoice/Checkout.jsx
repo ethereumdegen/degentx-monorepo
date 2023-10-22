@@ -34,7 +34,7 @@ import {
   getNetworkNameFromChainId,
   getPayspecRandomNonce,
   generatePayspecInvoice,
-  getPayspecContractAddress,
+  //getPayspecContractAddress,
   getMetadataHash,
   getPaymentElementsFromInvoice,
   userPayInvoice,
@@ -46,6 +46,8 @@ import {
   SideMenuStoreContext,
   SideBarStoreContext
 } from '@/stores/stores-context';
+
+import contractsConfig from "@/config/contracts-config.json"
 
 
 import { BigNumber, Contract, ethers, utils } from "ethers";
@@ -62,6 +64,14 @@ http://localhost:8080/checkout?tokenAddress=0x0000000000000000000000000000000000
 
 */
  
+
+
+function getPayspecContractAddress( networkName )  {
+   
+  return contractsConfig[networkName]?.payspec?.address
+}
+
+
 
 function currency_amount_raw_to_formatted  (amt_raw =0, decimals = 0)   {
   let amount_raw_bignumber = BigNumber.from(amt_raw);
@@ -131,6 +141,16 @@ function Main() {
  function getTokenData(tokenAddress, chainId){
 
     if(tokenAddress == "0x0000000000000000000000000000000000000010" && chainId == "11155111"){
+
+      return {
+
+        label: "ETH",
+        decimals: 18
+
+      }
+    }
+
+    if(tokenAddress == "0x0000000000000000000000000000000000000010" && chainId == "1"){
 
       return {
 

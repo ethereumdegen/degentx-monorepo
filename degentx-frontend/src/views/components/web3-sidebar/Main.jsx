@@ -95,7 +95,11 @@ const sidebarStore = useContext(SideBarStoreContext);
          <div
            className="p-1 m-1 inline-block bg-neutral-600 text-green-500 rounded rainbow-underline cursor-pointer "
            >
-         <span className="inline-block"> ♦ { getNetworkNameFromChainId(web3Store.chainId) }  </span>
+         <span className="inline-block capitalize"> ♦ { 
+
+         getNetworkNameFromChainId(  web3Store.chainId ) 
+         
+         }  </span>
          </div>
       </div>
     }

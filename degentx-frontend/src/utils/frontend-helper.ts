@@ -1,4 +1,4 @@
-
+import {BigNumber} from 'ethers'
 
 export function getEtherscanAccountLink(
     {publicAddress,chainId}
@@ -26,14 +26,16 @@ export function getEtherscanBaseUrl({chainId}:{chainId:number}) : string {
     }
 }
 
-export function getNetworkName({chainId}:{chainId:number}) : string {
- 
+export function getNetworkName({chainId}:{chainId:any}) : string {
+   console.log('chain id', chainId)
 
-    switch(parseInt(chainId.toString())){
-        case 11155111: return "Sepolia"
-        case 5: return "Goerli"
-        case 1: return "Mainnet"
-        case 0: return "Any Network"
+  
+
+    switch(( BigNumber.from ( chainId  ?? 0 ) .toString())){
+        case '11155111': return "Sepolia"
+        case '5': return "Goerli"
+        case '1': return "Mainnet"
+        case '0': return "Any Network"
 
         default: return "Unknown Network"
     }

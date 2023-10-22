@@ -1,16 +1,11 @@
  {
     "mainnet":{
-        "xbitcoin":{"address":"0xb6ed7644c69416d67b522e20bc294a9a9b405b31"},
-      
-        "degentx":{"address":""} 
-
+        "payspec":{"address":"0xef0Cb5Ba8947d374e3af4553218937a15eE19D08"} 
+       
 
     },
-    "goerli":{
-        "xbitcoin":{"address":"0xab89a7742cb10e7bce98540fd05c7d731839cf9f"},
-        
-        "degentx":{"address":"0x568cD537Ed5C70aE1A2b1B0Fd6DE6D94c7FAdD77"} 
-
-    } 
-
- }
+    "sepolia":{
+        "payspec":{"address":"0x365f2dE18625085733286AeDb20c3EE489eEcBC2"} 
+         
+    }  
+ } 
