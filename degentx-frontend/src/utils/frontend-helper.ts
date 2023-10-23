@@ -41,6 +41,19 @@ export function getNetworkName({chainId}:{chainId:number}) : string {
 }
 
 
+export function getNetworkNameFromChainId(chainId: any) : string | undefined {
+
+    switch((chainId.toString())){
+        case "11155111": return "sepolia"
+        case "5": return "goerli"
+        case "1": return "mainnet"
+        
+        default: return undefined 
+    }
+
+     
+} 
+
 export function getDateFormatted({date,seconds}:{date?:number,seconds?:number}) : string {
     
     if(date){
