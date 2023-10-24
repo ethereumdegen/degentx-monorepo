@@ -128,6 +128,16 @@ function Main() {
         decimals: 18,
       };
     }
+
+    if (
+      tokenAddress == "0x0000000000000000000000000000000000000010" &&
+      chainId == "1"
+    ) {
+      return {
+        label: "ETH",
+        decimals: 18,
+      };
+    }
   }
 
   const [searchParams] = useSearchParams();
@@ -275,6 +285,18 @@ function Main() {
     setAmountDueGrandTotal(paymentsGrandTotal);
 
     setPaymentsArrayBasic(paymentsArrayBasic);
+
+    console.log({
+      payspecAddress,
+      tokenAddress,
+      chainId,
+      paymentsArrayBasic,
+      metadataHash,
+      nonce,
+      expiration
+
+
+    })
 
     let generatedInvoiceBeforeFees = generatePayspecInvoice({
       payspecContractAddress: payspecAddress,
@@ -576,6 +598,18 @@ function Main() {
                                 network to complete this payment.
                               </div>
                             )}
+
+                            {web3Store.account && !paymentTokenData &&
+                              <div>
+                                    Undefined payment token 
+                              </div> 
+                            }
+                               {web3Store.account && !paymentAllowedStatus?.allowed &&
+                              <div>
+                                    Payment not allowed 
+                              </div> 
+                            }
+
 
                             {paymentTokenData &&
                               paymentAllowedStatus?.allowed &&
