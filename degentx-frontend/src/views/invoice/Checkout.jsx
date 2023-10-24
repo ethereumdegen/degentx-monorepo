@@ -276,6 +276,18 @@ function Main() {
 
     setPaymentsArrayBasic(paymentsArrayBasic);
 
+    console.log({
+      payspecAddress,
+      tokenAddress,
+      chainId,
+      paymentsArrayBasic,
+      metadataHash,
+      nonce,
+      expiration
+
+
+    })
+
     let generatedInvoiceBeforeFees = generatePayspecInvoice({
       payspecContractAddress: payspecAddress,
       tokenAddress,
