@@ -1,4 +1,4 @@
-
+import {BigNumber} from 'ethers'
 
 export function getEtherscanAccountLink(
     {publicAddress,chainId}
@@ -16,24 +16,27 @@ export function getEtherscanTransactionLink(
         return `${getEtherscanBaseUrl({chainId})}/tx/${transactionHash}`
     }
 
-export function getEtherscanBaseUrl({chainId}:{chainId:number}) : string {
+export function getEtherscanBaseUrl({chainId}:{chainId:any}) : string {
 
 
-    switch(chainId){
-        case 5: return "https://goerli.etherscan.io"
-        case 11155111: return "https://sepolia.etherscan.io"
+    let chain_id_parsed = BigNumber.from( chainId  ?? 0).toString();
+
+    switch(chain_id_parsed){
+        case "5": return "https://goerli.etherscan.io"
+        case "11155111": return "https://sepolia.etherscan.io"
         default: return "https://etherscan.io"
     }
 }
 
-export function getNetworkName({chainId}:{chainId:number}) : string {
+export function getNetworkName({chainId}:{chainId:any}) : string {
  
+    let chain_id_parsed = BigNumber.from( chainId  ?? 0).toString();
 
-    switch(parseInt(chainId.toString())){
-        case 11155111: return "Sepolia"
-        case 5: return "Goerli"
-        case 1: return "Mainnet"
-        case 0: return "Any Network"
+    switch(chain_id_parsed){
+        case "11155111": return "Sepolia"
+        case "5": return "Goerli"
+        case "1": return "Mainnet"
+      //  case "0": return "Any Network"
 
         default: return "Unknown Network"
     }

@@ -293,10 +293,8 @@ function Main() {
       paymentsArrayBasic,
       metadataHash,
       nonce,
-      expiration
-
-
-    })
+      expiration,
+    });
 
     let generatedInvoiceBeforeFees = generatePayspecInvoice({
       payspecContractAddress: payspecAddress,
@@ -394,7 +392,7 @@ function Main() {
             let paidInvoiceData = response.data[0];
 
             setPaidInvoiceData(paidInvoiceData);
-            setPendingTransaction(undefined);
+            setPendingTransaction(undefined); // for now
           } else {
             console.log({ response });
           }
@@ -475,9 +473,7 @@ function Main() {
               className="cursor-pointer text-purple-500"
               href={getEtherscanTransactionLink({
                 transactionHash: pendingTransaction?.hash,
-                chainId:
-                  pendingTransaction?.chainId ??
-                  parseInt(pendingTransaction?.chainId),
+                chainId: pendingTransaction?.chainId,
               })}
               target="_blank"
             >
@@ -599,17 +595,13 @@ function Main() {
                               </div>
                             )}
 
-                            {web3Store.account && !paymentTokenData &&
-                              <div>
-                                    Undefined payment token 
-                              </div> 
-                            }
-                               {web3Store.account && !paymentAllowedStatus?.allowed &&
-                              <div>
-                                    Payment not allowed 
-                              </div> 
-                            }
-
+                            {web3Store.account && !paymentTokenData && (
+                              <div>Undefined payment token</div>
+                            )}
+                            {web3Store.account &&
+                              !paymentAllowedStatus?.allowed && (
+                                <div>Payment not allowed</div>
+                              )}
 
                             {paymentTokenData &&
                               paymentAllowedStatus?.allowed &&
