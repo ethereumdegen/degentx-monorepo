@@ -453,7 +453,9 @@ function Main() {
               className="cursor-pointer text-purple-500"
               href={getEtherscanTransactionLink({
                 transactionHash: pendingTransaction?.hash,
-                chainId: pendingTransaction?.chainId,
+                chainId:
+                  pendingTransaction?.chainId ??
+                  parseInt(pendingTransaction?.chainId),
               })}
               target="_blank"
             >
