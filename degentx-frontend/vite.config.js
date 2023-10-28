@@ -8,8 +8,7 @@ import Markdown from "vite-plugin-react-markdown";
 export default defineConfig({
   plugins: [
     Markdown({
-      wrapperComponent: { Callout: "src/views/docs/components/Callout.jsx" },
-
+      wrapperComponent: ["src/views/docs/components/*.{jsx,tsx}"],
       wrapperComponentPath: "src/views/docs/DocsWrapper",
     }),
     react({
