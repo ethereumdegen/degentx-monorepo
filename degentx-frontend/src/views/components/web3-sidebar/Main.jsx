@@ -1,26 +1,20 @@
-import  { useContext, useState , useRef, useEffect} from 'react';
- 
+import { useContext, useState, useRef, useEffect } from "react";
 
- 
+import Blockie from "@/views/components/blockie/Main.jsx";
+import FadingAlert from "@/views/base-components/fading-alert/Main.jsx";
 
-import Blockie from "@/views/components/blockie/Main.jsx"
-import FadingAlert from "@/views/base-components/fading-alert/Main.jsx"
+import AccountNavButtons from "@/views/components/account-nav-buttons/Main.jsx";
 
-import AccountNavButtons from "@/views/components/account-nav-buttons/Main.jsx"
- 
-import {observer} from "mobx-react"
+import { observer } from "mobx-react";
 
-import {getNetworkNameFromChainId} from '@/stores/web3-store-mobx.js'
-import { copyToClipboard } from '../../../utils/clipboard';
+import { getNetworkNameFromChainId } from "../../../utils/frontend-helper";
+import { copyToClipboard } from "../../../utils/clipboard";
 
-
- 
 import {
-  Web3StoreContext, 
+  Web3StoreContext,
   SideMenuStoreContext,
-  SideBarStoreContext
-} from '@/stores/stores-context';
-
+  SideBarStoreContext,
+} from "@/stores/stores-context";
 
 //disabled for now as there is no associated backend server to provide challenges
 const showSigninButton = false 
@@ -164,72 +158,102 @@ const sidebarStore = useContext(SideBarStoreContext);
               > 
               Connect
               </div>
-          }
+            )}
 
-
-
-            {web3Store.active && !web3Store.authorized && showSigninButton &&
-                <div 
-              
-                className="w-full text-white my-8 p-2 bg-neutral-600 hover:bg-neutral-700 cursor-pointer"
-                  onClick={async ()=>{ 
-
-                    let signSuccess = await web3Store.requestChallengeAndSign( )
-
-                    console.log('request challenge')
-
-
-                    if(signSuccess){
-                      sidebarStore.setOpen(false)
-                    }
-
-                  }}
-                  
-                  >                     
-                  Sign In
-                  </div> 
-                }
-
-      </div>
-
-      
-      {(web3Store.active &&  slot) && 
-        <div className="mt-4">
-          {slot}
-        </div>
-        }
-
-
-
-      </div>
-
-
-
-      { web3Store.active && 
-          <div 
-            className="w-full text-white my-8 p-2 bg-neutral-600 hover:bg-neutral-700 cursor-pointer "
-            onClick={() => disconnectWeb3()}
-            > 
-            Disconnect
+            <div
+              className="w-full text-white flex justify-end cursor-pointer mb-16"
+              onClick={() => setSidebarOpen(false)}
+            >
+              <svg
+                className="w-5 h-5"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                  clipRule="evenodd"
+                ></path>
+              </svg>
             </div>
-      }
+          </div>
 
+          <div className="flex-grow">
+            {web3Store.active && (
+              <div className="w-full text-white" style={{ minWidth: "240px" }}>
+                <div className="block w-full text-center my-4">
+                  <Blockie className=" " web3Store={web3Store} />
+                </div>
 
+                <div
+                  className="  block text-md mt-4 flex flex-row cursor-pointer hover:bg-neutral-600 relative"
+                  style={{ maxWidth: "200px" }}
+                  onClick={() => copyAccountToClipboard()}
+                >
+                  {sidebarStore.addressCopiedAlertEnabled && (
+                    <FadingAlert content={"Copied"} />
+                  )}
 
-      </div>
-      
+                  <div className=" truncate text-ellipsis flex-grow ">
+                    {web3Store.account}
+                  </div>
 
+                  <div className=""> 📋 </div>
+                </div>
+              </div>
+            )}
 
-    
-    )}  </>
-              
-      
-      
+            <div>
+              {!web3Store.active && (
+                <div
+                  className="w-full text-white my-8 p-2 bg-neutral-600 hover:bg-neutral-700 cursor-pointer "
+                  style={{ minWidth: "240px" }}
+                  onClick={() => connectWeb3()}
+                >
+                  Connect
+                </div>
+              )}
+
+              {web3Store.active &&
+                !web3Store.authorized &&
+                showSigninButton && (
+                  <div
+                    className="w-full text-white my-8 p-2 bg-neutral-600 hover:bg-neutral-700 cursor-pointer"
+                    onClick={async () => {
+                      let signSuccess =
+                        await web3Store.requestChallengeAndSign();
+
+                      console.log("request challenge");
+
+                      if (signSuccess) {
+                        sidebarStore.setOpen(false);
+                      }
+                    }}
+                  >
+                    Sign In
+                  </div>
+                )}
+            </div>
+
+            {web3Store.active && slot && <div className="mt-4">{slot}</div>}
+          </div>
+
+          {web3Store.active && (
+            <div
+              className="w-full text-white my-8 p-2 bg-neutral-600 hover:bg-neutral-700 cursor-pointer "
+              onClick={() => disconnectWeb3()}
+            >
+              Disconnect
+            </div>
+          )}
+        </div>
+      )}{" "}
+    </>
   );
 }
 
 export default observer(Web3Sidebar);
-
 
 /*
 

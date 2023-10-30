@@ -16,12 +16,14 @@ export function getEtherscanTransactionLink(
         return `${getEtherscanBaseUrl({chainId})}/tx/${transactionHash}`
     }
 
-export function getEtherscanBaseUrl({chainId}:{chainId:number}) : string {
+export function getEtherscanBaseUrl({chainId}:{chainId:any}) : string {
 
 
-    switch(chainId){
-        case 5: return "https://goerli.etherscan.io"
-        case 11155111: return "https://sepolia.etherscan.io"
+    let chain_id_parsed = BigNumber.from( chainId  ?? 0).toString();
+
+    switch(chain_id_parsed){
+        case "5": return "https://goerli.etherscan.io"
+        case "11155111": return "https://sepolia.etherscan.io"
         default: return "https://etherscan.io"
     }
 }
@@ -42,6 +44,19 @@ export function getNetworkName({chainId}:{chainId:any}) : string {
 
 }
 
+
+export function getNetworkNameFromChainId(chainId: any) : string | undefined {
+
+    switch((chainId.toString())){
+        case "11155111": return "sepolia"
+        case "5": return "goerli"
+        case "1": return "mainnet"
+        
+        default: return undefined 
+    }
+
+     
+} 
 
 export function getDateFormatted({date,seconds}:{date?:number,seconds?:number}) : string {
     
