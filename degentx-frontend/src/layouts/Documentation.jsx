@@ -142,23 +142,15 @@ function Main() {
   return (
     <div className="bg-white relative">
       {/*  Site header */}
-      <Header
-        headerStore={headerStore}
-        sidebarStore={sidebarStore}
-        web3Store={web3Store}
-      />
+      <Header mode="docs" />
 
       <div className="xl:hidden">
-        <HeaderSidebar headerStore={headerStore} />
+        <HeaderSidebar mode="docs" />
       </div>
 
-      <Web3Sidebar
-        sidebarStore={sidebarStore}
-        web3Store={web3Store}
-        slot={<div> </div>}
-      />
+      <Web3Sidebar slot={<div> </div>} />
 
-      <Outlet context={[web3Store, sidebarStore]} />
+      <Outlet />
 
       {/*  Site footer */}
       <Footer />
